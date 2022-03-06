@@ -1,0 +1,66 @@
+.status {
+    min-width: 4em;
+    max-width: max-content;
+    padding: 0 5px !important;
+    height: 1.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    padding: 0;
+}
+
+[data-status*="open"] {
+    background-color: green;
+}
+
+[data-status="locked"] {
+    background-color: orange;
+}
+
+[data-status="evaluated"] {
+    background-color: rgb(45, 93, 77);
+}
+
+button {
+    font-size: x-large;
+    margin: 15px;
+    border-radius: 0;
+    width: 80%;
+    height: 2.5em;
+}
+
+h1 {
+    position: relative;
+}
+
+h3 {
+    background-color: #303030;
+}
+
+img {
+    /*max-width:80px;
+    max-height:120px;
+    width: auto;
+    height: auto;*/
+    margin-top: 15px;
+    margin-right: 10px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    max-width: 100%;
+    max-height: 3em;
+    height: auto;
+
+    border-radius: 5px;
+
+//    float: right;
+    vertical-align: middle;
+}
+
+
+
+/*section {
+    text-align: center;
+    align-items: center;
+    align-content: center;
+}*/

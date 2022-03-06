@@ -1,0 +1,21 @@
+<section *ngIf="raceBet">
+    
+    <img src={{raceBet.flagImageUrl}}/>
+    <h1>{{raceBet.title}}
+    </h1>
+    <h4>{{raceBet.name}}</h4>
+    <p class="status" attr.data-status={{raceBet.status}}>{{raceBet.status}}</p>
+    <hr/>
+    <button mat-flat-button color="primary" (click)="openQualifyingDialog()">
+        <span>Quali Positions</span>
+        <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+    </button>
+    <button mat-flat-button color="primary" (click)="openRaceDialog()">
+        <span>Race Positions</span>
+        <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+    </button>
+    <button mat-flat-button color="primary" (click)="openDNFDialog()">
+        <span>Race DNFs</span>
+        <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+    </button>
+</section>

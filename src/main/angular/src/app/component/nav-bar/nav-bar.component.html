@@ -1,0 +1,15 @@
+<mat-toolbar class="toolbarNav">
+    <button mat-flat-button aria-label="Home" routerLink="/home/" 
+    routerLinkActive="active-link">
+        <mat-icon id="home-icon">home</mat-icon>
+    </button>
+    <a routerLink="/race-bet" routerLinkActive='active-link' #betActive="routerLinkActive" style="display: hidden;"></a>
+    <button mat-flat-button aria-label="Bets" routerLink="/race-bets/" 
+    routerLinkActive="active-link" [ngClass]="{'active-link': betActive.isActive}">
+        <mat-icon svgIcon="race"></mat-icon>
+    </button>
+    <!--<button mat-flat-button aria-label="Closed" routerLink="/championship/" 
+    routerLinkActive="active-link" #champActive="routerLinkActive">
+        <mat-icon svgIcon="helmet"></mat-icon>
+    </button>-->
+</mat-toolbar>

@@ -1,0 +1,5 @@
+<button mat-flat-button color="primary" 
+    *ngIf="raceBetItem" routerLink="/race-bet/{{raceBetItem.raceBetId}}">
+    <span>{{raceBetItem.name}}</span>
+    <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+</button>

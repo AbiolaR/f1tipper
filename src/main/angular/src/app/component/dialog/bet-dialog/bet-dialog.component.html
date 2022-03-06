@@ -1,0 +1,15 @@
+<mat-dialog-content>
+    <div class="grid-container">
+        <mat-spinner *ngIf="!bet" color="primary"></mat-spinner>
+        <div class="positions" *ngIf="bet">
+            <button mat-flat-button *ngFor="let position of bet.positions; let index = index" 
+            [color]="(position.driver.name) ? 'accent' : 'primary'" (click)="openDriverDialog(index)">
+                P{{position.position}}: {{position.driver.name || 'Select a driver'}}
+            </button>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions *ngIf="bet">
+    <button color="warn" mat-button mat-dialog-close>Cancel</button>
+    <button color="accent" mat-button [mat-dialog-close]="bet">Save</button>
+</mat-dialog-actions>

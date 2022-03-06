@@ -1,0 +1,8 @@
+<mat-dialog-content>   
+    <button mat-flat-button color='accent' (click)="removeDriver()">
+        Remove
+    </button>
+    <button mat-flat-button color='primary' *ngFor="let driver of drivers" (click)="returnDriver(driver)">
+        {{driver.name}}
+    </button>        
+</mat-dialog-content>

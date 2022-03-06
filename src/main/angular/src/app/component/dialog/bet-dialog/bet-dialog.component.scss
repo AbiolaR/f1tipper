@@ -1,0 +1,23 @@
+.positions {
+    text-align: center;
+}
+
+button {
+    border-radius: 0;
+    margin: 10px;
+    min-width: 15em;
+}
+
+mat-dialog-container {
+    padding: 0;
+}
+
+mat-dialog-actions {
+    button {
+        min-width: 50%;
+        padding: 0;
+        margin-left: 0 !important;
+        margin: 0;
+    }
+    
+}

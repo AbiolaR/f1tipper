@@ -1,0 +1,19 @@
+<section>
+    <!--<mat-form-field>-->
+        <mat-select *ngIf="selectedLeague" value={{selectedLeague.name}}>
+            <mat-option *ngFor="let league of leagues" [value]=league.name>
+                {{league.name}}
+            </mat-option>
+        </mat-select>
+    <!--</mat-form-field>-->
+    <mat-spinner *ngIf="app.isLoading" color="primary"></mat-spinner>
+    <app-race-bet-item *ngFor="let item of raceBetItems" [raceBetItem] = item></app-race-bet-item>
+
+
+    <app-race-bet-item *ngFor="let item of raceBetItems" [raceBetItem] = item></app-race-bet-item>
+    <app-race-bet-item *ngFor="let item of raceBetItems" [raceBetItem] = item></app-race-bet-item>
+    <app-race-bet-item *ngFor="let item of raceBetItems" [raceBetItem] = item></app-race-bet-item>
+    <app-race-bet-item *ngFor="let item of raceBetItems" [raceBetItem] = item></app-race-bet-item>
+    <app-race-bet-item *ngFor="let item of raceBetItems" [raceBetItem] = item></app-race-bet-item>
+    <app-race-bet-item *ngFor="let item of raceBetItems" [raceBetItem] = item></app-race-bet-item>
+</section>

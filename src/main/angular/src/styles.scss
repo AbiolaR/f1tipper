@@ -1,0 +1,135 @@
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+    --navBarHeight: 2.8em;
+    --darkBackground: #303030;
+    $primary: #c2185b;
+}
+
+html {
+    height: 100%;
+
+    * {
+        font-family: FormulaFont;
+    }
+
+    h1 {
+        font-family: FormulaFontBold;
+    }
+}
+
+@font-face {
+    font-family: 'FormulaFont';
+    src: url(assets/fonts/Formula1-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'FormulaFontBold';
+    src: url(assets/fonts/Formula1-Bold.ttf);
+}
+
+
+body {
+    background-color: gray;
+    font-size: 20px;
+    margin: 0;
+    height: 100%;
+    font-family: FormulaFont;
+}
+
+@media screen and (min-width: 800px) {
+    .letterbox {
+        background-color: black;
+        width: 60%;
+    }
+
+    .toolbarNav {
+        width: 45.45% !important;
+    }
+}
+
+.page-container {
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+/*app-home {
+    width: 100%;
+}*/
+
+app-root {
+    width: 100%;
+}
+
+app-race-bets {
+    height: 100vh;
+}
+
+.content-container {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;    
+}
+
+#home-content {
+    height: calc(100vh - 2.8em);
+    overflow: scroll;
+}
+
+html, body { height: 100%; }
+
+// buttons
+
+.right-arrow-icon {
+    font-size: xx-large;
+    line-height: 38px;
+    float: right;
+    vertical-align: middle;
+}
+
+/* BOTTOM NAVIGATION BAR */
+.toolbarNav {
+    position: fixed;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    height: 2.8em;
+    width: 100%;
+    justify-content: space-around;
+    
+    padding: 0 !important;
+    background-color: var(--darkBackground);
+  
+    //-webkit-box-shadow: 3px 3px 5px 6px #ccc; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    //-moz-box-shadow: 3px 3px 5px 6px #ccc; /* Firefox 3.5 - 3.6 */
+    box-shadow: 0px 0px 2px 0px #ccc; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+
+    button {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        align-items: center;
+        justify-content: center;
+        
+        background-color: var(--darkBackground);
+        
+        mat-icon {
+            transform: scale(1.5);
+        }
+    }
+    
+    button:hover,
+    .active-link {
+        mat-icon {
+            filter: invert(17%) sepia(74%) saturate(4401%) hue-rotate(325deg) brightness(82%) contrast(91%);            
+        }
+    }
+}

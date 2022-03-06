@@ -34,11 +34,31 @@ out/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
 
 ### ANGULAR ###
 src/main/angular/.vscode
 src/main/angular/dist
 src/main/angular/node_modules
-src/main/angular/
 src/main/resources/static
+# Compiled output
+src/main/angular/dist
+src/main/angular/tmp
+src/main/angular/out-tsc
+src/main/angular/bazel-out
+# Miscellaneous
+src/main/angular/.angular/cache
+src/main/angular/.sass-cache/
+src/main/angular/connect.lock
+src/main/angular/coverage
+src/main/angular/libpeerconnection.log
+src/main/angular/testem.log
+src/main/angular/typings
+# Node
+src/main/angular/npm-debug.log
+src/main/angular/yarn-error.log
