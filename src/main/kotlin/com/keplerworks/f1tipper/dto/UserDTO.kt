@@ -6,13 +6,13 @@ import com.keplerworks.f1tipper.model.League
 
 data class UserDTO(
     val username: String = "",
-    val password: String = "",
+    //val password: String = "",
     val leagues: Set<League>
 )
 {
-    fun toNewFormulaUser() = FormulaUser(
+    /*fun toNewFormulaUser() = FormulaUser(
         username = username,
         password = password,
         roles = setOf(FormulaRole(name = "FORMULA_USER"))
-    )
+    )*/
 }

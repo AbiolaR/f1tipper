@@ -1,54 +1,16 @@
 <section class="home">
+    <mat-select *ngIf="selectedLeague" value={{selectedLeague.name}}>
+        <mat-option *ngFor="let league of leagues" [value]=league.name>
+            {{league.name}}
+        </mat-option>
+    </mat-select>
     <div class="name-header">
         <span *ngIf="username">logged in as: {{username}}</span>
+        <button id="logout" mat-stroked-button color="accent" routerLink="/login">logout</button>
     </div>
-    <button id="logout" mat-stroked-button color="accent" routerLink="/login">logout</button>
-    <p>Just want to point out that this resolves the issue for running locally on the machine. I'm not sure if it solves it for Cloud9 per the OP original question above. – 
-        Tom Doe
-         Feb 4, 2020 at 19:43
-        1
-        This is the right an clean solution if you want to enable it on every ng serve (and probably you want to in development) – 
-        jowey
-         Apr 15, 2020 at 10:06
-        2
-        Is there a way to configure this for the development environment only? – 
-        JellicleCat
-         Apr 6, 2021 at 4:54
-        2
-        @JellicleCat Set "disableHostCheck": false under architect -> serve -> configurations -> production – 
-        ruwan800
-         Apr 6, 2021 at 6:33
-        Add a comment
+
+    <div class="league-standings">
         
-        35
-        
-        You need to specify the host
-        
-        ng serve --port 8080 --host 123.34.56.78
-        Share
-        Improve this answer
-        Follow
-        edited Oct 29, 2017 at 14:31
-        
-        TT.
-        15.4k66 gold badges4444 silver badges8282 bronze badges
-        answered May 15, 2017 at 12:44
-        
-        Adetiloye Philip Kehinde
-        2,70933 gold badges3131 silver badges5959 bronze badges
-        1
-        The above solution might work too but this is what I needed. – 
-        Teddy Markov
-         Jun 4, 2017 at 7:18
-        a better solution – 
-        danday74
-         Dec 23, 2020 at 10:38
-        Add a comment
-        
-        23
-        
-        This works for me :
-        
-        ngrok http --host-header=rewrite PORT
-        for instance :</p>
+    </div>
+    
 </section>

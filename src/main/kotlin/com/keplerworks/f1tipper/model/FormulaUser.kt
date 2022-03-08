@@ -30,7 +30,7 @@ class FormulaUser(
 )
 {
     fun toUserDTO(): UserDTO {
-        return UserDTO(username, leagues = leagues)
+        return UserDTO(username, leagues)
     }
 
     fun toUser(): User {

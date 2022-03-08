@@ -24,8 +24,8 @@ class UserController @Autowired constructor(private val service: FormulaUserServ
         return service.getUser(request.userPrincipal.name).toUserDTO()
     }
 
-    @PostMapping("")
+    /*@PostMapping("")
     fun saveUser(@RequestBody userDTO: UserDTO): UserDTO {
         return service.saveUser(userDTO.toNewFormulaUser()).toUserDTO()
-    }
+    }*/
 }

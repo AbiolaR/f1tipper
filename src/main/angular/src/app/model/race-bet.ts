@@ -4,7 +4,4 @@ export interface RaceBet {
     name: string;
     flagImageUrl: string;
     status: string;
-    /*qualifyingId: number;
-    racePosId: number;
-    raceDnfId: number;*/
 }
