@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service
 class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: RaceBetItemRepository,
                                                 private val raceRepo: RaceRepository,
                                                 private val betRepo: BetRepository,
-                                                private val positionRepo: PositionRepository,
+                                                private val positionService: PositionService,
                                                 private val driverService: DriverService,
                                                 private val userService: FormulaUserService) {
 
@@ -55,12 +55,12 @@ class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: Rac
         return raceBetItemRepo.findAllRaceBetItemsByUserIdAndLeagueId(userId, leagueId)
     }
 
-    fun getRaceBetItemsByUserId(id: Long): List<RaceBetItem> {
+    /*fun getRaceBetItemsByUserId(id: Long): List<RaceBetItem> { TODO Remove
         return raceBetItemRepo.findAllRaceBetItemByUserId(id)
                 .orElseThrow {
                     RaceBetItemNotFoundException("RaceBetItem was not found using user id: $id")
                 }
-    }
+    }*/
 
     /*fun getRaceBetListItemsByUserId(id: Long): MutableList<RaceBetListItemDTO> { TODO Remove
         val raceBetListItemDTOs: MutableList<RaceBetListItemDTO> = mutableListOf()
@@ -122,7 +122,7 @@ class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: Rac
         val betPositions = mutableListOf<PositionDTO>()
         repeat(betType.repeatNumber) {
             val positionNum = it + 1
-            val position =  positionRepo.findPositionByBetIdAndPosition(bet.id, positionNum).orElse(Position())
+            val position =  positionService.getBetPosition(bet.id, positionNum)
             betPositions.add(PositionDTO(position.id, positionNum, driverService.getDriver(position.driverId).toDriverDTO()))
         //betPositions[PositionDTO(2, positionNum)] = driverService.getDriver(position.driverId).toDriverDTO()
         }
@@ -134,7 +134,7 @@ class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: Rac
         val raceBetItem = raceBetItemRepo.findRaceBetItemById(betDTO.raceBetItemId).orElse(RaceBetItem())
         val bet = Bet(betDTO.id, betDTO.points, betDTO.type, raceBetItem)
         val betId = betRepo.save(bet).id
-        positionRepo.saveAll(betDTO.positions.toPositions(betId))
+        positionService.savePositions(betDTO.positions.toPositions(betId))
 
         return getBetPositions(betDTO.raceBetItemId, BetType.enumOf(betDTO.type))
     }
