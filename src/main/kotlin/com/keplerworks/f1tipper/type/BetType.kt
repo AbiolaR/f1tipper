@@ -1,7 +1,5 @@
 package com.keplerworks.f1tipper.type
 
-import java.util.Optional
-
 enum class BetType(
     val value: String,
     val repeatNumber: Int,
@@ -20,7 +18,7 @@ enum class BetType(
                     return it
                 }
             }
-            throw IllegalArgumentException("No enum contant BetType.${value}")
+            throw IllegalArgumentException("No enum constant BetType.${value}")
         }
     }
 }
