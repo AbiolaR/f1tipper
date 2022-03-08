@@ -6,14 +6,16 @@ import com.keplerworks.f1tipper.exception.AccessForbiddenException
 import com.keplerworks.f1tipper.exception.RaceBetItemNotFoundException
 import com.keplerworks.f1tipper.exception.RaceNotFoundException
 import com.keplerworks.f1tipper.model.*
-import com.keplerworks.f1tipper.repository.PositionRepository
 import com.keplerworks.f1tipper.repository.BetRepository
 import com.keplerworks.f1tipper.repository.RaceBetItemRepository
 import com.keplerworks.f1tipper.repository.RaceRepository
 import com.keplerworks.f1tipper.toBetDtoList
+import com.keplerworks.f1tipper.type.BetStatus
 import com.keplerworks.f1tipper.type.BetType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.util.*
 
 @Service
 class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: RaceBetItemRepository,
@@ -116,8 +118,8 @@ class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: Rac
     private fun getBetPositions(raceBetItemId: Long, betType: BetType): BetDTO {
         val bet = betRepo.findBetByRaceBetItemIdAndType(raceBetItemId, betType.value)
                             .orElse(Bet(type = betType.value, raceBetItem = RaceBetItem(id = raceBetItemId)))//Bet(type = betType.value, raceBetItemId = raceBetItemId))
-
-
+        val race = raceRepo.findRaceById(bet.raceBetItem.raceId).orElseThrow { Exception("race not found") }
+        val status = evaluateStatus(betType, race)
         //val betPositions = mutableMapOf<PositionDTO, DriverDTO>()
         val betPositions = mutableListOf<PositionDTO>()
         repeat(betType.repeatNumber) {
@@ -127,7 +129,15 @@ class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: Rac
         //betPositions[PositionDTO(2, positionNum)] = driverService.getDriver(position.driverId).toDriverDTO()
         }
 
-        return BetDTO(bet.id, bet.points, betType.value, betPositions, raceBetItemId)
+        return BetDTO(bet.id, bet.points, betType.value, betPositions, raceBetItemId, status)
+    }
+
+    private fun evaluateStatus(betType: BetType, race: Race): String {
+        val date = betType.dateTime.get(race)
+        if (date.after(Date())) {
+            return BetStatus.OPEN.value
+        }
+        return BetStatus.LOCKED.value
     }
 
     fun saveBet(betDTO: BetDTO): BetDTO {
