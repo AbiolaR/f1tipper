@@ -8,6 +8,7 @@ import javax.persistence.Id
 class Race(
     @Id
     val id: Long,
+    val round: Int,
     val name: String,
     val title: String,
     val flagImgUrl: String,

@@ -18,8 +18,8 @@ import java.util.*
 
 @Service
 class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: RaceBetItemRepository,
-                                                private val raceRepo: RaceRepository,
                                                 private val betRepo: BetRepository,
+                                                private val raceService: RaceService,
                                                 private val positionService: PositionService,
                                                 private val driverService: DriverService,
                                                 private val userService: FormulaUserService) {
@@ -30,7 +30,7 @@ class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: Rac
         val raceBetItems = getRaceBetItemsByLeague(userId, leagueId)
         val raceIds = mutableListOf<Long>()
         raceBetItems.forEach { raceIds.add(it.raceId) }
-        val races: List<Race> = raceRepo.findAll()
+        val races: List<Race> = raceService.getAllRaces()
 
         races.forEach {
             if (!raceIds.contains(it.id)) {
@@ -101,7 +101,7 @@ class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: Rac
 
     fun getRaceBet(raceBetItemId: Long, username: String): RaceBetDTO {
         val raceBetItem = raceBetItemRepo.findRaceBetItemById(raceBetItemId).orElseThrow{ RaceBetItemNotFoundException("") }
-        val race = raceRepo.findRaceById(raceBetItem.raceId).orElseThrow { RaceNotFoundException("") }
+        val race = raceService.getRace(raceBetItem.raceId)
         val userId: Long = userService.getUser(username).id
         if (raceBetItem.userId != userId) {
             throw AccessForbiddenException()
@@ -129,7 +129,7 @@ class RaceBetItemService @Autowired constructor(private val raceBetItemRepo: Rac
                                     raceBetItem = raceBetItemRepo.findRaceBetItemById(raceBetItemId)
                                         .orElse(RaceBetItem(id = raceBetItemId)))
                             )//Bet(type = betType.value, raceBetItemId = raceBetItemId))
-        val race = raceRepo.findRaceById(bet.raceBetItem.raceId).orElseThrow { Exception("race not found") }
+        val race = raceService.getRace(bet.raceBetItem.raceId)
         val status = evaluateStatus(betType, race)
         //val betPositions = mutableMapOf<PositionDTO, DriverDTO>()
         val betPositions = mutableListOf<PositionDTO>()

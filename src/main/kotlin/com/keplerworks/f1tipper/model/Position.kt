@@ -4,6 +4,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.ManyToOne
 
 @Entity
 class Position (
@@ -13,7 +14,8 @@ class Position (
     val driverId: Long = 0,
     val position: Int = 0,
     val betId: Long? = 0,
-    val resultId: Long? = 0
+    @ManyToOne
+    val result: Result
 ) {
     companion object {
         fun Int.toPositionGroup(): List<Int> {
