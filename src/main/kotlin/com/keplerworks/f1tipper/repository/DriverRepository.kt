@@ -7,4 +7,5 @@ import java.util.Optional
 interface DriverRepository : JpaRepository<Driver, Long> {
     fun findDriverById(id: Long): Optional<Driver>
 
+    fun findDriverByFirstNameAndLastName(firstName: String, lastName: String): Optional<Driver>
 }

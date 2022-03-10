@@ -25,4 +25,9 @@ class DriverService @Autowired constructor(private val driverRepo: DriverReposit
     fun getDriver(id: Long): Driver {
         return driverRepo.findDriverById(id).orElse(Driver())
     }
+
+    fun getDriverByName(firstName: String, lastName: String): Driver {
+        return driverRepo.findDriverByFirstNameAndLastName(firstName, lastName)
+            .orElseThrow { DriverNotFoundException("could not find $firstName $lastName") }
+    }
 }

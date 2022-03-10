@@ -13,9 +13,9 @@ class Position (
     val id: Long = 0,
     val driverId: Long = 0,
     val position: Int = 0,
-    val betId: Long? = 0,
+    val betId: Long? = null,
     @ManyToOne
-    val result: Result
+    val result: Result? = null
 ) {
     companion object {
         fun Int.toPositionGroup(): List<Int> {
