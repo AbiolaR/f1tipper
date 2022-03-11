@@ -4,14 +4,14 @@ import { ChampionshipBetComponent } from './component/championship-bet/champions
 import { DriverComponent } from './component/driver/driver.component';
 import { HomeComponent } from './component/home/home.component';
 import { LoginComponent } from './component/login/login.component';
-import { RaceBetComponent } from './component/race-bet/race-bet.component';
-import { RaceBetsComponent } from './component/race-bets/race-bets.component';
+import { BetComponent } from './component/bet/bet.component';
+import { BetPageComponent } from './page/bet-page/bet-page.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'driver', component: DriverComponent},
-  { path: 'race-bets', component: RaceBetsComponent},
-  { path: 'race-bet/:id', component: RaceBetComponent},
+  { path: 'bets', component: BetPageComponent},
+  { path: 'bet/:id', component: BetComponent},
   { path: 'championship', component: ChampionshipBetComponent},
   { path: 'login', component: LoginComponent},
   { path: '**', component: HomeComponent}

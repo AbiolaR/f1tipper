@@ -1,10 +1,10 @@
-<section *ngIf="raceBet">
+<section *ngIf="bet">
     
-    <img src={{raceBet.flagImageUrl}}/>
-    <h1>{{raceBet.title}}
+    <img src={{bet.flagImageUrl}}/>
+    <h1>{{bet.title}}
     </h1>
-    <h4>{{raceBet.name}}</h4>
-    <p class="status" attr.data-status={{raceBet.status}}>{{raceBet.status}}</p>
+    <h4>{{bet.name}}</h4>
+    <p class="status" attr.data-status={{bet.status}}>{{bet.status}}</p>
     <hr/>
     <button mat-flat-button color="primary" (click)="openQualifyingDialog()">
         <span>Quali Positions</span>

@@ -12,5 +12,5 @@ data class BetItem(
     val type: String,
     @JsonIgnore
     @ManyToOne
-    val raceBetItem: RaceBetItem
+    val bet: Bet
 )

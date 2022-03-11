@@ -25,5 +25,5 @@ fun List<PositionDTO>.toPositions(betItemId: Long): List<Position> {
 }
 
 fun List<BetItem>.toBetItemDtoList(): List<BetItemDTO> {
-    return this.map { BetItemDTO(it.id, it.points, it.type, mutableListOf(), it.raceBetItem.id, "") }
+    return this.map { BetItemDTO(it.id, it.points, it.type, mutableListOf(), it.bet.id, "") }
 }

@@ -3,22 +3,21 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { BetItem } from '../model/bet-item';
-import { RaceBet } from '../model/race-bet';
-import { RaceBetListItem } from '../model/race-bet-list-item';
+import { Bet } from '../model/bet';
 import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RaceBetService {
+export class BetService {
 
   constructor(private http: HttpClient, private userService: UserService) { }
 
   /* GET REQUESTS */
-  public getRaceBetItems(leagueId: number | undefined): Observable<RaceBetListItem[]> {
+  public getBets(leagueId: number | undefined): Observable<Bet[]> {
     const headers = this.userService.getAuthHeader();
     
-    return this.http.get<RaceBetListItem[]>(
+    return this.http.get<Bet[]>(
       `${environment.apiServerUrl}/bet/leagueitems/${leagueId}`, 
        { headers } 
     );
@@ -32,16 +31,16 @@ export class RaceBetService {
     );
   }
 
-  public getRaceBet(id: string | null): Observable<RaceBet> {
+  public getBet(id: string | null): Observable<Bet> {
     const headers = this.userService.getAuthHeader();
-    return this.http.get<RaceBet>(
-      `${environment.apiServerUrl}/bet/racebet/${id}`,
+    return this.http.get<Bet>(
+      `${environment.apiServerUrl}/bet/${id}`,
       { headers }
     );    
   }
 
   /* POST REQUESTS */
-  public saveBet(betItem: BetItem): Observable<BetItem> {
+  public saveBetItem(betItem: BetItem): Observable<BetItem> {
     const headers = this.userService.getAuthHeader();
     return this.http.post<BetItem>(
       `${environment.apiServerUrl}/bet/item/save`, betItem,

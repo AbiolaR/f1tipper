@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
 interface BetItemRepository : JpaRepository<BetItem, Long> {
-    fun findBetByRaceBetItemIdAndType(raceBetItemId: Long, type: String): Optional<BetItem>
+    fun findBetItemByBetIdAndType(betId: Long, type: String): Optional<BetItem>
 }

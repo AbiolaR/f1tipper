@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { RaceBetListItem } from '../../model/race-bet-list-item';
-import { RaceBetService } from '../../service/race-bet.service';
+import { BetService } from '../../service/bet.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { UserService } from 'src/app/service/user.service';
 import { League } from 'src/app/model/league';
 import { MatDialog } from '@angular/material/dialog';
-import { LeagueDialogComponent } from '../dialog/league-dialog/league-dialog.component';
+import { LeagueDialogComponent } from '../../component/dialog/league-dialog/league-dialog.component';
 import { AppComponent } from 'src/app/app.component';
+import { Bet } from 'src/app/model/bet';
 
 @Component({
-  selector: 'app-race-bets',
-  templateUrl: './race-bets.component.html',
-  styleUrls: ['./race-bets.component.scss']
+  selector: 'app-bet-page',
+  templateUrl: './bet-page.component.html',
+  styleUrls: ['./bet-page.component.scss']
 })
-export class RaceBetsComponent implements OnInit {
+export class BetPageComponent implements OnInit {
 
-  raceBetItems: RaceBetListItem[] = [];
+  bets: Bet[] = [];
   leagues: League[] = [];
   selectedLeague: League  | undefined
 
-  constructor(private raceBetItemService: RaceBetService, private _snackBar: MatSnackBar, 
+  constructor(private betService: BetService, private _snackBar: MatSnackBar, 
     private userService: UserService, private dialog: MatDialog, public app: AppComponent) { }
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class RaceBetsComponent implements OnInit {
         this.leagues = user.leagues;
         this.selectedLeague = this.leagues[0];
         if (this.selectedLeague) {
-          this.getRaceBetItems();      
+          this.getBets();      
         } else {
           this.dialog.open(LeagueDialogComponent)
         }
@@ -42,9 +42,9 @@ export class RaceBetsComponent implements OnInit {
     })
   }
 
-  private getRaceBetItems() {
-    this.raceBetItemService.getRaceBetItems(this.selectedLeague?.id).subscribe({
-      next: (data) => this.raceBetItems = data
+  private getBets() {
+    this.betService.getBets(this.selectedLeague?.id).subscribe({
+      next: (data) => { this.bets = data; console.log(this.bets) }
     })
   }
 

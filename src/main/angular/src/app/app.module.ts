@@ -12,9 +12,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatIconModule } from '@angular/material/icon'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RaceBetsComponent } from './component/race-bets/race-bets.component';
-import { RaceBetComponent } from './component/race-bet/race-bet.component';
-import { RaceBetItemComponent } from './component/race-bet-item/race-bet-item.component';
+import { BetPageComponent } from './page/bet-page/bet-page.component';
+import { BetComponent } from './component/bet/bet.component';
+import { BetButtonComponent } from './component/bet-button/bet-button.component';
 import { ChampionshipBetComponent } from './component/championship-bet/championship-bet.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -35,9 +35,9 @@ import { LeagueDialogComponent } from './component/dialog/league-dialog/league-d
     AppComponent,
     RoutingComponents,
     NavBarComponent,
-    RaceBetsComponent,
-    RaceBetComponent,
-    RaceBetItemComponent,
+    BetPageComponent,
+    BetComponent,
+    BetButtonComponent,
     ChampionshipBetComponent,
     BetItemDialogComponent,
     LoginComponent,

@@ -3,7 +3,7 @@ package com.keplerworks.f1tipper.model
 import javax.persistence.*
 
 @Entity
-class RaceBetItem(
+class Bet(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long = 0,
@@ -13,7 +13,7 @@ class RaceBetItem(
     //@ManyToOne
     //val league: League = League(name = ""),
     val leagueId: Long = 0,
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "raceBetItem")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "bet")
     val betItems: List<BetItem> = emptyList()
 
 )

@@ -3,8 +3,8 @@
     routerLinkActive="active-link">
         <mat-icon id="home-icon">home</mat-icon>
     </button>
-    <a routerLink="/race-bet" routerLinkActive='active-link' #betActive="routerLinkActive" style="display: hidden;"></a>
-    <button mat-flat-button aria-label="Bets" routerLink="/race-bets/" 
+    <a routerLink="/bet" routerLinkActive='active-link' #betActive="routerLinkActive" style="display: hidden;"></a>
+    <button mat-flat-button aria-label="Bets" routerLink="/bets/" 
     routerLinkActive="active-link" [ngClass]="{'active-link': betActive.isActive}">
         <mat-icon svgIcon="race"></mat-icon>
     </button>

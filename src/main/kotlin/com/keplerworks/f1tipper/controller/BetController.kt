@@ -1,8 +1,7 @@
 package com.keplerworks.f1tipper.controller
 
 import com.keplerworks.f1tipper.dto.BetItemDTO
-import com.keplerworks.f1tipper.dto.RaceBetDTO
-import com.keplerworks.f1tipper.dto.RaceBetListItemDTO
+import com.keplerworks.f1tipper.dto.BetDTO
 import com.keplerworks.f1tipper.service.BetService
 import com.keplerworks.f1tipper.type.BetType
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,16 +16,16 @@ import javax.servlet.http.HttpServletResponse
 
 @RestController
 @RequestMapping("/api/bet")
-class RaceBetItemController @Autowired constructor(val service: BetService) {
+class BetController @Autowired constructor(val service: BetService) {
 
-    @GetMapping("racebet/{id}")
-    fun getRaceBetById(request: HttpServletRequest, response: HttpServletResponse, @PathVariable id: Long): RaceBetDTO {
-        return service.getRaceBet(id, request.userPrincipal.name)
+    @GetMapping("{id}")
+    fun getBetById(request: HttpServletRequest, response: HttpServletResponse, @PathVariable id: Long): BetDTO {
+        return service.getBet(id, request.userPrincipal.name)
     }
 
     @GetMapping("leagueitems/{leagueId}")
-    fun getListItemsByAuthAndLeague(request: HttpServletRequest, @PathVariable leagueId: Long): List<RaceBetListItemDTO> {
-        return service.getRaceBetItemsByLeague(request.userPrincipal.name, leagueId)
+    fun getListItemsByAuthAndLeague(request: HttpServletRequest, @PathVariable leagueId: Long): List<BetDTO> {
+        return service.getBetsByLeague(request.userPrincipal.name, leagueId)
     }
 
     @GetMapping("item/{type}/{betId}")

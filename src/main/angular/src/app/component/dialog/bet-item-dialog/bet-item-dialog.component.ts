@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { RaceBetService } from '../../../service/race-bet.service';
+import { BetService } from '../../../service/bet.service';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import { BetItem as BetItem } from 'src/app/model/bet-item';
 import { BetDataType, BetItemData } from 'src/app/model/bet-item-data';
@@ -15,7 +15,7 @@ import { Driver } from 'src/app/model/driver';
 export class BetItemDialogComponent implements OnInit {
   betItem: BetItem | undefined
 
-  constructor(private raceBetService: RaceBetService,
+  constructor(private betService: BetService,
               @Inject(MAT_DIALOG_DATA) public betItemData: BetItemData,
               private dialog: MatDialog) { }
 
@@ -24,7 +24,7 @@ export class BetItemDialogComponent implements OnInit {
   }
 
   getData() {
-    this.raceBetService.getBetItem(this.betItemData.id, this.betItemData.type).subscribe({
+    this.betService.getBetItem(this.betItemData.id, this.betItemData.type).subscribe({
       next: (data) => {
         this.betItem = data;
       }

@@ -28,14 +28,14 @@ class LeagueService(@Autowired
         if (!user.leagues.contains(league)) {
             throw AccessForbiddenException()
         }
-        val raceBetItems = betService.getRaceBetItemsByLeague(user.id, leagueId)
+        val bets = betService.getBetsByLeague(user.id, leagueId)
         val leagueStandingsDTO = LeagueStandingsDTO(league.id, league.name)
 
         league.users.forEach {
             var totalPoints = 0
-            raceBetItems.forEach { raceBetItem -> raceBetItem.betItems.forEach { betItem ->
+            bets.forEach { bet -> bet.betItems.forEach { betItem ->
                 if (betItem.points == 0) {
-                    betItem.points = calculator.calculatePoints(raceBetItem.raceId, betItem)
+                    betItem.points = calculator.calculatePoints(bet.raceId, betItem)
                 }
                 totalPoints += betItem.points
             } }
