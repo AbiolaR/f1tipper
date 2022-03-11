@@ -10,6 +10,7 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class BetService {
+  apiUrl = `${environment.apiServerUrl}/bet`
 
   constructor(private http: HttpClient, private userService: UserService) { }
 
@@ -18,32 +19,33 @@ export class BetService {
     const headers = this.userService.getAuthHeader();
     
     return this.http.get<Bet[]>(
-      `${environment.apiServerUrl}/bet/leagueitems/${leagueId}`, 
+      `${this.apiUrl}/all/${leagueId}`, 
        { headers } 
     );
   }
-
+  
+  public getBet(id: string | null): Observable<Bet> {
+    const headers = this.userService.getAuthHeader();
+    return this.http.get<Bet>(
+      `${this.apiUrl}/${id}`,
+      { headers }
+    );    
+  }
+  
   public getBetItem(id: number | undefined, type: string): Observable<BetItem> {
     const headers = this.userService.getAuthHeader();
     return this.http.get<BetItem>(
-      `${environment.apiServerUrl}/bet/item/${type}/${id}`,
+      `${this.apiUrl}/item/${type}/${id}`,
       { headers }
     );
   }
 
-  public getBet(id: string | null): Observable<Bet> {
-    const headers = this.userService.getAuthHeader();
-    return this.http.get<Bet>(
-      `${environment.apiServerUrl}/bet/${id}`,
-      { headers }
-    );    
-  }
 
   /* POST REQUESTS */
   public saveBetItem(betItem: BetItem): Observable<BetItem> {
     const headers = this.userService.getAuthHeader();
     return this.http.post<BetItem>(
-      `${environment.apiServerUrl}/bet/item/save`, betItem,
+      `${this.apiUrl}/item/save`, betItem,
       { headers }  
     );
   }

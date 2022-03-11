@@ -23,8 +23,8 @@ class BetController @Autowired constructor(val service: BetService) {
         return service.getBet(id, request.userPrincipal.name)
     }
 
-    @GetMapping("leagueitems/{leagueId}")
-    fun getListItemsByAuthAndLeague(request: HttpServletRequest, @PathVariable leagueId: Long): List<BetDTO> {
+    @GetMapping("all/{leagueId}")
+    fun getBetsByAuthAndLeague(request: HttpServletRequest, @PathVariable leagueId: Long): List<BetDTO> {
         return service.getBetsByLeague(request.userPrincipal.name, leagueId)
     }
 
