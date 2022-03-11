@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router'
 import { RaceBet } from '../../model/race-bet';
 import { RaceBetService } from '../../service/race-bet.service';
 import {MatDialog} from '@angular/material/dialog';
-import { BetData, BetDataType } from 'src/app/model/bet-data';
-import { BetDialogComponent } from '../dialog/bet-dialog/bet-dialog.component';
-import { Bet } from 'src/app/model/bet';
+import { BetItemData, BetDataType } from 'src/app/model/bet-item-data';
+import { BetItemDialogComponent } from '../dialog/bet-item-dialog/bet-item-dialog.component';
+import { BetItem } from 'src/app/model/bet-item';
 
 @Component({
   selector: 'app-race-bet',
@@ -30,33 +30,33 @@ export class RaceBetComponent implements OnInit {
   }
 
   openQualifyingDialog() {
-    const dialogRef = this.dialog.open(BetDialogComponent, {
-      data: new BetData(this.raceBet?.id, BetDataType.QUALIFYING)
+    const dialogRef = this.dialog.open(BetItemDialogComponent, {
+      data: new BetItemData(this.raceBet?.id, BetDataType.QUALIFYING)
     })
 
     this.handleDialogClose(dialogRef);
   }
 
   openRaceDialog() {
-    const dialogRef = this.dialog.open(BetDialogComponent, {    
-      data: new BetData(this.raceBet?.id, BetDataType.RACE)
+    const dialogRef = this.dialog.open(BetItemDialogComponent, {    
+      data: new BetItemData(this.raceBet?.id, BetDataType.RACE)
     })
 
     this.handleDialogClose(dialogRef);
   }
 
   openDNFDialog() {
-    const dialogRef = this.dialog.open(BetDialogComponent, {    
-      data: new BetData(this.raceBet?.id, BetDataType.DNF)
+    const dialogRef = this.dialog.open(BetItemDialogComponent, {    
+      data: new BetItemData(this.raceBet?.id, BetDataType.DNF)
     })
 
     this.handleDialogClose(dialogRef);
   }
 
   handleDialogClose(dialogRef: any) {
-    dialogRef.afterClosed().subscribe((bet: Bet) => {
-      if (bet) {
-        this.raceBetService.saveBet(bet).subscribe(bet => console.log(bet));
+    dialogRef.afterClosed().subscribe((betItem: BetItem) => {
+      if (betItem) {
+        this.raceBetService.saveBet(betItem).subscribe(betItem => console.log(betItem));
       }
     });
   }

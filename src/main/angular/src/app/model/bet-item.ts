@@ -1,7 +1,7 @@
 import { Driver } from "./driver";
 import { Position } from "./position";
 
-export interface Bet {
+export interface BetItem {
     id: number,
     points: number,
     positions: Position[],

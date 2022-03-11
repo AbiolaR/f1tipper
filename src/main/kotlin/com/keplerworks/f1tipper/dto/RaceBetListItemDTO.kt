@@ -5,5 +5,5 @@ data class RaceBetListItemDTO(
     val name: String,
     val flagImageUrl: String?,
     val status: String?,
-    val bets: List<BetDTO>
+    val betItems: List<BetItemDTO>
 )

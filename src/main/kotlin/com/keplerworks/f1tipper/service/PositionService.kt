@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service
 @Service
 class PositionService @Autowired constructor(private val positionRepo: PositionRepository) {
 
-    fun getBetPosition(betId: Long, positionNumber: Int): Position {
-        return positionRepo.findPositionByBetIdAndPosition(betId, positionNumber).orElse(Position())
+    fun getBetItemPosition(betItemId: Long, positionNumber: Int): Position {
+        return positionRepo.findPositionByBetItemIdAndPosition(betItemId, positionNumber).orElse(Position())
     }
 
-    fun getBetPositions(betId: Long): List<Position> {
-        return positionRepo.findAllPositionByBetId(betId).sortedBy { it.position }
+    fun getBetItemPositions(betItemId: Long): List<Position> {
+        return positionRepo.findAllPositionByBetItemId(betItemId).sortedBy { it.position }
     }
 
     fun getResultPositions(resultId: Long): List<Position> {

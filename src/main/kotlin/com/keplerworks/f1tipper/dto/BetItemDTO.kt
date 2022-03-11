@@ -1,6 +1,6 @@
 package com.keplerworks.f1tipper.dto
 
-data class BetDTO (
+data class BetItemDTO (
     val id: Long,
     val points: Int,
     val type: String,

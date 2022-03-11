@@ -13,7 +13,7 @@ class Position (
     val id: Long = 0,
     val driverId: Long = 0,
     val position: Int = 0,
-    val betId: Long? = null,
+    val betItemId: Long? = null,
     @ManyToOne
     val result: Result? = null
 ) {

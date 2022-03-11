@@ -4,7 +4,7 @@ export enum BetDataType {
     DNF = 'dnf'
 }
 
-export class BetData {
+export class BetItemData {
     id: number | undefined;
     type: BetDataType;
 

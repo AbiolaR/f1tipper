@@ -1,6 +1,6 @@
 package com.keplerworks.f1tipper.type
 
-enum class BetStatus (val value: String) {
+enum class BetItemStatus (val value: String) {
     OPEN("open"),
     LOCKED("locked"),
     EVALUATED("evaluated")

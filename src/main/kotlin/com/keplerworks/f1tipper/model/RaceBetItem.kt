@@ -14,6 +14,6 @@ class RaceBetItem(
     //val league: League = League(name = ""),
     val leagueId: Long = 0,
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "raceBetItem")
-    val bets: List<Bet> = emptyList()
+    val betItems: List<BetItem> = emptyList()
 
 )

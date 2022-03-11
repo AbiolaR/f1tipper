@@ -24,7 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select'
 import { GlobalErrorHandler } from './global-error-handler';
-import { BetDialogComponent } from './component/dialog/bet-dialog/bet-dialog.component';
+import { BetItemDialogComponent } from './component/dialog/bet-item-dialog/bet-item-dialog.component';
 import { LoginComponent } from './component/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccessDeniedDialogComponent } from './component/dialog/access-denied-dialog/access-denied-dialog.component';
@@ -39,7 +39,7 @@ import { LeagueDialogComponent } from './component/dialog/league-dialog/league-d
     RaceBetComponent,
     RaceBetItemComponent,
     ChampionshipBetComponent,
-    BetDialogComponent,
+    BetItemDialogComponent,
     LoginComponent,
     AccessDeniedDialogComponent,
     LeagueDialogComponent,    

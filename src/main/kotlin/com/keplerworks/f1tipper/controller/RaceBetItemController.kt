@@ -1,11 +1,10 @@
 package com.keplerworks.f1tipper.controller
 
-import com.keplerworks.f1tipper.dto.BetDTO
+import com.keplerworks.f1tipper.dto.BetItemDTO
 import com.keplerworks.f1tipper.dto.RaceBetDTO
 import com.keplerworks.f1tipper.dto.RaceBetListItemDTO
-import com.keplerworks.f1tipper.exception.AccessForbiddenException
-import com.keplerworks.f1tipper.model.*
-import com.keplerworks.f1tipper.service.RaceBetItemService
+import com.keplerworks.f1tipper.service.BetService
+import com.keplerworks.f1tipper.type.BetType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,8 +16,8 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @RestController
-@RequestMapping("/api/racebetitems")
-class RaceBetItemController @Autowired constructor(val service: RaceBetItemService) {
+@RequestMapping("/api/bet")
+class RaceBetItemController @Autowired constructor(val service: BetService) {
     /*@GetMapping("user/{userId}") TODO Remove
     fun getItemsByUserId(@PathVariable userId: Long): List<RaceBetItem> {
         return service.getRaceBetItemsByUserId(userId)
@@ -49,23 +48,13 @@ class RaceBetItemController @Autowired constructor(val service: RaceBetItemServi
         return service.getRaceBetItemsByLeague(request.userPrincipal.name, leagueId)
     }
 
-    @GetMapping("qualifying/{id}")
-    fun getQualifyingById(@PathVariable id: Long): BetDTO {
-        return service.getQualifyingBetPositions(id)
+    @GetMapping("item/{type}/{betId}")
+    fun getBetItemByTypeAndId(@PathVariable type: String, @PathVariable betId: Long): BetItemDTO {
+        return service.getBetPositions(betId, BetType.enumOf(type))
     }
 
-    @GetMapping("race/{id}")
-    fun getRaceById(@PathVariable id: Long): BetDTO {
-        return service.getRaceBetPositions(id)
-    }
-
-    @GetMapping("dnf/{id}")
-    fun getDNFById(@PathVariable id: Long): BetDTO {
-        return service.getDNFBetPositions(id)
-    }
-
-    @PostMapping("save/bet")
-    fun saveBet(@RequestBody betDTO: BetDTO): BetDTO {
-        return service.saveBet(betDTO)
+    @PostMapping("item/save")
+    fun saveBet(@RequestBody betItemDTO: BetItemDTO): BetItemDTO {
+        return service.saveBet(betItemDTO)
     }
 }

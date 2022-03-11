@@ -13,7 +13,7 @@ import javax.transaction.Transactional
 class LeagueService(@Autowired
                     private val leagueRepo: LeagueRepository,
                     private val userService: FormulaUserService,
-                    private val raceBetItemService: RaceBetItemService,
+                    private val betService: BetService,
                     private val calculator: Calculator) {
 
     fun getLeague(id: Long): League {
@@ -28,16 +28,16 @@ class LeagueService(@Autowired
         if (!user.leagues.contains(league)) {
             throw AccessForbiddenException()
         }
-        val raceBetItems = raceBetItemService.getRaceBetItemsByLeague(user.id, leagueId)
+        val raceBetItems = betService.getRaceBetItemsByLeague(user.id, leagueId)
         val leagueStandingsDTO = LeagueStandingsDTO(league.id, league.name)
 
         league.users.forEach {
             var totalPoints = 0
-            raceBetItems.forEach { raceBetItem -> raceBetItem.bets.forEach { bet ->
-                if (bet.points == 0) {
-                    bet.points = calculator.calculatePoints(raceBetItem.raceId, bet)
+            raceBetItems.forEach { raceBetItem -> raceBetItem.betItems.forEach { betItem ->
+                if (betItem.points == 0) {
+                    betItem.points = calculator.calculatePoints(raceBetItem.raceId, betItem)
                 }
-                totalPoints += bet.points
+                totalPoints += betItem.points
             } }
             leagueStandingsDTO.users[it.username] = totalPoints
         }
