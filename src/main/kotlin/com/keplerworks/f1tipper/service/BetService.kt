@@ -62,41 +62,6 @@ class BetService @Autowired constructor(private val raceBetItemRepo: RaceBetItem
         return raceBetItemRepo.findAllRaceBetItemsByUserIdAndLeagueId(userId, leagueId)
     }
 
-    /*fun getRaceBetItemsByUserId(id: Long): List<RaceBetItem> { TODO Remove
-        return raceBetItemRepo.findAllRaceBetItemByUserId(id)
-                .orElseThrow {
-                    RaceBetItemNotFoundException("RaceBetItem was not found using user id: $id")
-                }
-    }*/
-
-    /*fun getRaceBetListItemsByUserId(id: Long): MutableList<RaceBetListItemDTO> { TODO Remove
-        val raceBetListItemDTOs: MutableList<RaceBetListItemDTO> = mutableListOf()
-
-        getRaceBetItemsByUserId(id).forEach{
-            val race = raceRepo.findRaceById(it.raceId).orElseThrow { RaceNotFoundException("Race was not found using id: $id") }
-
-            raceBetListItemDTOs.add(RaceBetListItemDTO(it.id, race.title, race.flagImgUrl, it.status))
-        }
-
-        return raceBetListItemDTOs
-    }*/
-
-    /*fun getOrCreateRaceBetItemsByUserId(userId: Long): List<RaceBetItem> { TODO Remove
-        val raceIds: List<Long> = raceBetItemRepo.findAllRaceIdsByUserId(userId)
-        val races: List<Race> = raceRepo.findAll()
-        val newRaceBetItems: MutableList<RaceBetItem> = mutableListOf()
-
-        races.forEach {
-            if (!raceIds.contains(it.id)) {
-                newRaceBetItems.add(RaceBetItem(raceId = it.id, userId = userId, status = "open", league = League(name="")))
-            }
-        }
-
-        raceBetItemRepo.saveAll(newRaceBetItems)
-
-        return getRaceBetItemsByUserId(userId)
-    }*/
-
     fun getRaceBet(raceBetItemId: Long, username: String): RaceBetDTO {
         val raceBetItem = raceBetItemRepo.findRaceBetItemById(raceBetItemId).orElseThrow{ RaceBetItemNotFoundException("") }
         val race = raceService.getRace(raceBetItem.raceId)
@@ -106,18 +71,6 @@ class BetService @Autowired constructor(private val raceBetItemRepo: RaceBetItem
         }
 
         return RaceBetDTO(raceBetItemId, race.title, race.name, race.flagImgUrl, raceBetItem.status)
-    }
-
-    fun getQualifyingBetPositions(id: Long): BetItemDTO {
-        return getBetPositions(id, BetType.QUALIFYING)
-    }
-
-    fun getRaceBetPositions(id: Long): BetItemDTO {
-        return getBetPositions(id, BetType.RACE)
-    }
-
-    fun getDNFBetPositions(id: Long): BetItemDTO {
-        return getBetPositions(id, BetType.DNF)
     }
 
     fun getBetPositions(raceBetItemId: Long, betType: BetType): BetItemDTO {
@@ -155,9 +108,4 @@ class BetService @Autowired constructor(private val raceBetItemRepo: RaceBetItem
 
         return getBetPositions(betItemDTO.raceBetItemId, BetType.enumOf(betItemDTO.type))
     }
-
-    /*fun getRaceBetListItemsByUsername(username: String): MutableList<RaceBetListItemDTO> { TODO Remove
-        return getRaceBetListItemsByUserId(userService.getUser(username).id)
-    }*/
-
 }

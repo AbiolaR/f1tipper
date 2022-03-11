@@ -18,25 +18,6 @@ import javax.servlet.http.HttpServletResponse
 @RestController
 @RequestMapping("/api/bet")
 class RaceBetItemController @Autowired constructor(val service: BetService) {
-    /*@GetMapping("user/{userId}") TODO Remove
-    fun getItemsByUserId(@PathVariable userId: Long): List<RaceBetItem> {
-        return service.getRaceBetItemsByUserId(userId)
-    }*/
-
-    /*@GetMapping("listitem/user/{userId}") TODO Remove
-    fun getListItemsByUserId(@PathVariable userId: Long): MutableList<RaceBetListItemDTO> {
-        return service.getRaceBetListItemsByUserId(userId)
-    }*/
-
-    /*@GetMapping("listitem") TODO Remove
-    fun getListItemsByAuth(request: HttpServletRequest): MutableList<RaceBetListItemDTO> {
-        return service.getRaceBetListItemsByUsername(request.userPrincipal.name)
-    }*/
-
-    /*@GetMapping("goc/user/{userId}") TODO Remove
-    fun getOrCreateItemsByUserId(@PathVariable userId: Long): List<RaceBetItem> {
-        return service.getOrCreateRaceBetItemsByUserId(userId)
-    }*/
 
     @GetMapping("racebet/{id}")
     fun getRaceBetById(request: HttpServletRequest, response: HttpServletResponse, @PathVariable id: Long): RaceBetDTO {
