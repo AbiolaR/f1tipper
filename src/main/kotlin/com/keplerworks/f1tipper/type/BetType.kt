@@ -12,8 +12,8 @@ enum class BetType(
     val positionGroupPoints: Int,
     val winPoints: Int
 ) {
-    RACE("race", Race::raceStartDatetime, 20, 5, 3, 10),
-    QUALIFYING("qualifying", Race::qualiStartDatetime, 3, 4, 0, 0),
+    RACE("race", Race::raceStartDatetime, 20, 9, 3, 12),
+    QUALIFYING("qualifying", Race::qualiStartDatetime, 5, 4, 0, 0),
     DNF("dnf", Race::raceStartDatetime, 2, 5, 0, 0);
 
     companion object {
