@@ -10,6 +10,6 @@ class Result (
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     val id: Long = 0,
-    val raceId: Long,
-    val type: String
+    val raceId: Long = 0,
+    val type: String = ""
 )

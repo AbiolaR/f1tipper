@@ -26,10 +26,11 @@ export class BetItemDialogComponent implements OnInit {
   }
 
   getData() {
-    this.betService.getBetItem(this.betItemData.id, this.betItemData.type).subscribe({
+    this.betService.getBetItem(this.betItemData.betId, this.betItemData.type).subscribe({
       next: (data) => {
         this.betItem = data;
-        //this.betItemOpen = this.betItem.status == BetItemStatus.OPEN
+        console.log(this.betItem.status)
+        this.betItemOpen = this.betItem.status == BetItemStatus.OPEN
       }
     })
   }

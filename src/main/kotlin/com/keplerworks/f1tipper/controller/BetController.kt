@@ -2,6 +2,7 @@ package com.keplerworks.f1tipper.controller
 
 import com.keplerworks.f1tipper.dto.BetDTO
 import com.keplerworks.f1tipper.dto.BetItemDTO
+import com.keplerworks.f1tipper.dto.BetItemResultDTO
 import com.keplerworks.f1tipper.service.BetService
 import com.keplerworks.f1tipper.type.BetItemType
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,7 +26,12 @@ class BetController @Autowired constructor(val service: BetService) {
 
     @GetMapping("item/{type}/{betId}")
     fun getBetItemByTypeAndId(@PathVariable type: String, @PathVariable betId: Long): BetItemDTO {
-        return service.getBetItems(betId, BetItemType.enumOf(type))
+        return service.getBetItemDTO(betId, BetItemType.enumOf(type))
+    }
+
+    @GetMapping("item/{type}/{betId}/result")
+    fun getBetItemResultByTypeAndId(@PathVariable type: String, @PathVariable betId: Long): BetItemResultDTO {
+        return service.getBetItemResults(betId, BetItemType.enumOf(type))
     }
 
     @PostMapping("item/save")

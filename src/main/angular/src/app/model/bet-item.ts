@@ -1,4 +1,5 @@
 import { Driver } from "./driver";
+import { BetItemStatus } from "./enum/bet-item-status";
 import { Position } from "./position";
 
 export interface BetItem {
@@ -6,5 +7,5 @@ export interface BetItem {
     points: number,
     positions: Position[],
     type: string,
-    status: string
+    status: BetItemStatus
 }

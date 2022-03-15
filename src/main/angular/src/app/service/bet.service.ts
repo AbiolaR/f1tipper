@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { BetItem } from '../model/bet-item';
 import { Bet } from '../model/bet';
 import { UserService } from './user.service';
+import { BetResult } from '../model/bet-result';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,14 @@ export class BetService {
     const headers = this.userService.getAuthHeader();
     return this.http.get<BetItem>(
       `${this.apiUrl}/item/${type}/${id}`,
+      { headers }
+    );
+  }
+
+  public getBetItemResult(id: number | undefined, type: string | undefined): Observable<BetResult> {
+    const headers = this.userService.getAuthHeader();
+    return this.http.get<BetResult>(
+      `${this.apiUrl}/item/${type}/${id}/result`,
       { headers }
     );
   }

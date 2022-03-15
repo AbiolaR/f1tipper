@@ -32,7 +32,8 @@ export class BetComponent implements OnInit {
 
   openQualifyingDialog() {
     const dialogRef = this.dialog.open(BetItemDialogComponent, {
-      data: new BetItemData(this.bet?.id, BetDataType.QUALIFYING)
+      data: new BetItemData(this.bet?.id, BetDataType.QUALIFYING),
+      width: '100%',
     })
 
     this.handleDialogClose(dialogRef);
@@ -40,7 +41,8 @@ export class BetComponent implements OnInit {
 
   openRaceDialog() {
     const dialogRef = this.dialog.open(BetItemDialogComponent, {    
-      data: new BetItemData(this.bet?.id, BetDataType.RACE)
+      data: new BetItemData(this.bet?.id, BetDataType.RACE),
+      width: '100%',
     })
 
     this.handleDialogClose(dialogRef);
@@ -48,7 +50,8 @@ export class BetComponent implements OnInit {
 
   openDNFDialog() {
     const dialogRef = this.dialog.open(BetItemDialogComponent, {    
-      data: new BetItemData(this.bet?.id, BetDataType.DNF)
+      data: new BetItemData(this.bet?.id, BetDataType.DNF),
+      width: '100%',
     })
 
     this.handleDialogClose(dialogRef);
@@ -56,14 +59,16 @@ export class BetComponent implements OnInit {
 
   openDriverDialog() {
     const dialogRef = this.dialog.open(BetItemDialogComponent, {
-      data: new BetItemData(this.bet?.id, BetDataType.DRIVER)
+      data: new BetItemData(this.bet?.id, BetDataType.DRIVER),
+      width: '100%',
     })
     this.handleDialogClose(dialogRef);
   }
 
   openConstructorDialog() {
     const dialogRef = this.dialog.open(BetItemDialogComponent, {
-      data: new BetItemData(this.bet?.id, BetDataType.CONSTRUCTOR)
+      data: new BetItemData(this.bet?.id, BetDataType.CONSTRUCTOR),
+      width: '100%',
     })
     this.handleDialogClose(dialogRef);
   }

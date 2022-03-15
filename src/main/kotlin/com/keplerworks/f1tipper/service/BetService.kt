@@ -1,13 +1,10 @@
 package com.keplerworks.f1tipper.service
 
-import com.keplerworks.f1tipper.dto.BetDTO
-import com.keplerworks.f1tipper.dto.BetItemDTO
-import com.keplerworks.f1tipper.dto.PositionDTO
+import com.keplerworks.f1tipper.dto.*
 import com.keplerworks.f1tipper.exception.AccessForbiddenException
+import com.keplerworks.f1tipper.exception.BetItemStillOpenException
 import com.keplerworks.f1tipper.exception.BetNotFoundException
-import com.keplerworks.f1tipper.model.Bet
-import com.keplerworks.f1tipper.model.BetItem
-import com.keplerworks.f1tipper.model.Race
+import com.keplerworks.f1tipper.model.*
 import com.keplerworks.f1tipper.repository.BetItemRepository
 import com.keplerworks.f1tipper.repository.BetRepository
 import com.keplerworks.f1tipper.toPositions
@@ -24,7 +21,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                                         private val raceService: RaceService,
                                         private val positionService: PositionService,
                                         private val driverService: DriverService,
-                                        private val userService: FormulaUserService) {
+                                        private val userService: FormulaUserService,
+                                        private val resultService: ResultService) {
 
     fun getBetsByLeague(username: String, leagueId: Long): List<BetDTO> {
         val userId: Long = userService.getUser(username).id
@@ -97,14 +95,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
 
     }
 
-    fun getBetItems(betId: Long, betItemType: BetItemType): BetItemDTO {
-        val betItem = betItemRepo.findBetItemByBetIdAndType(betId, betItemType.value)
-                            .orElse(
-                                BetItem(type = betItemType.value,
-                                    bet = betRepo.findBetById(betId)
-                                        .orElseThrow { BetNotFoundException("") })
-                            )
-
+    fun getBetItemDTO(betId: Long, betItemType: BetItemType): BetItemDTO {
+        val betItem = getBetItem(betId, betItemType)
         val status = evaluateStatus(betItemType, betItem.bet.race)
         val betItemPositions = mutableListOf<PositionDTO>()
         repeat(betItemType.repeatNumber) {
@@ -113,26 +105,68 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
             betItemPositions.add(PositionDTO(position.id, positionNum, driverService.getDriver(position.driverId).toDriverDTO()))
         }
 
-        return BetItemDTO(betItem.id, betItem.points, betItemType.value, betItemPositions, betId, status)
+        return BetItemDTO(betItem.id, betItem.points, betItemType.value, betItemPositions, betId, status.value)
     }
 
-    private fun evaluateStatus(betItemType: BetItemType, race: Race): String {
+    fun getBetItemResults(betId: Long, betItemType: BetItemType): BetItemResultDTO {
+        val betItem = getBetItem(betId, betItemType)
+        val status = evaluateStatus(betItemType, betItem.bet.race)
+        if (status == BetItemStatus.OPEN) {
+            throw BetItemStillOpenException()
+        }
+        val result = resultService.getResult(betItem.bet.race.id, betItemType) ?: Result()
+
+        var betItemPositions = positionService.getBetItemPositions(betItem.id)
+        var resultPositions = positionService.getResultPositions(result.id)
+
+        if (betItemPositions.size > resultPositions.size) {
+            repeat(betItemPositions.size - resultPositions.size) {
+                resultPositions = resultPositions.toMutableList()
+                (resultPositions as MutableList<Position>).add(Position())
+            }
+        } else if (betItemPositions.size < resultPositions.size) {
+            repeat(resultPositions.size - betItemPositions.size) {
+                betItemPositions = betItemPositions.toMutableList()
+                (betItemPositions as MutableList<Position>).add(Position())
+            }
+        }
+
+        return BetItemResultDTO(betItemType.value,
+            betItemPositions
+                .zip(resultPositions)
+                .map { BetItemResultPositionDTO(
+                        PositionDTO(0, it.first.position,
+                            driverService.getDriver(it.first.driverId).toDriverDTO()),
+                        PositionDTO(0, it.second.position,
+                            driverService.getDriver(it.second.driverId).toDriverDTO())) })
+    }
+
+    private fun getBetItem(betId: Long, betItemType: BetItemType): BetItem {
+        return betItemRepo.findBetItemByBetIdAndType(betId, betItemType.value)
+            .orElse(
+                BetItem(type = betItemType.value,
+                    bet = betRepo.findBetById(betId)
+                        .orElseThrow { BetNotFoundException("") })
+            )
+    }
+
+    private fun evaluateStatus(betItemType: BetItemType, race: Race): BetItemStatus {
         val date = betItemType.dateTime.get(race)
         if (date.after(Date())) {
-            return BetItemStatus.OPEN.value
+            return BetItemStatus.OPEN
         }
-        return BetItemStatus.LOCKED.value
+        return BetItemStatus.LOCKED
     }
 
     fun saveBetItem(betItemDTO: BetItemDTO): BetItemDTO {
         val bet = betRepo.findBetById(betItemDTO.betId).orElseThrow { BetNotFoundException("") }
-        if (evaluateStatus(BetItemType.enumOf(betItemDTO.type), bet.race) != BetItemStatus.OPEN.value) {
+        if (evaluateStatus(BetItemType.enumOf(betItemDTO.type), bet.race) != BetItemStatus.OPEN) {
             return BetItemDTO(0, 0, "", mutableListOf(), 0, "")
         }
         val betItem = BetItem(betItemDTO.id, betItemDTO.points, betItemDTO.type, bet)
         val betItemId = betItemRepo.save(betItem).id
         positionService.savePositions(betItemDTO.positions.toPositions(betItemId))
 
-        return getBetItems(betItemDTO.betId, BetItemType.enumOf(betItemDTO.type))
+        return getBetItemDTO(betItemDTO.betId, BetItemType.enumOf(betItemDTO.type))
     }
 }

@@ -4,4 +4,5 @@ export interface Bet {
     name: string;
     flagImageUrl: string;
     type: string;
+    points: number;
 }

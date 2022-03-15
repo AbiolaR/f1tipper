@@ -28,5 +28,9 @@ mat-dialog-actions {
         margin-left: 0 !important;
         margin: 0;
     }
+
+    mat-label {
+        min-width: 50%;
+    }
     
 }
