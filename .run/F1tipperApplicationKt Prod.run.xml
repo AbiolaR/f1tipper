@@ -1,8 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="F1tipperApplicationKt Prod" type="JetRunConfigurationType">
-    <envs>
-      <env name="ORG_GRADLE_PROJECT_no-angular" value="&quot;&quot;" />
-    </envs>
     <option name="MAIN_CLASS_NAME" value="com.keplerworks.f1tipper.F1tipperApplicationKt" />
     <module name="f1tipper.main" />
     <shortenClasspath name="NONE" />

@@ -18,6 +18,14 @@ enum class BetItemType(
     DRIVER("driver", Race::qualiStartDatetime, 20, 15, 0, 20),
     CONSTRUCTOR("constructor", Race::qualiStartDatetime, 10, 15, 0, 20);
 
+    fun isChampionshipType(): Boolean {
+        return when(this) {
+            DRIVER -> true
+            CONSTRUCTOR -> true
+            else -> false
+        }
+    }
+
     companion object {
         fun enumOf(value: String): BetItemType {
             enumValues<BetItemType>().forEach {

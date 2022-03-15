@@ -6,5 +6,6 @@ data class BetDTO(
     val title: String,
     val name: String,
     val flagImageUrl: String = "",
-    val points: Int
+    val points: Int,
+    val dateRange: String
 )

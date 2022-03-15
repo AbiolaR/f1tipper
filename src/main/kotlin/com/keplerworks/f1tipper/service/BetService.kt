@@ -13,6 +13,7 @@ import com.keplerworks.f1tipper.type.BetItemType
 import com.keplerworks.f1tipper.type.BetType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Service
@@ -58,6 +59,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                             race.title,
                             race.name,
                             race.flagImgUrl,
+                            summarizeBetPoints(it.betItems),
+                            getDateRange(race)
                         )
                     )
                     BetType.CHAMPIONSHIP -> betDTOs.add(
@@ -67,6 +70,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                             "Championship",
                             "Formula 1 2022 Championship",
                             "",
+                            summarizeBetPoints(it.betItems),
+                            ""
                         )
                     )
                 }
@@ -89,8 +94,22 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
         }
 
         return when (BetType.enumOf(bet.type)) {
-            BetType.RACE -> BetDTO(betId, bet.type, race.title, race.name, race.flagImgUrl)
-            BetType.CHAMPIONSHIP -> BetDTO(betId, bet.type, "Championship", "Formula 1 2022 Championship")
+            BetType.RACE -> BetDTO(
+                betId,
+                bet.type,
+                race.title,
+                race.name,
+                race.flagImgUrl,
+                summarizeBetPoints(bet.betItems),
+                getDateRange(race))
+            BetType.CHAMPIONSHIP -> BetDTO(
+                betId,
+                bet.type,
+                "Championship",
+                "Formula 1 2022 Championship",
+                "",
+                summarizeBetPoints(bet.betItems),
+                getDateRange(race))
         }
 
     }
@@ -151,11 +170,36 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
     }
 
     private fun evaluateStatus(betItemType: BetItemType, race: Race): BetItemStatus {
-        val date = betItemType.dateTime.get(race)
+        var date = betItemType.dateTime.get(race)
+        if(betItemType.isChampionshipType()) {
+            val calendar = Calendar.getInstance()
+            calendar.time = date
+            calendar.add(Calendar.HOUR, -3)
+            date = calendar.time
+        }
         if (date.after(Date())) {
             return BetItemStatus.OPEN
         }
         return BetItemStatus.LOCKED
+    }
+
+    private fun summarizeBetPoints(betItems: List<BetItem>): Int {
+        var points = 0
+        betItems.forEach { betItem ->
+            points += betItem.points
+        }
+        return points
+    }
+
+    private fun getDateRange(race: Race): String {
+        val dateRange = StringBuilder()
+        val calendar = Calendar.getInstance()
+        calendar.time = race.qualiStartDatetime
+        dateRange.append(calendar.get(Calendar.DAY_OF_MONTH)).append(" - ")
+        calendar.time = race.raceStartDatetime
+        dateRange.append(calendar.get(Calendar.DAY_OF_MONTH)).append(" ")
+            .append(SimpleDateFormat("MMM", Locale.ENGLISH).format(calendar.time))
+        return dateRange.toString()
     }
 
     fun saveBetItem(betItemDTO: BetItemDTO): BetItemDTO {

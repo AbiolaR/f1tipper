@@ -4,6 +4,7 @@
     <h1>{{bet.title}}
     </h1>
     <h4>{{bet.name}}</h4>
+    <h3>{{bet.dateRange}}</h3>
     <hr/>
     <section [ngSwitch]=bet.type>
         <section *ngSwitchCase="'championship'">
@@ -31,4 +32,5 @@
             </button>
         </section>
     </section>
+    <button mat-flat-button disabled>{{bet.points}} Points</button>
 </section>
