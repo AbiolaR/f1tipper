@@ -4,18 +4,31 @@
     <h1>{{bet.title}}
     </h1>
     <h4>{{bet.name}}</h4>
-    <p class="status" attr.data-status={{bet.status}}>{{bet.status}}</p>
     <hr/>
-    <button mat-flat-button color="primary" (click)="openQualifyingDialog()">
-        <span>Quali Positions</span>
-        <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
-    </button>
-    <button mat-flat-button color="primary" (click)="openRaceDialog()">
-        <span>Race Positions</span>
-        <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
-    </button>
-    <button mat-flat-button color="primary" (click)="openDNFDialog()">
-        <span>Race DNFs</span>
-        <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
-    </button>
+    <section [ngSwitch]=bet.type>
+        <section *ngSwitchCase="'championship'">
+            <button mat-flat-button color="primary" (click)="openDriverDialog()">
+                <span>Driver</span>
+                <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+            </button>
+            <button mat-flat-button color="primary" (click)="openConstructorDialog()">
+                <span>Constructor</span>
+                <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+            </button>
+        </section>
+        <section *ngSwitchCase="'race'">            
+            <button mat-flat-button color="primary" (click)="openQualifyingDialog()">
+                <span>Qualifying</span>
+                <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+            </button>
+            <button mat-flat-button color="primary" (click)="openRaceDialog()">
+                <span>Race</span>
+                <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+            </button>
+            <button mat-flat-button color="primary" (click)="openDNFDialog()">
+                <span>DNF</span>
+                <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+            </button>
+        </section>
+    </section>
 </section>

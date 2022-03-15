@@ -7,7 +7,7 @@ import com.keplerworks.f1tipper.model.Result
 import com.keplerworks.f1tipper.model.ergast.ErgastDriver
 import com.keplerworks.f1tipper.model.ergast.ErgastRaceResult
 import com.keplerworks.f1tipper.repository.ResultRepository
-import com.keplerworks.f1tipper.type.BetType
+import com.keplerworks.f1tipper.type.BetItemType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -19,8 +19,8 @@ class ResultService @Autowired constructor(
     private val driverService: DriverService,
     private val client: ErgastClient = ErgastClient.create()
 ) {
-    fun getResult(raceId: Long, betType: BetType): Result? {
-        return resultRepo.findResultByRaceIdAndType(raceId, betType.value).orElse(null)
+    fun getResult(raceId: Long, betItemType: BetItemType): Result? {
+        return resultRepo.findResultByRaceIdAndType(raceId, betItemType.value).orElse(null)
     }
 
     fun syncResult(raceId: Long): Boolean {
@@ -35,7 +35,7 @@ class ResultService @Autowired constructor(
         val response = client.getRaceResult(race.round)
         val ergastRaceResult = response.get()
 
-        val raceResult = getResult(race.id, BetType.RACE) ?: Result(raceId = race.id, type = BetType.RACE.value)
+        val raceResult = getResult(race.id, BetItemType.RACE) ?: Result(raceId = race.id, type = BetItemType.RACE.value)
         if (raceResult.id != 0L) {
             positionService.getResultPositions(raceResult.id) as MutableList<Position>
         } else {

@@ -1,5 +1,5 @@
 <mat-dialog-content>
-    <div class="grid-container">
+    <div *ngIf="betItemOpen">
         <mat-spinner *ngIf="!betItem" color="primary"></mat-spinner>
         <div class="positions" *ngIf="betItem">
             <button mat-flat-button *ngFor="let position of betItem.positions; let index = index" 
@@ -8,8 +8,21 @@
             </button>
         </div>
     </div>
+    <div *ngIf="!betItemOpen" class="betresults">
+        
+        <div class="bets" *ngIf="betItem">
+            <p *ngFor="let position of betItem.positions">
+                P{{position.position}}: {{position.driver.name || 'No driver selected'}}
+            </p>
+        </div>
+        <div class="results" *ngIf="betItem">
+            <p *ngFor="let position of betItem.positions">
+                P{{position.position}}: {{position.driver.name || 'No driver selected'}}
+            </p>
+        </div>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="betItem">
-    <button color="warn" mat-button mat-dialog-close>Cancel</button>
-    <button color="accent" mat-button [mat-dialog-close]="betItem">Save</button>
+    <button color="warn" mat-button mat-dialog-close>{{betItemOpen ? 'Cancel' : 'Close'}}</button>
+    <button color="accent" mat-button [mat-dialog-close]="betItem" *ngIf="betItemOpen">Save</button>
 </mat-dialog-actions>

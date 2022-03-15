@@ -2,9 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { BetService } from '../../../service/bet.service';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import { BetItem as BetItem } from 'src/app/model/bet-item';
-import { BetDataType, BetItemData } from 'src/app/model/bet-item-data';
+import { BetItemData } from 'src/app/model/bet-item-data';
 import { DriverComponent } from '../../driver/driver.component';
 import { Driver } from 'src/app/model/driver';
+import { BetItemStatus } from 'src/app/model/enum/bet-item-status';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { Driver } from 'src/app/model/driver';
 })
 export class BetItemDialogComponent implements OnInit {
   betItem: BetItem | undefined
+  betItemOpen = false
 
   constructor(private betService: BetService,
               @Inject(MAT_DIALOG_DATA) public betItemData: BetItemData,
@@ -27,6 +29,7 @@ export class BetItemDialogComponent implements OnInit {
     this.betService.getBetItem(this.betItemData.id, this.betItemData.type).subscribe({
       next: (data) => {
         this.betItem = data;
+        //this.betItemOpen = this.betItem.status == BetItemStatus.OPEN
       }
     })
   }

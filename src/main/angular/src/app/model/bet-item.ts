@@ -5,5 +5,6 @@ export interface BetItem {
     id: number,
     points: number,
     positions: Position[],
-    type: string
+    type: string,
+    status: string
 }

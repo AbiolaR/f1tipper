@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router'
 import { Bet } from '../../model/bet';
 import { BetService } from '../../service/bet.service';
 import {MatDialog} from '@angular/material/dialog';
-import { BetItemData, BetDataType } from 'src/app/model/bet-item-data';
+import { BetItemData } from 'src/app/model/bet-item-data';
 import { BetItemDialogComponent } from '../dialog/bet-item-dialog/bet-item-dialog.component';
 import { BetItem } from 'src/app/model/bet-item';
+import { BetDataType } from 'src/app/model/enum/bet-data-type';
 
 @Component({
   selector: 'app-bet',
@@ -50,6 +51,20 @@ export class BetComponent implements OnInit {
       data: new BetItemData(this.bet?.id, BetDataType.DNF)
     })
 
+    this.handleDialogClose(dialogRef);
+  }
+
+  openDriverDialog() {
+    const dialogRef = this.dialog.open(BetItemDialogComponent, {
+      data: new BetItemData(this.bet?.id, BetDataType.DRIVER)
+    })
+    this.handleDialogClose(dialogRef);
+  }
+
+  openConstructorDialog() {
+    const dialogRef = this.dialog.open(BetItemDialogComponent, {
+      data: new BetItemData(this.bet?.id, BetDataType.CONSTRUCTOR)
+    })
     this.handleDialogClose(dialogRef);
   }
 

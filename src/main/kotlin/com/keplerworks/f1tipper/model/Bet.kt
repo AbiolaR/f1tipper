@@ -7,8 +7,9 @@ class Bet(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long = 0,
-    val status: String = "", //TODO Remove
-    val raceId: Long = 0,
+    val type: String,
+    @ManyToOne
+    val race: Race,
     val userId: Long = 0,
     //@ManyToOne
     //val league: League = League(name = ""),

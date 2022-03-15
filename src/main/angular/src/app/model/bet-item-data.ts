@@ -1,8 +1,5 @@
-export enum BetDataType {
-    RACE = 'race',
-    QUALIFYING = 'qualifying',
-    DNF = 'dnf'
-}
+import { BetDataType } from "./enum/bet-data-type";
+
 
 export class BetItemData {
     id: number | undefined;

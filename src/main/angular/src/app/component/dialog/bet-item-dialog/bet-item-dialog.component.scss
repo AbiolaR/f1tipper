@@ -8,6 +8,15 @@ button {
     min-width: 15em;
 }
 
+.results .bets {
+    display: flex;
+    flex-direction: column;
+}
+
+.betresults {
+    display: grid;
+}
+
 mat-dialog-container {
     padding: 0;
 }

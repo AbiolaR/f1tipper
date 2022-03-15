@@ -35,7 +35,7 @@ class LeagueService(@Autowired
             var totalPoints = 0
             bets.forEach { bet -> bet.betItems.forEach { betItem ->
                 if (betItem.points == 0) {
-                    betItem.points = calculator.calculatePoints(bet.raceId, betItem)
+                    betItem.points = calculator.calculatePoints(bet.race.id, betItem)
                 }
                 totalPoints += betItem.points
             } }

@@ -1,20 +1,8 @@
 package com.keplerworks.f1tipper.type
 
-import com.keplerworks.f1tipper.model.Race
-import java.util.*
-import kotlin.reflect.KProperty1
-
-enum class BetType(
-    val value: String,
-    val dateTime: KProperty1<Race, Date>,
-    val repeatNumber: Int,
-    val positionPoints: Int,
-    val positionGroupPoints: Int,
-    val winPoints: Int
-) {
-    RACE("race", Race::raceStartDatetime, 20, 9, 3, 12),
-    QUALIFYING("qualifying", Race::qualiStartDatetime, 5, 4, 0, 0),
-    DNF("dnf", Race::raceStartDatetime, 2, 5, 0, 0);
+enum class BetType(val value: String) {
+    CHAMPIONSHIP("championship"),
+    RACE("race");
 
     companion object {
         fun enumOf(value: String): BetType {
@@ -23,7 +11,7 @@ enum class BetType(
                     return it
                 }
             }
-            throw IllegalArgumentException("No enum constant BetType.${value}")
+            throw IllegalArgumentException("No enum constant BetItemType.${value}")
         }
     }
 }

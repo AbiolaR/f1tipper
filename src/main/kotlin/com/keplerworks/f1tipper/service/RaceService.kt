@@ -13,6 +13,6 @@ class RaceService @Autowired constructor(private val raceRepo: RaceRepository) {
     }
 
     fun getAllRaces(): List<Race> {
-        return raceRepo.findAll()
+        return raceRepo.findAll().sortedBy { it.round }
     }
 }
