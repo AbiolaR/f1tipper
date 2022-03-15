@@ -6,7 +6,7 @@ plugins {
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 	kotlin("plugin.jpa") version "1.6.10"
-	//id("de.clashsoft.angular-gradle") version "0.1.7"
+	id("com.google.cloud.tools.jib") version "3.2.0"
 }
 
 group = "com.keplerworks"
@@ -50,9 +50,7 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-/*angular {
-	appDir.set("src/main/angular")
-	outputDir.set("src/main/resources/static")
-}*/
-
-
+jib.from.image = "openjdk:17.0.2"
+jib.to.image = "kworks/f1tipper"
+jib.to.credHelper = "wincred"
+jib.container.ports = listOf("80", "443", "3306")
