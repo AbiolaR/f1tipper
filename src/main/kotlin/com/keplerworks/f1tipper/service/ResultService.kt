@@ -23,9 +23,17 @@ class ResultService @Autowired constructor(
         return resultRepo.findResultByRaceIdAndType(raceId, betItemType.value).orElse(null)
     }
 
-    fun syncResult(raceId: Long): Boolean {
+    fun syncRaceResult(raceId: Long): Boolean {
         val race = raceService.getRace(raceId)
         getRaceResult(race)
+        TODO("get dnf result")
+
+        return true
+    }
+
+    fun syncQualifyingResult(raceId: Long): Boolean {
+        val race = raceService.getRace(raceId)
+        TODO("get qualifying result")
 
         return true
     }

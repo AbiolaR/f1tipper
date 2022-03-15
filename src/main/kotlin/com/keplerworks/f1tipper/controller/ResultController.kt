@@ -12,9 +12,14 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/api/result")
 class ResultController @Autowired constructor(private val service: ResultService) {
 
-    @PostMapping("sync/{raceId}")
-    fun triggerResultSync(@PathVariable raceId: Long, request: HttpServletRequest): Boolean {
-        return service.syncResult(raceId)
+    @PostMapping("sync/race/{raceId}")
+    fun triggerRaceResultSync(@PathVariable raceId: Long, request: HttpServletRequest): Boolean {
+        return service.syncRaceResult(raceId)
+    }
+
+    @PostMapping("sync/qualifying/{raceId}")
+    fun triggerQualifyingResultSync(@PathVariable raceId: Long, request: HttpServletRequest): Boolean {
+        return service.syncRaceResult(raceId)
     }
 
 }
