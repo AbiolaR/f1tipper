@@ -1,6 +1,6 @@
 package com.keplerworks.f1tipper.client
 
-import com.keplerworks.f1tipper.model.ergast.ErgastRaceResult
+import com.keplerworks.f1tipper.model.ergast.ErgastResult
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -12,7 +12,11 @@ interface ErgastClient {
 
     @GET("{round}/results.json")
     @Headers("accept: application/json")
-    fun getRaceResult(@Path("round") round: Int): CompletableFuture<ErgastRaceResult>
+    fun getRaceResult(@Path("round") round: Int): CompletableFuture<ErgastResult>
+
+    @GET("{round}/qualifying.json")
+    @Headers("accept: application/json")
+    fun getQualifyingResult(@Path("round") round: Int): CompletableFuture<ErgastResult>
 
     companion object {
         private const val YEAR = 2021

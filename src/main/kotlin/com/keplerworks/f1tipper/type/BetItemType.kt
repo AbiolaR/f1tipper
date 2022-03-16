@@ -18,6 +18,11 @@ enum class BetItemType(
     DRIVER("driver", Race::qualiStartDatetime, 20, 15, 0, 20),
     CONSTRUCTOR("constructor", Race::qualiStartDatetime, 10, 15, 0, 20);
 
+    val resultAmount: Int get() = when (this) {
+        DNF -> 20
+        else -> repeatNumber
+    }
+
     fun isChampionshipType(): Boolean {
         return when(this) {
             DRIVER -> true

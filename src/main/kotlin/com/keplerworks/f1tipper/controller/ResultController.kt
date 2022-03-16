@@ -14,12 +14,12 @@ class ResultController @Autowired constructor(private val service: ResultService
 
     @PostMapping("sync/race/{raceId}")
     fun triggerRaceResultSync(@PathVariable raceId: Long, request: HttpServletRequest): Boolean {
-        return service.syncRaceResult(raceId)
+        return service.syncRaceResults(raceId)
     }
 
     @PostMapping("sync/qualifying/{raceId}")
     fun triggerQualifyingResultSync(@PathVariable raceId: Long, request: HttpServletRequest): Boolean {
-        return service.syncRaceResult(raceId)
+        return service.syncRaceResults(raceId)
     }
 
 }
