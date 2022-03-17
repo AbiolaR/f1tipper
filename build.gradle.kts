@@ -30,6 +30,7 @@ dependencies {
 	implementation("com.google.code.gson:gson:2.9.0")
 	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("io.github.microutils:kotlin-logging-jvm:2.1.20")
 }
 
 tasks.register("removeStaticFolder") {

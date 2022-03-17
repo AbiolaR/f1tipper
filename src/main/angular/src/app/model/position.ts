@@ -1,7 +1,8 @@
-import { Driver } from "./driver";
+import { BetSubject } from "./bet-subject";
 
 export interface Position {
     id: number,
     position: number,
-    driver: Driver
+    betSubject: BetSubject,
+    fastestLap: boolean
 }

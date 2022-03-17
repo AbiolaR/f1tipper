@@ -1,17 +1,18 @@
 package com.keplerworks.f1tipper.model
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.ManyToOne
+import org.hibernate.annotations.Type
+import javax.persistence.*
 
 @Entity
 class Position (
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long = 0,
-    val driverId: Long = 0,
+    val betSubjectId: Long = 0,
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    val fastestLap: Boolean = false,
+    //val driverId: Long = 0,
+    //val constructorId: Long = 0,
     val position: Int = 0,
     val betItemId: Long? = null,
     @ManyToOne

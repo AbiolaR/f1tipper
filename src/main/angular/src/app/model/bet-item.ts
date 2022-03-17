@@ -1,4 +1,3 @@
-import { Driver } from "./driver";
 import { BetItemStatus } from "./enum/bet-item-status";
 import { Position } from "./position";
 

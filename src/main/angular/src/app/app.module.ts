@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule } from '@angular/platform-browser';
 
 import { AppRoutingModule, RoutingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,6 +31,7 @@ import { AccessDeniedDialogComponent } from './component/dialog/access-denied-di
 import { LeagueDialogComponent } from './component/dialog/league-dialog/league-dialog.component';
 import { BetResultsComponent } from './component/bet-results/bet-results.component';
 import { LeagueOverviewComponent } from './component/league-overview/league-overview.component';
+import { BetSubjectComponent } from './component/bet-subject/bet-subject.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { LeagueOverviewComponent } from './component/league-overview/league-over
     BetButtonComponent,
     ChampionshipBetComponent,
     BetItemDialogComponent,
+    BetSubjectComponent,
     LoginComponent,
     AccessDeniedDialogComponent,
     LeagueDialogComponent,
@@ -50,6 +52,7 @@ import { LeagueOverviewComponent } from './component/league-overview/league-over
   ],
   imports: [
     BrowserModule,
+    HammerModule,
     HttpClientModule,
     AppRoutingModule,
     MatButtonModule,

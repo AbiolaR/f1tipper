@@ -7,7 +7,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LeagueDialogComponent } from '../../component/dialog/league-dialog/league-dialog.component';
 import { AppComponent } from 'src/app/app.component';
 import { Bet } from 'src/app/model/bet';
-import { getMultipleValuesInSingleSelectionError } from '@angular/cdk/collections';
 import { LeagueService } from 'src/app/service/league.service';
 
 @Component({

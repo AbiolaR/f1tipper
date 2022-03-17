@@ -12,4 +12,6 @@ class AccessForbiddenException(message: String = "Access to this object is forbi
 
 class BetItemStillOpenException(message: String = "BetItem is still open") : RuntimeException(message)
 
+class BetSubjectNotFoundException() : RuntimeException()
+
 class ResultNotFoundException(message: String = "No Result matching the BetItem could be found") : RuntimeException(message)

@@ -39,7 +39,7 @@ class Calculator @Autowired constructor(private val resultService: ResultService
                 resultPosition.position == it.position
             } ?: return@forEach
 
-            if (resultPosition.driverId != betItemPosition.driverId) {
+            if (resultPosition.betSubjectId != betItemPosition.betSubjectId) {
                 return@forEach
             }
 
@@ -60,8 +60,8 @@ class Calculator @Autowired constructor(private val resultService: ResultService
     private fun calcPerGeneralDriver(): Int {
         points = 0
 
-        val betDrivers = betItemPositions.map { it.driverId }
-        val resultDrivers = resultPositions.map { it.driverId }
+        val betDrivers = betItemPositions.map { it.betSubjectId }
+        val resultDrivers = resultPositions.map { it.betSubjectId }
 
         betDrivers.forEach { betDriver ->
             if (resultDrivers.contains(betDriver)) {

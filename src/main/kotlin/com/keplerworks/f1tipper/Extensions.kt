@@ -18,7 +18,12 @@ fun List<Driver>.toDriverDTO(): List<DriverDTO> {
 fun List<PositionDTO>.toPositions(betItemId: Long): List<Position> {
     val positions: MutableList<Position> = mutableListOf()
     this.forEach {
-        positions.add(Position(it.id, it.driver.id, it.position, betItemId))
+        positions.add(Position(it.id, it.betSubject.id, it.fastestLap, it.position, betItemId))
+        /*when(it.betSubject.type) {
+            BetSubjectType.CONSTRUCTOR -> positions.add(Position(it.id, it.betSubject.id, it.fastestLap, it.position, betItemId))
+            BetSubjectType.DRIVER -> positions.add(Position(it.id, it.betSubject.id, it.position, betItemId))
+        }*/
+
     }
 
     return positions

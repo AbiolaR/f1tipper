@@ -3,6 +3,7 @@
 }
 
 button {
+    touch-action: pan-y !important;
     border-radius: 0;
     margin: 10px;
     min-width: 15em;
@@ -38,4 +39,8 @@ mat-dialog-actions {
         min-width: 50%;
     }
     
+}
+
+.fastest-lap {
+    background-color: purple;
 }

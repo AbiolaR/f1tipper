@@ -18,7 +18,7 @@ class ResultService @Autowired constructor(
     private val resultRepo: ResultRepository,
     private val raceService: RaceService,
     private val positionService: PositionService,
-    private val driverService: DriverService,
+    private val betSubjectService: BetSubjectService,
     private val client: ErgastClient = ErgastClient.create()
 ) {
     fun getResult(raceId: Long, betItemType: BetItemType): Result? {
@@ -81,7 +81,7 @@ class ResultService @Autowired constructor(
                 return@forEach
             }
             resultPositions.add(Position(
-                driverId = findDriverId(ergastResult.ErgastDriver!!),
+                betSubjectId = findDriverId(ergastResult.ErgastDriver!!),
                 position = ergastResult.position!!.toInt(),
                 result = result
             ))
@@ -99,7 +99,7 @@ class ResultService @Autowired constructor(
         val resultPositions: MutableList<Position> = mutableListOf()
         ergastResults.take(BetItemType.enumOf(result.type).repeatNumber).forEach { ergastResult ->
             resultPositions.add(Position(
-                driverId = findDriverId(ergastResult.ErgastDriver!!),
+                betSubjectId = findDriverId(ergastResult.ErgastDriver!!),
                 position = ergastResult.position!!.toInt(),
                 result = result
             ))
@@ -113,6 +113,6 @@ class ResultService @Autowired constructor(
     }
 
     private fun findDriverId(ergastDriver: ErgastDriver): Long {
-        return driverService.getDriverByName(ergastDriver.givenName!!, ergastDriver.familyName!!).id
+        return betSubjectService.getBetSubject("${ergastDriver.givenName!!} ${ergastDriver.familyName!!}").id
     }
 }

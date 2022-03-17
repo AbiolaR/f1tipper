@@ -76,6 +76,7 @@ export class BetComponent implements OnInit {
   handleDialogClose(dialogRef: any) {
     dialogRef.afterClosed().subscribe((betItem: BetItem) => {
       if (betItem) {
+        console.log(betItem)
         this.betService.saveBetItem(betItem).subscribe(betItem => console.log(betItem));
       }
     });

@@ -21,7 +21,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                                         private val betItemRepo: BetItemRepository,
                                         private val raceService: RaceService,
                                         private val positionService: PositionService,
-                                        private val driverService: DriverService,
+                                        private val betSubjectService: BetSubjectService,
+                                        //private val driverService: DriverService,
                                         private val userService: FormulaUserService,
                                         private val resultService: ResultService) {
 
@@ -121,7 +122,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
         repeat(betItemType.repeatNumber) {
             val positionNum = it + 1
             val position =  positionService.getBetItemPosition(betItem.id, positionNum)
-            betItemPositions.add(PositionDTO(position.id, positionNum, driverService.getDriver(position.driverId).toDriverDTO()))
+
+            betItemPositions.add(PositionDTO(position.id, positionNum, betSubjectService.getBetSubject(position.betSubjectId), position.fastestLap))
         }
 
         return BetItemDTO(betItem.id, betItem.points, betItemType.value, betItemPositions, betId, status.value)
@@ -154,10 +156,9 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
             betItemPositions
                 .zip(resultPositions)
                 .map { BetItemResultPositionDTO(
-                        PositionDTO(0, it.first.position,
-                            driverService.getDriver(it.first.driverId).toDriverDTO()),
-                        PositionDTO(0, it.second.position,
-                            driverService.getDriver(it.second.driverId).toDriverDTO())) })
+                        PositionDTO(0, it.first.position, betSubjectService.getBetSubject(it.first.betSubjectId), it.first.fastestLap),
+                        PositionDTO(0, it.second.position, betSubjectService.getBetSubject(it.second.betSubjectId), it.second.fastestLap)
+                )})
     }
 
     private fun getBetItem(betId: Long, betItemType: BetItemType): BetItem {

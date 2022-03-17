@@ -1,0 +1,8 @@
+<mat-dialog-content>   
+    <button mat-flat-button color='accent' (click)="removeBetSubject()">
+        Remove
+    </button>
+    <button mat-flat-button color='primary' *ngFor="let betSubject of betSubjects" (click)="returnBetSubject(betSubject)">
+        {{betSubject.name}}
+    </button>        
+</mat-dialog-content>

@@ -10,15 +10,15 @@
         </section>
         <section *ngIf="betItemData.type == 'dnf'">
             <section *ngFor="let betItemResult of betResult.betItemResultPositions" class="betItemResult">
-                <span class="bet">{{betItemResult.betItemPosition.driver.name}}</span>
-                <span class="result">{{betItemResult.resultPosition.driver.name}}</span>
+                <span class="bet">{{betItemResult.betItemPosition.betSubject.name}}</span>
+                <span class="result">{{betItemResult.resultPosition.betSubject.name}}</span>
             </section>
         </section>
         <section *ngIf="betItemData.type != 'dnf'">
             <section *ngFor="let betItemResult of betResult.betItemResultPositions" class="betItemResult">
                 <span class="position">P{{betItemResult.resultPosition.position}}</span>
-                <span class="bet">{{betItemResult.betItemPosition.driver.name || 'empty'}}</span>
-                <span class="result">{{betItemResult.resultPosition.driver.name || 'no result yet'}}</span>
+                <span class="bet">{{betItemResult.betItemPosition.betSubject.name || 'empty'}}</span>
+                <span class="result">{{betItemResult.resultPosition.betSubject.name || 'no result yet'}}</span>
             </section>
         </section>
     </section>
