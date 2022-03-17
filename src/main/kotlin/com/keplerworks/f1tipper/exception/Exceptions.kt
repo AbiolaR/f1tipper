@@ -1,7 +1,5 @@
 package com.keplerworks.f1tipper.exception
 
-class DriverNotFoundException(message: String) : RuntimeException(message)
-
 class BetNotFoundException(message: String) : RuntimeException(message)
 
 class RaceNotFoundException(message: String) : RuntimeException(message)
