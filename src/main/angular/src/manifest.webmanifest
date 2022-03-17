@@ -2,7 +2,7 @@
   "name": "F1 Tipper",
   "short_name": "F1 Tipper",
   "theme_color": "#303030",
-  "background_color": "#303030",
+  "background_color": "#c2185b",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

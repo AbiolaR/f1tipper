@@ -3,8 +3,10 @@
         <mat-spinner *ngIf="!betItem" color="primary"></mat-spinner>
         <div class="positions" *ngIf="betItem">
             <button mat-flat-button *ngFor="let position of betItem.positions; let index = index" 
-            [color]="(position.driver.name) ? 'accent' : 'primary'" (click)="openDriverDialog(index)">
-                P{{position.position}}: {{position.driver.name || 'Select a driver'}}
+            [color]="(position.driver.name) ? 'accent' : 'primary'" 
+            (click)="betItem.type == 'constructor' ? openConstructorDialog(index) : openDriverDialog(index)">
+                P{{position.position}}: {{position.driver.name 
+                    || (betItem.type == 'constructor' ? 'Select a constructor' : 'Select a driver')}}
             </button>
         </div>
     </div>
@@ -13,7 +15,7 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="betItem">
-    <button *ngIf="!betItemOpen" mat-button disabled>{{betItem.points}} Points</button>
+    <button *ngIf="!betItemOpen" mat-button disabled class="points">{{betItem.points}} Points</button>
     <button color="warn" mat-button mat-dialog-close>{{betItemOpen ? 'Cancel' : 'Close'}}</button>
     <button color="accent" mat-button [mat-dialog-close]="betItem" *ngIf="betItemOpen">Save</button>
 </mat-dialog-actions>

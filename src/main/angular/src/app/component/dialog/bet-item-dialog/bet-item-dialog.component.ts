@@ -56,8 +56,10 @@ export class BetItemDialogComponent implements OnInit {
       if (this.betItem) {
         this.betItem.positions[index].driver = driver;
       }
-      //this.bet?.positions.set(index, driver)
-      console.log(this.betItem?.positions)      
     });
+  }
+
+  openConstructorDialog(index: number) {
+    
   }
 }

@@ -12,11 +12,11 @@ enum class BetItemType(
     val positionGroupPoints: Int,
     val winPoints: Int
 ) {
-    RACE("race", Race::raceStartDatetime, 20, 9, 3, 12),
-    QUALIFYING("qualifying", Race::qualiStartDatetime, 5, 4, 0, 0),
-    DNF("dnf", Race::raceStartDatetime, 2, 5, 0, 0),
-    DRIVER("driver", Race::qualiStartDatetime, 20, 15, 0, 20),
-    CONSTRUCTOR("constructor", Race::qualiStartDatetime, 10, 15, 0, 20);
+    RACE("race", Race::raceStartDatetime, 20, 15, 5, 20),
+    QUALIFYING("qualifying", Race::qualiStartDatetime, 5, 5, 0, 5),
+    DNF("dnf", Race::raceStartDatetime, 2, 5, 0, 5),
+    DRIVER("driver", Race::qualiStartDatetime, 20,400, 200,500),
+    CONSTRUCTOR("constructor", Race::qualiStartDatetime, 10, 600, 200, 800);
 
     val resultAmount: Int get() = when (this) {
         DNF -> 20

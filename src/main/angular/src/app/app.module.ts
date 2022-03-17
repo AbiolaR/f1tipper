@@ -30,6 +30,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccessDeniedDialogComponent } from './component/dialog/access-denied-dialog/access-denied-dialog.component';
 import { LeagueDialogComponent } from './component/dialog/league-dialog/league-dialog.component';
 import { BetResultsComponent } from './component/bet-results/bet-results.component';
+import { LeagueOverviewComponent } from './component/league-overview/league-overview.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { BetResultsComponent } from './component/bet-results/bet-results.compone
     LoginComponent,
     AccessDeniedDialogComponent,
     LeagueDialogComponent,
-    BetResultsComponent,    
+    BetResultsComponent,
+    LeagueOverviewComponent,    
   ],
   imports: [
     BrowserModule,

@@ -20,7 +20,6 @@ class LeagueService(@Autowired
         return leagueRepo.getById(id)
     }
 
-    @Transactional
     fun getLeagueStandings(leagueId: Long, username: String): LeagueStandingsDTO {
         val league = leagueRepo.getById(leagueId)
         val user = userService.getUser(username)
@@ -28,23 +27,31 @@ class LeagueService(@Autowired
         if (!user.leagues.contains(league)) {
             throw AccessForbiddenException()
         }
-        val bets = betService.getBetsByLeague(user.id, leagueId)
+
         val leagueStandingsDTO = LeagueStandingsDTO(league.id, league.name)
 
         league.users.forEach {
+            val bets = betService.getBetsByLeague(it.id, leagueId)
+
             var totalPoints = 0
             bets.forEach { bet -> bet.betItems.forEach { betItem ->
-                if (betItem.points == 0) {
-                    betItem.points = calculator.calculatePoints(bet.race.id, betItem)
-                }
                 totalPoints += betItem.points
             } }
             leagueStandingsDTO.users[it.username] = totalPoints
         }
 
+        leagueStandingsDTO.users.toList().sortedByDescending { it.second }.toMap()
+
         return leagueStandingsDTO
     }
 
+    @Transactional
+    fun joinLeague(league: String, username: String): Boolean {
+        val league = leagueRepo.findByName(league).orElse(null) ?: return false
+        val user = userService.getUser(username)
+        user.leagues.add(league)
+        return true
+    }
 
 
 }

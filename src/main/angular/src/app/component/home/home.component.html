@@ -1,6 +1,6 @@
 <section class="home">
-    <mat-select *ngIf="selectedLeague" value={{selectedLeague.name}}>
-        <mat-option *ngFor="let league of leagues" [value]=league.name>
+    <mat-select [ngModel]="selectedLeague" (ngModelChange)="onSelectedLeagueChange($event)" *ngIf="selectedLeague">
+        <mat-option *ngFor="let league of leagues" [value]=league>
             {{league.name}}
         </mat-option>
     </mat-select>
@@ -9,8 +9,6 @@
         <button id="logout" mat-stroked-button color="accent" routerLink="/login">logout</button>
     </div>
 
-    <div class="league-standings">
-        
-    </div>
-    
+    <app-league-overview *ngIf="selectedLeague" [leagueId]="selectedLeague.id"></app-league-overview>
+
 </section>

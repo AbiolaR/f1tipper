@@ -17,4 +17,9 @@ class LeagueController @Autowired constructor(private val service: LeagueService
     fun getStandings(@PathVariable id: Long, request: HttpServletRequest): LeagueStandingsDTO {
         return service.getLeagueStandings(id, request.userPrincipal.name)
     }
+
+    @GetMapping("/join/{league}")
+    fun join(@PathVariable league: String, request: HttpServletRequest): Boolean {
+        return service.joinLeague(league, request.userPrincipal.name)
+    }
 }

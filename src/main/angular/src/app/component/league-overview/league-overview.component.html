@@ -1,0 +1,28 @@
+<section>
+    <mat-card *ngIf="leagueOverview" class="leaderboard">
+        <mat-card-title>Leaderboard</mat-card-title>
+        <mat-card-content>
+            <p *ngFor="let user of leagueOverview.users | keyvalue">
+                {{user.key}} - {{user.value}} Points
+            </p>
+        </mat-card-content>
+    </mat-card>
+    
+    <mat-card *ngIf="leagueOverview">
+        <mat-card-title>Statistics</mat-card-title>
+        <mat-card-content>
+            <p>
+                ________&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;________
+            </p>
+            <p>
+                ________&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;________
+            </p>
+            <p>
+                ________&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;________
+            </p>
+            <p>
+                ________&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;________
+            </p>
+        </mat-card-content>
+    </mat-card>
+</section>

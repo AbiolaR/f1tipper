@@ -20,7 +20,7 @@ mat-select {
     top: 0;
     z-index: 2321312;
     background-color: var(--darkBackground);
-}
+}/*
 
 mat-option {
     text-align: center;
@@ -28,4 +28,13 @@ mat-option {
 
 ::ng-deep .mat-select-panel {
     min-width: calc(100% - 16px) !important;
+}*/
+
+mat-option {
+    text-align: center;
+}
+
+::ng-deep .mat-select-panel {
+    min-width: calc(100% - 16px) !important;
+    margin-top: 30px;
 }

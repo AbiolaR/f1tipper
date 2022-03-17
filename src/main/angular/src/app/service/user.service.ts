@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { League } from "../model/league";
 import { TokenData } from "../model/token-data";
 import { User } from "../model/user";
 

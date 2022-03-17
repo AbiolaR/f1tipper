@@ -8,6 +8,11 @@ button {
     min-width: 15em;
 }
 
+.mat-button-disabled {
+    color: var(--primaryColor) !important;
+    font-weight: bolder;
+}
+
 .results .bets {
     display: flex;
     flex-direction: column;
