@@ -126,7 +126,13 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
             betItemPositions.add(PositionDTO(position.id, positionNum, betSubjectService.getBetSubject(position.betSubjectId), position.fastestLap))
         }
 
-        return BetItemDTO(betItem.id, betItem.points, betItemType.value, betItemPositions, betId, status.value)
+        val raceId = when(betItemType) {
+            BetItemType.CONSTRUCTOR -> 0
+            BetItemType.DRIVER -> 0
+            else -> betItem.bet.race.id
+        }
+
+        return BetItemDTO(betItem.id, betItem.points, betItemType.value, betItemPositions, betId, status.value, raceId)
     }
 
     fun getBetItemResults(betId: Long, betItemType: BetItemType): BetItemResultDTO {
@@ -206,7 +212,7 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
     fun saveBetItem(betItemDTO: BetItemDTO): BetItemDTO {
         val bet = betRepo.findBetById(betItemDTO.betId).orElseThrow { BetNotFoundException("") }
         if (evaluateStatus(BetItemType.enumOf(betItemDTO.type), bet.race) != BetItemStatus.OPEN) {
-            return BetItemDTO(0, 0, "", mutableListOf(), 0, "")
+            return BetItemDTO(0, 0, "", mutableListOf(), 0, "", 0)
         }
         val betItem = BetItem(betItemDTO.id, betItemDTO.points, betItemDTO.type, bet)
         val betItemId = betItemRepo.save(betItem).id

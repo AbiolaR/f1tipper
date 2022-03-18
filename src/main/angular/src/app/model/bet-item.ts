@@ -6,5 +6,6 @@ export interface BetItem {
     points: number,
     positions: Position[],
     type: string,
-    status: BetItemStatus
+    status: BetItemStatus,
+    raceId: number
 }

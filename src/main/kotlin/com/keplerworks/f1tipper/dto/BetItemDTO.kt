@@ -6,5 +6,6 @@ data class BetItemDTO (
     val type: String,
     val positions: MutableList<PositionDTO>,
     val betId: Long,
-    val status: String
+    val status: String,
+    val raceId: Long
 )

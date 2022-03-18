@@ -14,8 +14,8 @@ export class BetSubjectService {
 
   constructor(private http: HttpClient, private userService: UserService) { }
 
-  public getBetSubjects(type: BetSubjectType): Observable<BetSubject[]> {
+  public getBetSubjects(type: BetSubjectType, raceId: number): Observable<BetSubject[]> {
     const headers = this.userService.getAuthHeader();
-    return this.http.get<BetSubject[]>(`${this.apiUrl}/${type}`, { headers });
+    return this.http.get<BetSubject[]>(`${environment.apiServerUrl}/race/${raceId}/${type}`, { headers });
   }
 }

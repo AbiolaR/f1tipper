@@ -56,7 +56,7 @@ export class BetItemDialogComponent implements OnInit {
     });
 
     const dialogRef = this.dialog?.open(BetSubjectComponent, {
-      data: {type: betSubjectType, excludeBetSubjects: excludeBetSubjects}
+      data: {type: betSubjectType, raceId: this.betItem?.raceId, excludeBetSubjects: excludeBetSubjects}
     });
 
     dialogRef?.afterClosed().subscribe((betSubject: BetSubject) => {

@@ -8,7 +8,7 @@ import mu.KotlinLogging
 import org.springframework.stereotype.Service
 
 @Service
-class BetSubjectService (private val betSubjectRepo: BetSubjectRepository) {
+class BetSubjectService (private val betSubjectRepo: BetSubjectRepository, private val raceService: RaceService) {
     val logger = KotlinLogging.logger {}
 
     fun getBetSubject(id: Long): BetSubject {
@@ -28,6 +28,16 @@ class BetSubjectService (private val betSubjectRepo: BetSubjectRepository) {
 
     fun getAllBetSubjectsByType(type: BetSubjectType): List<BetSubject> {
         return betSubjectRepo.findAllBetSubjectByType(type)
+    }
+
+    fun getAllBetSubjectsByTypAndFlag(type: BetSubjectType): List<BetSubject> {
+        return betSubjectRepo.findAllBetSubjectByTypeAndFlagNot(type = type)
+    }
+
+    fun getAllDriversOfRace(raceId: Long): List<BetSubject> {
+        val race = raceService.getRace(raceId)
+        val drivers = getAllBetSubjectsByType(BetSubjectType.DRIVER)
+        return drivers.filter { driver -> driver.races.contains(race) }
     }
 
 }

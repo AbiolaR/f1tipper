@@ -24,7 +24,7 @@ export class BetSubjectComponent implements OnInit {
   }
 
   getBetSubjects(): void {
-    this.betSubjectService.getBetSubjects(this.dialogData.type).subscribe(
+    this.betSubjectService.getBetSubjects(this.dialogData.type, this.dialogData.raceId).subscribe(
       (betSubjects) => {
         this.betSubjects = betSubjects;
         this.filterSubjects();
