@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { League } from "../model/league";
-import { TokenData } from "../model/token-data";
+import { UserData } from "../model/user-data";
 import { User } from "../model/user";
 
 @Injectable({
@@ -16,27 +16,33 @@ export class UserService {
 
     constructor(private http: HttpClient, private router: Router) {}
 
-    public login(username: String, password: String): Observable<TokenData> {
+    public login(username: String, password: String): Observable<UserData> {
         const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-        return this.http.post<TokenData>(
+        return this.http.post<UserData>(
             `${environment.apiServerUrl}/login`, 
             `username=${username}&password=${password}`,
             { headers }
         )
     }
 
-    private getTokenData(): TokenData {
+    private getUserData(): UserData {
         var currentUser = JSON.parse(localStorage.getItem('currentUser')!);
         try {
-            return currentUser.tokenData;
+            return currentUser.userData;
         } catch (error) {            
             this.router.navigateByUrl('/login');        
         }
-        return currentUser.tokenData;
+        return currentUser.userData;
+    }
+
+    public isAdmin(): boolean {
+        let roles = this.getUserData().roles
+
+        return roles?.includes("FORMULA_ADMIN")
     }
 
     public getAuthHeader(): any {
-        return { 'Authorization': `Bearer ${this.getTokenData().access_token}` }
+        return { 'Authorization': `Bearer ${this.getUserData().access_token}` }
     }
 
     public getLocalUser(): User {

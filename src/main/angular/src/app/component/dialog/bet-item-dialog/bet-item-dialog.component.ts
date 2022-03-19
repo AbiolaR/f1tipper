@@ -64,6 +64,7 @@ export class BetItemDialogComponent implements OnInit {
         return
       }
       if (this.betItem) {
+        if(!betSubject.name) this.betItem.positions[index].fastestLap = false
         this.betItem.positions[index].betSubject = betSubject;
         console.log(this.betItem.positions)
       }

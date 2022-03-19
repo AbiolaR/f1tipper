@@ -33,4 +33,9 @@
         </section>
     </section>
     <button mat-flat-button disabled>{{bet.points}} Points</button>
+    <section class="admin-control" *ngIf="isAdmin" [ngSwitch]="bet.type">
+        <button mat-flat-button *ngSwitchCase="'championship'" (click)="updateChampionshipResult()">Championship</button>
+        <button mat-flat-button *ngSwitchDefault="" (click)="updateQualifyingResult()">Qualifying</button>
+        <button mat-flat-button *ngSwitchDefault="" (click)="updateRaceResult()">Race</button>
+    </section>
 </section>

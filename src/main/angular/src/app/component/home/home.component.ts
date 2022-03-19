@@ -36,10 +36,12 @@ export class HomeComponent implements OnInit {
   }
 
   private getLeague(leagues: League[]): League {
-    const locallySelectedLeague = this.leagueService.getLocalSelectedLeague
-    if (!locallySelectedLeague) {
-      if (leagues.includes(locallySelectedLeague)) {
-        return locallySelectedLeague
+    const locallySelectedLeague = this.leagueService.getLocalSelectedLeague()
+    if (locallySelectedLeague) {
+      for(let league of leagues) {
+        if (league.name == locallySelectedLeague.name ) {
+          return league
+        }
       }
     }
     return leagues[0]

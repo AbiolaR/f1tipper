@@ -7,6 +7,9 @@ import { BetItemData } from 'src/app/model/bet-item-data';
 import { BetItemDialogComponent } from '../dialog/bet-item-dialog/bet-item-dialog.component';
 import { BetItem } from 'src/app/model/bet-item';
 import { BetDataType } from 'src/app/model/enum/bet-data-type';
+import { ResultService } from 'src/app/service/result.service';
+import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-bet',
@@ -15,14 +18,18 @@ import { BetDataType } from 'src/app/model/enum/bet-data-type';
 })
 export class BetComponent implements OnInit {
 
+  isAdmin = false
   private betId: string | null | undefined;
   bet: Bet | undefined;
 
   constructor(private activatedRoute: ActivatedRoute, 
               private betService: BetService, 
-              public dialog: MatDialog ) { }
+              public dialog: MatDialog,
+              private resultService: ResultService,
+              private userService: UserService ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.userService.isAdmin()
     this.betId = this.activatedRoute.snapshot.paramMap.get("id");
     this.betService.getBet(this.betId).subscribe({      
       next: (data) => {this.bet = data
@@ -80,6 +87,18 @@ export class BetComponent implements OnInit {
         this.betService.saveBetItem(betItem).subscribe(betItem => console.log(betItem));
       }
     });
+  }
+
+  updateQualifyingResult() {
+    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.QUALIFYING).subscribe({});
+  }
+
+  updateRaceResult() {
+    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.RACE).subscribe({});
+  }
+
+  updateChampionshipResult() {
+    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.CONSTRUCTOR).subscribe({});
   }
 
 }

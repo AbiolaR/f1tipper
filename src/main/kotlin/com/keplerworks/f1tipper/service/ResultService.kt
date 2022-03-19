@@ -25,6 +25,16 @@ class ResultService @Autowired constructor(
         return resultRepo.findResultByRaceIdAndType(raceId, betItemType.value).orElse(null)
     }
 
+    fun syncResults(raceId: Long, type: BetItemType): Boolean {
+        when(type) {
+            BetItemType.RACE -> syncRaceResults(raceId)
+            BetItemType.QUALIFYING -> syncQualifyingResult(raceId)
+            BetItemType.DNF -> {}
+            else -> {}
+        }
+        return true
+    }
+
     fun syncRaceResults(raceId: Long): Boolean {
         val race = raceService.getRace(raceId)
         getRaceResult(race)
@@ -38,6 +48,10 @@ class ResultService @Autowired constructor(
 
         return true
     }
+
+
+
+
 
 
     private fun getRaceResult(race: Race) {

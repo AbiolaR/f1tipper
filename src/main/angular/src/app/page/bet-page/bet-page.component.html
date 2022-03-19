@@ -1,5 +1,5 @@
 <section>
-    <mat-select  [(ngModel)]="selectedLeague" *ngIf="selectedLeague">
+    <mat-select  [(ngModel)]="selectedLeague" (ngModelChange)="onSelectedLeagueChange($event)" *ngIf="selectedLeague">
         <mat-option *ngFor="let league of leagues" [value]=league>
             {{league.name}}
         </mat-option>

@@ -4,6 +4,7 @@ import com.keplerworks.f1tipper.dto.*
 import com.keplerworks.f1tipper.exception.AccessForbiddenException
 import com.keplerworks.f1tipper.exception.BetItemStillOpenException
 import com.keplerworks.f1tipper.exception.BetNotFoundException
+import com.keplerworks.f1tipper.helper.Calculator
 import com.keplerworks.f1tipper.model.*
 import com.keplerworks.f1tipper.repository.BetItemRepository
 import com.keplerworks.f1tipper.repository.BetRepository
@@ -22,7 +23,7 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                                         private val raceService: RaceService,
                                         private val positionService: PositionService,
                                         private val betSubjectService: BetSubjectService,
-                                        //private val driverService: DriverService,
+                                        private val calculator: Calculator,
                                         private val userService: FormulaUserService,
                                         private val resultService: ResultService) {
 
@@ -61,7 +62,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                             race.name,
                             race.flagImgUrl,
                             summarizeBetPoints(it.betItems),
-                            getDateRange(race)
+                            getDateRange(race),
+                            race.id
                         )
                     )
                     BetType.CHAMPIONSHIP -> betDTOs.add(
@@ -72,7 +74,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                             "Formula 1 2022 Championship",
                             "",
                             summarizeBetPoints(it.betItems),
-                            ""
+                            "",
+                            race.id
                         )
                     )
                 }
@@ -84,6 +87,11 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
 
     fun getBetsByLeague(userId: Long, leagueId: Long): MutableList<Bet> {
         return betRepo.findAllBetByUserIdAndLeagueId(userId, leagueId)
+    }
+
+    fun getBetItemsByRace(raceId: Long, type: BetItemType): List<BetItem> {
+        val bets = betRepo.findAllBetByRaceId(raceId)
+        return bets.flatMap { bet -> bet.betItems.filter { betItem -> betItem.type == type.value } }
     }
 
     fun getBet(betId: Long, username: String): BetDTO {
@@ -102,7 +110,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                 race.name,
                 race.flagImgUrl,
                 summarizeBetPoints(bet.betItems),
-                getDateRange(race))
+                getDateRange(race),
+                race.id)
             BetType.CHAMPIONSHIP -> BetDTO(
                 betId,
                 bet.type,
@@ -110,7 +119,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                 "Formula 1 2022 Championship",
                 "",
                 summarizeBetPoints(bet.betItems),
-                getDateRange(race))
+                getDateRange(race),
+                race.id)
         }
 
     }
@@ -219,5 +229,16 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
         positionService.savePositions(betItemDTO.positions.toPositions(betItemId))
 
         return getBetItemDTO(betItemDTO.betId, BetItemType.enumOf(betItemDTO.type))
+    }
+
+
+    fun calculatePoints(raceId: Long, type: BetItemType) {
+        val betItems = getBetItemsByRace(raceId, type)
+
+        betItems.forEach { betItem ->
+            betItem.points =  calculator.calculatePoints(raceId, betItem)
+        }
+
+        betItemRepo.saveAll(betItems)
     }
 }

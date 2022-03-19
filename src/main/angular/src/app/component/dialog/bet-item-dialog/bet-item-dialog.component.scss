@@ -2,6 +2,11 @@
     text-align: center;
 }
 
+mat-spinner {
+    margin-left: 50%;
+    transform: translate(-50%);
+}
+
 button {
     touch-action: pan-y !important;
     border-radius: 0;

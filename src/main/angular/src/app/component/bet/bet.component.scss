@@ -57,10 +57,18 @@ img {
     vertical-align: middle;
 }
 
+.admin-control{
+    justify-content: center;
+    margin-top: 40px;
+    display: flex;
+    
+    button {
+        width: calc(40% - 30px);
+        min-width: fit-content;
+        padding: 5;
+        margin: 10px;
+        background-color: #806b33;
+        color: #303030;
+    }
+}
 
-
-/*section {
-    text-align: center;
-    align-items: center;
-    align-content: center;
-}*/

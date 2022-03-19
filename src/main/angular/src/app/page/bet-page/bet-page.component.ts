@@ -60,17 +60,21 @@ export class BetPageComponent implements OnInit {
   }
 
   private getLeague(leagues: League[]): League {
-    const locallySelectedLeague = this.leagueService.getLocalSelectedLeague
-    if (!locallySelectedLeague) {
-      if (leagues.includes(locallySelectedLeague)) {
-        return locallySelectedLeague
+    const locallySelectedLeague = this.leagueService.getLocalSelectedLeague()
+    if (locallySelectedLeague) {
+      for(let league of leagues) {
+        if (league.name == locallySelectedLeague.name ) {
+          return league
+        }
       }
     }
     return leagues[0]
   }
 
-  onSelectedLeagueChange() {
-    this.getBets()
+  onSelectedLeagueChange(league: League) {
+    this.leagueService.saveLocalSelectedLeague(league)
+    this.selectedLeague = league
+    console.log(this.selectedLeague)
   }
 
 }

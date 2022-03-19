@@ -1,6 +1,6 @@
 <mat-dialog-content>
+    <mat-spinner *ngIf="!betItem" color="primary"></mat-spinner>
     <div *ngIf="betItemOpen">
-        <mat-spinner *ngIf="!betItem" color="primary"></mat-spinner>
         <div class="positions" *ngIf="betItem">
             <button mat-flat-button *ngFor="let position of betItem.positions; let index = index" 
             [color]="(position.betSubject.name) ? 'accent' : 'primary'" 
