@@ -34,16 +34,20 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
 
     override fun syncRaceResults(raceId: Long): Boolean {
         val race = raceService.getRace(raceId)
-        val rapidRaceResult = getRapidResult(race, RapidSessionType.RACE)
-        val rapidFastestLapResult = getRapidResult(race, RapidSessionType.FASTESTLAP)
-        val fastestDriver = rapidFastestLapResult.results.drivers[0].name
+        try {
+            val rapidRaceResult = getRapidResult(race, RapidSessionType.RACE)
+            val rapidFastestLapResult = getRapidResult(race, RapidSessionType.FASTESTLAP)
+            val fastestDriver = rapidFastestLapResult.results.drivers[0].name
 
-        val raceResult = resultService.getResultOrEmpty(raceId, BetItemType.RACE)
-        syncResult(raceResult, rapidRaceResult, fastestDriver)
+            val raceResult = resultService.getResultOrEmpty(raceId, BetItemType.RACE)
+            syncResult(raceResult, rapidRaceResult, fastestDriver)
 
-        val dnfResult = resultService.getResultOrEmpty(raceId, BetItemType.DNF)
-        syncResult(dnfResult, rapidRaceResult, "")
-
+            val dnfResult = resultService.getResultOrEmpty(raceId, BetItemType.DNF)
+            syncResult(dnfResult, rapidRaceResult, "")
+        } catch (exc: Exception) {
+            logger.error { exc }
+            return false
+        }
         return true
     }
 
