@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start-pwa": "ng build && http-server -p 4200 -S -C ../ssl/cert.pem -K ../ssl/key.pem -c-1 dist/f1tipper-frontend",
+    "start-pwa": "ng serve --host 0.0.0.0 --disable-host-check",
     "start-pwa-http": "ng build && http-server -p 4200 -c-1 dist/f1tipper-frontend"
   },
   "private": true,

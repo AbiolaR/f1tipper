@@ -38,7 +38,7 @@ export class LeagueOverviewComponent implements OnInit {
   }
 
   keyDescOrder = (a: KeyValue<number,string>, b: KeyValue<number,string>): number => {
-    return a.key > b.key ? -1 : (b.key > a.key ? 1 : 0);
+    return +a.key > +b.key ? -1 : (+b.key > +a.key ? 1 : 0);
   }
 
 }
