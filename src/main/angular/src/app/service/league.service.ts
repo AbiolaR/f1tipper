@@ -15,9 +15,14 @@ export class LeagueService {
 
   constructor(private http: HttpClient, private userService: UserService) { }
 
-  public getLeagueOverview(leagueId: number): Observable<LeagueOverview> {
+  public getLeagueStandings(leagueId: number): Observable<LeagueOverview> {
     const headers = this.userService.getAuthHeader();
-    return this.http.get<LeagueOverview>(`${this.apiUrl}/${leagueId}`, { headers })
+    return this.http.get<LeagueOverview>(`${this.apiUrl}/${leagueId}/standings`, { headers })
+  }
+
+  public getLeagueStatistics(leagueId: number): Observable<Map<String, String>> {
+    const headers = this.userService.getAuthHeader();
+    return this.http.get<Map<String, String>>(`${this.apiUrl}/${leagueId}/statistics`, { headers })
   }
 
   public joinLeague(leagueName: string): Observable<boolean> {

@@ -13,7 +13,7 @@ export class LeagueOverviewComponent implements OnInit {
   @Input()
   leagueId: number = 0
 
-
+  leagueStatistics: Map<String, String> = new Map()
 
   leagueOverview: LeagueOverview | undefined
 
@@ -21,18 +21,30 @@ export class LeagueOverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLeagueOverview()
+    this.getLeagueStatistics()
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.getLeagueOverview()
+    this.getLeagueStatistics()
   }
 
   getLeagueOverview() {
     if (this.leagueId) {
-      this.leagueService.getLeagueOverview(this.leagueId).subscribe({
+      this.leagueService.getLeagueStandings(this.leagueId).subscribe({
         next: (data) => {
           this.leagueOverview = data;
-          console.log(this.leagueOverview)
+        }
+      });
+    }
+  }
+
+  getLeagueStatistics() {
+    if (this.leagueId) {
+      this.leagueService.getLeagueStatistics(this.leagueId).subscribe({
+        next: (data) => {
+          this.leagueStatistics = data;
+          console.log(this.leagueStatistics)
         }
       });
     }

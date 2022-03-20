@@ -13,9 +13,14 @@ import javax.servlet.http.HttpServletRequest
 @RequestMapping("/api/league")
 class LeagueController @Autowired constructor(private val service: LeagueService) {
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/standings")
     fun getStandings(@PathVariable id: Long, request: HttpServletRequest): LeagueStandingsDTO {
         return service.getLeagueStandings(id, request.userPrincipal.name)
+    }
+
+    @GetMapping("/{id}/statistics")
+    fun getStatistics(@PathVariable id: Long, request: HttpServletRequest) : MutableMap<String, String> {
+        return service.getLeagueStatistics(id, request.userPrincipal.name)
     }
 
     @GetMapping("/join/{league}")

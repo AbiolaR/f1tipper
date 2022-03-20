@@ -11,17 +11,10 @@
     <mat-card *ngIf="leagueOverview">
         <mat-card-title>Statistics</mat-card-title>
         <mat-card-content>
-            <p>
-                ________&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;________
-            </p>
-            <p>
-                ________&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;________
-            </p>
-            <p>
-                ________&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;________
-            </p>
-            <p>
-                ________&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;&nbsp;&nbsp;&nbsp;________
+            <p *ngFor="let statistic of leagueStatistics | keyvalue">
+                <span *ngIf="statistic.value">
+                    Best at {{statistic.key}}: {{statistic.value}}
+                </span>
             </p>
         </mat-card-content>
     </mat-card>
