@@ -37,10 +37,10 @@ class LeagueService(@Autowired
             bets.forEach { bet -> bet.betItems.forEach { betItem ->
                 totalPoints += betItem.points
             } }
-            leagueStandingsDTO.users[totalPoints] = it.username
+            leagueStandingsDTO.users[it.username] = totalPoints
         }
 
-        leagueStandingsDTO.users.toList().sortedByDescending { it.first }.toMap().toMutableMap()
+        leagueStandingsDTO.users.toList().sortedByDescending { it.second }.toMap().toMutableMap()
 
         return leagueStandingsDTO
     }

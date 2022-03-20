@@ -32,13 +32,14 @@ export class LeagueOverviewComponent implements OnInit {
       this.leagueService.getLeagueOverview(this.leagueId).subscribe({
         next: (data) => {
           this.leagueOverview = data;
+          console.log(this.leagueOverview)
         }
       });
     }
   }
 
-  keyDescOrder = (a: KeyValue<number,string>, b: KeyValue<number,string>): number => {
-    return +a.key > +b.key ? -1 : (+b.key > +a.key ? 1 : 0);
+  valueDescOrder = (a: KeyValue<string,number>, b: KeyValue<string,number>): number => {
+    return +a.value > +b.value ? -1 : (+b.value > +a.value ? 1 : 0);
   }
 
 }

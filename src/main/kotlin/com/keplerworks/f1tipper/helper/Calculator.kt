@@ -36,12 +36,12 @@ class Calculator @Autowired constructor(private val resultService: ResultService
 
         resultPositions.forEach { resultPosition ->
             val betItemPosition = betItemPositions.firstOrNull {
-                resultPosition.position == it.position
+                resultPosition.betSubjectId == it.betSubjectId
             } ?: return@forEach
 
-            if (resultPosition.betSubjectId != betItemPosition.betSubjectId) {
+            /*if (resultPosition.betSubjectId != betItemPosition.betSubjectId) {
                 return@forEach
-            }
+            }*/
 
             if(resultPosition.fastestLap && betItemPosition.fastestLap) {
                 points += FASTEST_LAP_POINTS
