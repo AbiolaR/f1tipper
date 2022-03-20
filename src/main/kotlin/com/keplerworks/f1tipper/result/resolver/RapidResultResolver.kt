@@ -37,7 +37,7 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
         try {
             val rapidRaceResult = getRapidResult(race, RapidSessionType.RACE)
             val rapidFastestLapResult = getRapidResult(race, RapidSessionType.FASTESTLAP)
-            val fastestDriver = rapidFastestLapResult.results.drivers[0].name
+            val fastestDriver = rapidFastestLapResult.results.drivers.getOrNull(0)?.name ?: ""
 
             val raceResult = resultService.getResultOrEmpty(raceId, BetItemType.RACE)
             syncResult(raceResult, rapidRaceResult, fastestDriver)

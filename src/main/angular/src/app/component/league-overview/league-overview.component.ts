@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { LeagueOverview } from 'src/app/model/league-overview';
 import { LeagueService } from 'src/app/service/league.service';
@@ -36,8 +37,8 @@ export class LeagueOverviewComponent implements OnInit {
     }
   }
 
-  keepOrder() {
-    return 1;
+  keyDescOrder = (a: KeyValue<number,string>, b: KeyValue<number,string>): number => {
+    return a.key > b.key ? -1 : (b.key > a.key ? 1 : 0);
   }
 
 }

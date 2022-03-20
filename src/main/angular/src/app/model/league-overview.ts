@@ -1,3 +1,3 @@
 export interface LeagueOverview {
-    users: Map<string, number>
+    users: Map<number, string>
 }

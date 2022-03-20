@@ -2,8 +2,8 @@
     <mat-card *ngIf="leagueOverview" class="leaderboard">
         <mat-card-title>Leaderboard</mat-card-title>
         <mat-card-content>
-            <p *ngFor="let user of leagueOverview.users | keyvalue: keepOrder">
-                {{user.key}} - {{user.value}} Points
+            <p *ngFor="let user of leagueOverview.users | keyvalue: keyDescOrder">
+                {{user.value}} - {{user.key}} Points
             </p>
         </mat-card-content>
     </mat-card>
