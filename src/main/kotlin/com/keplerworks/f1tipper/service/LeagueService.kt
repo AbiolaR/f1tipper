@@ -98,7 +98,12 @@ class LeagueService(@Autowired
         }
 
         enumValues<BetItemType>().forEach { betItemType ->
-            statistics[betItemType.value] = betItemMap[betItemType.value]!!.maxByOrNull { it.value }?.key ?: ""
+            val stat = betItemMap[betItemType.value]!!.maxByOrNull { it.value }
+            statistics[betItemType.value] = if (stat?.value == 0) {
+                ""
+            } else {
+                stat?.key ?: ""
+            }
         }
 
         return statistics
