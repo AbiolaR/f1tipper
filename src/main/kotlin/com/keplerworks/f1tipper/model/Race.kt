@@ -1,6 +1,6 @@
 package com.keplerworks.f1tipper.model
 
-import java.util.Date
+import java.util.*
 import javax.persistence.Entity
 import javax.persistence.Id
 
@@ -13,5 +13,6 @@ class Race(
     val title: String,
     val flagImgUrl: String,
     val raceStartDatetime: Date,
-    val qualiStartDatetime: Date
+    val qualiStartDatetime: Date,
+    val country: String
 )

@@ -10,6 +10,7 @@ import { BetDataType } from 'src/app/model/enum/bet-data-type';
 import { ResultService } from 'src/app/service/result.service';
 import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
 import { UserService } from 'src/app/service/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-bet',
@@ -26,7 +27,8 @@ export class BetComponent implements OnInit {
               private betService: BetService, 
               public dialog: MatDialog,
               private resultService: ResultService,
-              private userService: UserService ) { }
+              private userService: UserService,
+              private snackBar: MatSnackBar ) { }
 
   ngOnInit(): void {
     this.isAdmin = this.userService.isAdmin()
@@ -90,15 +92,29 @@ export class BetComponent implements OnInit {
   }
 
   updateQualifyingResult() {
-    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.QUALIFYING).subscribe({});
+    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.QUALIFYING).subscribe(result => {
+      this.handleSyncResult(result);
+    });
   }
 
   updateRaceResult() {
-    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.RACE).subscribe({});
+    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.RACE).subscribe(result => {
+      this.handleSyncResult(result);
+    });
   }
 
   updateChampionshipResult() {
-    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.CONSTRUCTOR).subscribe({});
+    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.CONSTRUCTOR).subscribe(result => {
+      this.handleSyncResult(result);
+    });
+  }
+
+  handleSyncResult(result: boolean) {
+    let message = 'no results to sync'
+    if (result) {
+      message = 'sync was successful'
+    }
+    this.snackBar.open(message, '', {duration: 2500, verticalPosition: 'bottom'})
   }
 
 }

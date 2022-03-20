@@ -31,6 +31,11 @@ p {
     grid-column-start: 2;
 }
 
+.fastest-lap {
+    font-weight: bold;
+    color: purple;
+}
+
 mat-spinner {
     margin-left: 50%;
     transform: translate(-50%);

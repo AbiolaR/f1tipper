@@ -19,7 +19,7 @@ interface ErgastClient {
     fun getQualifyingResult(@Path("round") round: Int): CompletableFuture<ErgastResult>
 
     companion object {
-        private const val YEAR = 2021
+        private const val YEAR = 2022
         private const val BASE_URL = "http://ergast.com/api/f1/${YEAR}/"
 
         fun create(): ErgastClient {

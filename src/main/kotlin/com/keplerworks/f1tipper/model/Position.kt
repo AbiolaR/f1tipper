@@ -11,8 +11,6 @@ class Position (
     val betSubjectId: Long = 0,
     @Type(type = "org.hibernate.type.NumericBooleanType")
     val fastestLap: Boolean = false,
-    //val driverId: Long = 0,
-    //val constructorId: Long = 0,
     val position: Int = 0,
     val betItemId: Long? = null,
     @ManyToOne

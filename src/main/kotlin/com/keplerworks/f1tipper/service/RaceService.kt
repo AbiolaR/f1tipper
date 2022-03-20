@@ -12,6 +12,10 @@ class RaceService @Autowired constructor(private val raceRepo: RaceRepository) {
         return raceRepo.findRaceById(raceId).orElseThrow{RaceNotFoundException("")}
     }
 
+    fun getRace(title: String): Race {
+        return raceRepo.findRaceByTitle(title).orElseThrow{RaceNotFoundException("")}
+    }
+
     fun getAllRaces(): List<Race> {
         return raceRepo.findAll().sortedBy { it.round }
     }

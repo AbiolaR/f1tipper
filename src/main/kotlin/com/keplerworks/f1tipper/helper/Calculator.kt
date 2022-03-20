@@ -43,6 +43,10 @@ class Calculator @Autowired constructor(private val resultService: ResultService
                 return@forEach
             }
 
+            if(resultPosition.fastestLap && betItemPosition.fastestLap) {
+                points += FASTEST_LAP_POINTS
+            }
+
             if (resultPosition.position == betItemPosition.position) {
                 points += if (resultPosition.position == 1) {
                     betItemType.winPoints
@@ -70,5 +74,9 @@ class Calculator @Autowired constructor(private val resultService: ResultService
         }
 
         return points
+    }
+
+    companion object {
+        private const val FASTEST_LAP_POINTS = 5
     }
 }

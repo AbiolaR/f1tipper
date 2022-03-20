@@ -40,7 +40,7 @@ class LeagueService(@Autowired
             leagueStandingsDTO.users[it.username] = totalPoints
         }
 
-        leagueStandingsDTO.users.toList().sortedByDescending { it.second }.toMap()
+        leagueStandingsDTO.users = leagueStandingsDTO.users.toList().sortedByDescending { it.second }.toMap().toMutableMap()
 
         return leagueStandingsDTO
     }

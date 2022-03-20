@@ -17,8 +17,12 @@
         <section *ngIf="betItemData.type != 'dnf'">
             <section *ngFor="let betItemResult of betResult.betItemResultPositions" class="betItemResult">
                 <span class="position">P{{betItemResult.resultPosition.position || betItemResult.betItemPosition.position}}</span>
-                <span class="bet">{{betItemResult.betItemPosition.betSubject.name || 'empty'}}</span>
-                <span class="result">{{betItemResult.resultPosition.betSubject.name || 'no result yet'}}</span>
+                <span [ngClass]="{'fastest-lap': betItemResult.betItemPosition.fastestLap}" class="bet">
+                    {{betItemResult.betItemPosition.betSubject.name || 'empty'}}
+                </span>
+                <span [ngClass]="{'fastest-lap': betItemResult.betItemPosition.fastestLap}" class="result">
+                    {{betItemResult.resultPosition.betSubject.name || 'no result yet'}}
+                </span>
             </section>
         </section>
     </section>

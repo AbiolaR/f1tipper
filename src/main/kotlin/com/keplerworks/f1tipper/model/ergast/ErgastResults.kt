@@ -3,7 +3,7 @@ package com.keplerworks.f1tipper.model.ergast
 import com.google.gson.annotations.SerializedName
 
 
-data class Results (
+data class ErgastResults (
 
     @SerializedName("number"       ) var number       : String?         = null,
     @SerializedName("position"     ) var position     : String?         = null,

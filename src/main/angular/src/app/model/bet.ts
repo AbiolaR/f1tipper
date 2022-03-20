@@ -7,4 +7,5 @@ export interface Bet {
     points: number;
     dateRange: string;
     raceId: number;
+    country: number;
 }
