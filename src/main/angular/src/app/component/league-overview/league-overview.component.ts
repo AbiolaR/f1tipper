@@ -12,7 +12,7 @@ export class LeagueOverviewComponent implements OnInit {
   @Input()
   leagueId: number = 0
 
-  
+
 
   leagueOverview: LeagueOverview | undefined
 
@@ -30,16 +30,14 @@ export class LeagueOverviewComponent implements OnInit {
     if (this.leagueId) {
       this.leagueService.getLeagueOverview(this.leagueId).subscribe({
         next: (data) => {
-          /*let map = new Map();
-          Object.keys(data.users).forEach((key, value) => {
-              map.set(key, value);
-            }
-          );
-          this.leagueOverview.users = map;*/
           this.leagueOverview = data;
-        }    
+        }
       });
     }
+  }
+
+  keepOrder() {
+    return 1;
   }
 
 }

@@ -20,7 +20,7 @@
                 <span [ngClass]="{'fastest-lap': betItemResult.betItemPosition.fastestLap}" class="bet">
                     {{betItemResult.betItemPosition.betSubject.name || 'empty'}}
                 </span>
-                <span [ngClass]="{'fastest-lap': betItemResult.betItemPosition.fastestLap}" class="result">
+                <span [ngClass]="{'fastest-lap': betItemResult.resultPosition.fastestLap}" class="result">
                     {{betItemResult.resultPosition.betSubject.name || 'no result yet'}}
                 </span>
             </section>
