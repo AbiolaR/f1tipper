@@ -13,3 +13,5 @@ class BetItemStillOpenException(message: String = "BetItem is still open") : Run
 class BetSubjectNotFoundException() : RuntimeException()
 
 class ResultNotFoundException(message: String = "No Result matching the BetItem could be found") : RuntimeException(message)
+
+class RapidSessionNotFound(message: String = "No RapidSession could be found") : RuntimeException(message)

@@ -2,15 +2,15 @@ package com.keplerworks.f1tipper.model.rapid
 
 import com.google.gson.annotations.SerializedName
 
-data class RapidResult (
+data class RapidSessionResult (
 
     @SerializedName("results" ) var results : Results = Results()
 
 ) {
     data class Results (
-        @SerializedName("drivers" ) var drivers : ArrayList<Drivers> = arrayListOf(),
+        @SerializedName("drivers" ) var drivers : ArrayList<Driver> = arrayListOf(),
     ) {
-        data class Drivers (
+        data class Driver (
 
             @SerializedName("id"            ) var id           : Int = 0,
             @SerializedName("name"          ) var name         : String = "",

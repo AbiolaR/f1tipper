@@ -1,7 +1,8 @@
 package com.keplerworks.f1tipper.client
 
-import com.keplerworks.f1tipper.model.rapid.RapidRaces
-import com.keplerworks.f1tipper.model.rapid.RapidResult
+import com.keplerworks.f1tipper.model.rapid.RapidConstructorResult
+import com.keplerworks.f1tipper.model.rapid.RapidRacesResult
+import com.keplerworks.f1tipper.model.rapid.RapidSessionResult
 import org.springframework.stereotype.Service
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,12 +19,16 @@ interface RapidClient {
 
     @GET("races/${YEAR}")
     @Headers("x-rapidapi-host: $apiHost")
-    fun getAllRaces(@Header("x-rapidapi-key") apiKey: String): CompletableFuture<RapidRaces>
+    fun getAllRaces(@Header("x-rapidapi-key") apiKey: String): CompletableFuture<RapidRacesResult>
 
 
     @GET("session/{sessionId}")
     @Headers("x-rapidapi-host: $apiHost")
-    fun getSession(@Path("sessionId") sessionId: Long, @Header("x-rapidapi-key") apiKey: String): CompletableFuture<RapidResult>
+    fun getSession(@Path("sessionId") sessionId: Long, @Header("x-rapidapi-key") apiKey: String): CompletableFuture<RapidSessionResult>
+
+    @GET("constructors/standings/$YEAR")
+    @Headers("x-rapidapi-host: $apiHost")
+    fun getConstructorStandings(@Header("x-rapidapi-key") apiKey: String): CompletableFuture<RapidConstructorResult>
 
     companion object {
         private const val apiHost = "f1-live-motorsport-data.p.rapidapi.com"

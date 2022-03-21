@@ -18,23 +18,7 @@ class Position (
 ) {
     companion object {
         fun Int.toPositionGroup(): List<Int> {
-            val groups = listOf(
-                listOf(1,2,3),
-                listOf(4,5,6),
-                listOf(7,8,9),
-                listOf(10,11,12),
-                listOf(13,14,15),
-                listOf(16,17,18),
-                listOf(19,20)
-            )
-
-            groups.forEach { group ->
-                if (group.contains(this)) {
-                    return group
-                }
-            }
-
-            throw Exception("Invalid position number") // TODO custom exception
+            return listOf(this - 1, this, this + 1)
         }
     }
 }

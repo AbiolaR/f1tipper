@@ -1,12 +1,11 @@
 package com.keplerworks.f1tipper.result.resolver
 
 import com.keplerworks.f1tipper.client.RapidClient
+import com.keplerworks.f1tipper.exception.RapidSessionNotFound
 import com.keplerworks.f1tipper.model.Position
-import com.keplerworks.f1tipper.model.Race
 import com.keplerworks.f1tipper.model.Result
 import com.keplerworks.f1tipper.model.entity.RapidSession
-import com.keplerworks.f1tipper.model.rapid.RapidResult
-import com.keplerworks.f1tipper.model.rapid.Session
+import com.keplerworks.f1tipper.model.rapid.RapidSessionResult
 import com.keplerworks.f1tipper.repository.RapidSessionRepository
 import com.keplerworks.f1tipper.service.BetSubjectService
 import com.keplerworks.f1tipper.service.PositionService
@@ -33,10 +32,9 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
     private val client = RapidClient.create()
 
     override fun syncRaceResults(raceId: Long): Boolean {
-        val race = raceService.getRace(raceId)
         try {
-            val rapidRaceResult = getRapidResult(race, RapidSessionType.RACE)
-            val rapidFastestLapResult = getRapidResult(race, RapidSessionType.FASTESTLAP)
+            val rapidRaceResult = getRapidResult(raceId, RapidSessionType.RACE)
+            val rapidFastestLapResult = getRapidResult(raceId, RapidSessionType.FASTESTLAP)
             val fastestDriver = rapidFastestLapResult.results.drivers.getOrNull(0)?.name ?: ""
 
             val raceResult = resultService.getResultOrEmpty(raceId, BetItemType.RACE)
@@ -62,13 +60,16 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
         TODO("Not yet implemented")
     }
 
-    private fun getRapidResult(race: Race, type: RapidSessionType): RapidResult {
-        val rapidSession = rapidSessionRepo.findByRaceIdAndType(race.id, type)
-            .orElseThrow { Exception("not found") }
+    private fun getRapidResult(raceId: Long, type: RapidSessionType): RapidSessionResult {
+        val rapidSession = rapidSessionRepo.findByRaceIdAndType(raceId, type)
+            .orElseThrow {
+                logger.error { "No RapidSession found using race id: $raceId" }
+                RapidSessionNotFound()
+            }
         return client.getSession(rapidSession.id, apiKey).get()
     }
 
-    private fun syncResult(result: Result, rapidRaceResult: RapidResult, fastestDriver: String) {
+    private fun syncResult(result: Result, rapidRaceResult: RapidSessionResult, fastestDriver: String) {
         val positions = positionService.getResultPositions(result.id)
         val resultPositions: MutableList<Position> = mutableListOf()
         rapidRaceResult.results.drivers.forEach{ driver ->
@@ -90,13 +91,13 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
 
     fun initData() {
         val response = client.getAllRaces(apiKey)
-        val rapidRaces = response.get()
+        val rapidRacesResult = response.get()
         val sessions: MutableList<RapidSession> = mutableListOf()
-        rapidRaces.results.forEach { rapidRace ->
-            if (rapidRace.status == "Confirmed" && rapidRace.name.contains("Grand Prix")) {
+        rapidRacesResult.races.forEach { rapidRace ->
+            if (rapidRace.status == CONFIRMED && rapidRace.name.contains(GRAND_PRIX)) {
                 val race = raceService.getRace(rapidRace.name)
 
-                val sessionMap : Map<RapidSessionType, Session> = rapidRace.sessions.associateBy { session ->
+                val sessionMap = rapidRace.sessions.associateBy { session ->
                     try {
                         RapidSessionType.enumOf(session.sessionName)
                     } catch (exc: Exception) {
@@ -114,6 +115,9 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
         rapidSessionRepo.saveAll(sessions)
     }
 
-
+    companion object {
+        private const val CONFIRMED = "Confirmed"
+        private const val GRAND_PRIX = "Grand Prix"
+    }
 
 }
