@@ -47,15 +47,14 @@ export class BetPageComponent implements OnInit {
               this.getLeagues()
             }
           });
-        }
-        this.app.isLoading = false;
+        }        
       }
     })
   }
 
   private getBets() {
     this.betService.getBets(this.selectedLeague?.id).subscribe({
-      next: (data) => { this.bets = data; console.log(this.bets) }
+      next: (data) => { this.bets = data; this.app.isLoading = false; }
     })
   }
 
