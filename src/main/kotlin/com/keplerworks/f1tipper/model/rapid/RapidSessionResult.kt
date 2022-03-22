@@ -6,7 +6,7 @@ data class RapidSessionResult (
 
     @SerializedName("results" ) var results : Results = Results()
 
-) {
+) : RapidBetSubjectResult {
     data class Results (
         @SerializedName("drivers" ) var drivers : ArrayList<Driver> = arrayListOf(),
     ) {

@@ -11,8 +11,6 @@ class Bet(
     @ManyToOne
     val race: Race,
     val userId: Long = 0,
-    //@ManyToOne
-    //val league: League = League(name = ""),
     val leagueId: Long = 0,
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bet")
     val betItems: List<BetItem> = emptyList()

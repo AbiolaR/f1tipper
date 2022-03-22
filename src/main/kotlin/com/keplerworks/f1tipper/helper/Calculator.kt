@@ -50,7 +50,8 @@ class Calculator @Autowired constructor(private val resultService: ResultService
                 } else {
                     betItemType.positionPoints
                 }
-            } else if (resultPosition.position.toPositionGroup().contains(betItemPosition.position)) {
+            } else if (betItemType != BetItemType.CONSTRUCTOR
+                && resultPosition.position.toPositionGroup().contains(betItemPosition.position)) {
                 points += betItemType.positionGroupPoints
             }
         }

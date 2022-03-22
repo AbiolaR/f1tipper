@@ -29,6 +29,11 @@ button {
     height: 2.5em;
 }
 
+.mat-button-disabled {
+    background-color: transparent !important;
+    color: var(--primaryColor) !important;
+}
+
 h1 {
     position: relative;
 }
@@ -53,7 +58,6 @@ img {
 
     border-radius: 5px;
 
-//    float: right;
     vertical-align: middle;
 }
 
@@ -72,3 +76,22 @@ img {
     }
 }
 
+.background {
+    z-index: -500;
+    margin:  0;
+    max-height: inherit;
+    max-width: 100vw;
+    position: absolute;
+    filter: brightness(0%) invert(100%) opacity(12%);
+}
+
+#bet-page {    
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--navBarHeight));
+}
+
+#bet-content {
+    flex: 1;
+    position: relative;
+}

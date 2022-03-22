@@ -1,11 +1,13 @@
-<section *ngIf="bet">
-    
-    <img src={{bet.flagImageUrl}}/>
-    <h1>{{bet.country}}
-    </h1>
-    <h4>{{bet.name}}</h4>
-    <h3>{{bet.dateRange}}</h3>
-    <hr/>
+<section *ngIf="bet" id="bet-page">
+    <header id="bet-header">
+        <img src={{bet.flagImageUrl}}/>
+        <h1>{{bet.country}}
+        </h1>
+        <h4>{{bet.name}}</h4>
+        <h3>{{bet.dateRange}}</h3>
+        <hr/>
+    </header>
+    <section id="bet-content">
     <section [ngSwitch]=bet.type>
         <section *ngSwitchCase="'championship'">
             <button mat-flat-button color="primary" (click)="openDriverDialog()">
@@ -32,10 +34,12 @@
             </button>
         </section>
     </section>
-    <button mat-flat-button disabled>{{bet.points}} Points</button>
+    <button mat-flat-button disabled class="disabled">{{bet.points}} Points</button>
     <section class="admin-control" *ngIf="isAdmin" [ngSwitch]="bet.type">
         <button mat-flat-button *ngSwitchCase="'championship'" (click)="updateChampionshipResult()">Championship</button>
         <button mat-flat-button *ngSwitchDefault="" (click)="updateQualifyingResult()">Qualifying</button>
         <button mat-flat-button *ngSwitchDefault="" (click)="updateRaceResult()">Race</button>
     </section>
+    <img class="background" *ngIf="bet.trackSvg" src="/assets/track-svgs/{{bet.trackSvg}}">
+</section>
 </section>

@@ -1,6 +1,5 @@
 package com.keplerworks.f1tipper.controller
 
-import com.keplerworks.f1tipper.result.resolver.ErgastResultResolver
 import com.keplerworks.f1tipper.result.resolver.RapidResultResolver
 import com.keplerworks.f1tipper.service.BetService
 import com.keplerworks.f1tipper.type.BetItemType
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 @RequestMapping("/api/result")
 class ResultController (private val betService: BetService,
-                        private val ergastResultResolver: ErgastResultResolver,
                         private val rapidResultResolver: RapidResultResolver) {
 
     @GetMapping("{raceId}/{type}/update")
@@ -33,9 +31,9 @@ class ResultController (private val betService: BetService,
 
     private fun syncResults(raceId: Long, type: BetItemType): Boolean {
         return when(type) {
-            BetItemType.RACE -> rapidResultResolver.syncRaceResults(raceId)//ergastResultResolver.syncRaceResults(raceId)
-            BetItemType.QUALIFYING -> { false } //ergastResultResolver.syncQualifyingResult(raceId)
-            BetItemType.DNF -> { false }
+            BetItemType.RACE -> rapidResultResolver.syncRaceResults(raceId)
+            BetItemType.QUALIFYING -> { rapidResultResolver.syncQualifyingResult(raceId) }
+            BetItemType.CONSTRUCTOR -> { rapidResultResolver.syncChampionshipResult(raceId) }
             else -> { false }
         }
     }

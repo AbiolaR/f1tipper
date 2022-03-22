@@ -60,8 +60,10 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                             it.type,
                             race.title,
                             race.name,
+                            evaluateStatus(BetType.enumOf(it.type), race).value,
                             race.country,
                             race.flagImgUrl,
+                            race.trackSvg,
                             summarizeBetPoints(it.betItems),
                             getDateRange(race),
                             race.id
@@ -72,7 +74,9 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                             it.id,
                             it.type,
                             "Championship",
-                            "Formula 1 2022 Championship",
+                            "",
+                            evaluateStatus(BetType.enumOf(it.type), race).value,
+                            "",
                             "",
                             "",
                             summarizeBetPoints(it.betItems),
@@ -110,8 +114,10 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                 bet.type,
                 race.title,
                 race.name,
+                evaluateStatus(BetType.enumOf(bet.type), race).value,
                 race.country,
                 race.flagImgUrl,
+                race.trackSvg,
                 summarizeBetPoints(bet.betItems),
                 getDateRange(race),
                 race.id)
@@ -119,11 +125,13 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                 betId,
                 bet.type,
                 "",
-                "Formula 1 2022 Championship",
+                "Formula 1 Championship Standings",
+                evaluateStatus(BetType.enumOf(bet.type), race).value,
                 "Championship",
                 "",
+                "",
                 summarizeBetPoints(bet.betItems),
-                getDateRange(race),
+                "2022",
                 race.id)
         }
 
@@ -190,14 +198,21 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
             )
     }
 
+    private fun evaluateStatus(betType: BetType, race: Race) : BetItemStatus {
+        return when (betType) {
+            BetType.RACE -> evaluateStatus(BetItemType.RACE, race)
+            BetType.CHAMPIONSHIP -> evaluateStatus(BetItemType.DRIVER, race)
+        }
+    }
+
     private fun evaluateStatus(betItemType: BetItemType, race: Race): BetItemStatus {
         var date = betItemType.dateTime.get(race)
-        if(betItemType.isChampionshipType()) {
+        /*if(betItemType.isChampionshipType()) {
             val calendar = Calendar.getInstance()
             calendar.time = date
             calendar.add(Calendar.HOUR, -3)
             date = calendar.time
-        }
+        }*/
         if (date.after(Date())) {
             return BetItemStatus.OPEN
         }

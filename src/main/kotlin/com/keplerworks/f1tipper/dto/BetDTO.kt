@@ -5,8 +5,10 @@ data class BetDTO(
     val type: String,
     val title: String,
     val name: String,
+    val status: String,
     val country: String,
     val flagImageUrl: String = "",
+    val trackSvg: String,
     val points: Int,
     val dateRange: String,
     val raceId: Long

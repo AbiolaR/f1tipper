@@ -5,6 +5,7 @@ import com.keplerworks.f1tipper.exception.RapidSessionNotFound
 import com.keplerworks.f1tipper.model.Position
 import com.keplerworks.f1tipper.model.Result
 import com.keplerworks.f1tipper.model.entity.RapidSession
+import com.keplerworks.f1tipper.model.rapid.RapidResult
 import com.keplerworks.f1tipper.model.rapid.RapidSessionResult
 import com.keplerworks.f1tipper.repository.RapidSessionRepository
 import com.keplerworks.f1tipper.service.BetSubjectService
@@ -33,15 +34,29 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
 
     override fun syncRaceResults(raceId: Long): Boolean {
         try {
-            val rapidRaceResult = getRapidResult(raceId, RapidSessionType.RACE)
-            val rapidFastestLapResult = getRapidResult(raceId, RapidSessionType.FASTESTLAP)
+            val rapidRaceResult = getRapidSessionResult(raceId, RapidSessionType.RACE)
+            val rapidFastestLapResult = getRapidSessionResult(raceId, RapidSessionType.FASTESTLAP)
             val fastestDriver = rapidFastestLapResult.results.drivers.getOrNull(0)?.name ?: ""
 
             val raceResult = resultService.getResultOrEmpty(raceId, BetItemType.RACE)
-            syncResult(raceResult, rapidRaceResult, fastestDriver)
+            syncResult(raceResult, rapidRaceResult.generalize(), fastestDriver)
 
             val dnfResult = resultService.getResultOrEmpty(raceId, BetItemType.DNF)
-            syncResult(dnfResult, rapidRaceResult, "")
+            syncResult(dnfResult, rapidRaceResult.generalize())
+        } catch (exc: Exception) {
+
+            return false
+        }
+        return true
+    }
+
+
+    override fun syncQualifyingResult(raceId: Long): Boolean {
+        try {
+            val rapidQualifyingResult = getRapidSessionResult(raceId, RapidSessionType.QUALIFYING)
+            rapidQualifyingResult.results.drivers.take(BetItemType.QUALIFYING.repeatNumber)
+            val qualifyingResult = resultService.getResultOrEmpty(raceId, BetItemType.QUALIFYING)
+            syncResult(qualifyingResult, rapidQualifyingResult.generalize())
         } catch (exc: Exception) {
             logger.error { exc }
             return false
@@ -49,18 +64,23 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
         return true
     }
 
-
-
-
-    override fun syncQualifyingResult(raceId: Long): Boolean {
-        TODO("Not yet implemented")
-    }
-
     override fun syncChampionshipResult(raceId: Long): Boolean {
-        TODO("Not yet implemented")
+        try {
+            val rapidConstructorStandingsResult = client.getConstructorStandings(apiKey).get()
+            val constructorStandingsResult = resultService.getResultOrEmpty(raceId, BetItemType.CONSTRUCTOR)
+            syncResult(constructorStandingsResult, rapidConstructorStandingsResult.generalize())
+
+            val rapidDriverStandingsResult = client.getDriverStandings(apiKey).get()
+            val driverStandingsResult = resultService.getResultOrEmpty(raceId, BetItemType.DRIVER)
+            syncResult(driverStandingsResult, rapidDriverStandingsResult.generalize())
+        } catch (exc: Exception) {
+            logger.error { exc }
+            return false
+        }
+        return true
     }
 
-    private fun getRapidResult(raceId: Long, type: RapidSessionType): RapidSessionResult {
+    private fun getRapidSessionResult(raceId: Long, type: RapidSessionType): RapidSessionResult {
         val rapidSession = rapidSessionRepo.findByRaceIdAndType(raceId, type)
             .orElseThrow {
                 logger.error { "No RapidSession found using race id: $raceId" }
@@ -69,17 +89,20 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
         return client.getSession(rapidSession.id, apiKey).get()
     }
 
-    private fun syncResult(result: Result, rapidRaceResult: RapidSessionResult, fastestDriver: String) {
+    private fun syncResult(result: Result, rapidResult: RapidResult, fastestDriver: String = "") {
         val positions = positionService.getResultPositions(result.id)
         val resultPositions: MutableList<Position> = mutableListOf()
-        rapidRaceResult.results.drivers.forEach{ driver ->
-            if (BetItemType.enumOf(result.type) == BetItemType.DNF && driver.retired != 1) return@forEach
+        rapidResult.betSubjects.forEach{ rapidBetSubject ->
+            val betType = BetItemType.enumOf(result.type)
+            if (betType == BetItemType.DNF && rapidBetSubject.retired != 1) return@forEach
+            val betSubject = betSubjectService.getBetSubject(rapidBetSubject.name)
+            if (betType == BetItemType.DRIVER && betSubject.flag == "R") return@forEach
             resultPositions.add(
                 Position(
-                    id = positions.find {it.position == driver.position}?.id ?: 0L,
-                    betSubjectId = betSubjectService.getBetSubject(driver.name).id,
-                    fastestLap = driver.name == fastestDriver,
-                    position = driver.position,
+                    id = positions.find {it.position == rapidBetSubject.position}?.id ?: 0L,
+                    betSubjectId = betSubject.id,
+                    fastestLap = rapidBetSubject.name == fastestDriver,
+                    position = rapidBetSubject.position,
                     result = result
                 )
             )

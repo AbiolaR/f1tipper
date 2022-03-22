@@ -12,6 +12,7 @@ class Race(
     val name: String,
     val title: String,
     val flagImgUrl: String,
+    val trackSvg: String,
     val raceStartDatetime: Date,
     val qualiStartDatetime: Date,
     val country: String
