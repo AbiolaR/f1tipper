@@ -8,7 +8,7 @@
         <span *ngIf="username">logged in as: {{username}}</span>
         <button id="logout" mat-stroked-button color="accent" routerLink="/login">logout</button>
     </div>
-
-    <app-league-overview *ngIf="selectedLeague" [leagueId]="selectedLeague.id"></app-league-overview>
+    
+    <app-league-overview [leagueId]="selectedLeague?.id"></app-league-overview>
 
 </section>

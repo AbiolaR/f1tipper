@@ -4,5 +4,6 @@ export interface Position {
     id: number,
     position: number,
     betSubject: BetSubject,
-    fastestLap: boolean
+    fastestLap: boolean,
+    points: boolean
 }

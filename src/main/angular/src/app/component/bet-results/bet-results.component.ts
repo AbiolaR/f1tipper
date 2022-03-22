@@ -29,8 +29,9 @@ export class BetResultsComponent implements OnInit {
 
   getData() {
     this.betService.getBetItemResult(this.betItemData?.betId, this.betItemData?.type).subscribe({
-      next: (betItemResult) => {
+      next: (betItemResult) => {      
         this.betResult = betItemResult;
+        console.log(this.betResult)
       }
     })
   }

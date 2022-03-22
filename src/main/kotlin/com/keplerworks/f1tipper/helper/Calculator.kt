@@ -42,6 +42,7 @@ class Calculator @Autowired constructor(private val resultService: ResultService
 
             if(resultPosition.fastestLap && betItemPosition.fastestLap) {
                 points += FASTEST_LAP_POINTS
+                betItemPosition.points = true
             }
 
             if (resultPosition.position == betItemPosition.position) {
@@ -50,9 +51,11 @@ class Calculator @Autowired constructor(private val resultService: ResultService
                 } else {
                     betItemType.positionPoints
                 }
+                betItemPosition.points = true
             } else if (betItemType != BetItemType.CONSTRUCTOR
                 && resultPosition.position.toPositionGroup().contains(betItemPosition.position)) {
                 points += betItemType.positionGroupPoints
+                betItemPosition.points = true
             }
         }
 

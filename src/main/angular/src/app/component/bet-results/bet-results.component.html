@@ -16,10 +16,11 @@
         </section>
         <section *ngIf="betItemData.type != 'dnf'">
             <section *ngFor="let betItemResult of betResult.betItemResultPositions" class="betItemResult">
-                <span class="position">P{{betItemResult.resultPosition.position || betItemResult.betItemPosition.position}}</span>
-                <span [ngClass]="{'fastest-lap': betItemResult.betItemPosition.fastestLap}" class="bet">
+                <span class="position">P{{betItemResult.resultPosition.position || betItemResult.betItemPosition.position}}</span>                
+                <div [ngClass]="{'fastest-lap': betItemResult.betItemPosition.fastestLap}" class="bet">
                     {{betItemResult.betItemPosition.betSubject.name || 'empty'}}
-                </span>
+                    <img src="/assets/svg-icons/dot.svg" *ngIf="betItemResult.betItemPosition.points" class="marker"/>
+                </div>
                 <span [ngClass]="{'fastest-lap': betItemResult.resultPosition.fastestLap}" class="result">
                     {{betItemResult.resultPosition.betSubject.name || 'no result yet'}}
                 </span>

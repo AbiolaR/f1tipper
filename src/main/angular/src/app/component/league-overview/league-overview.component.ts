@@ -11,7 +11,7 @@ import { LeagueService } from 'src/app/service/league.service';
 export class LeagueOverviewComponent implements OnInit {
 
   @Input()
-  leagueId: number = 0
+  leagueId: number | undefined
 
   leagueStatistics: Map<String, String> = new Map()
 

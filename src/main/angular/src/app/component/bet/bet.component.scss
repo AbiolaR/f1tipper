@@ -78,8 +78,9 @@ img {
 
 .background {
     z-index: -500;
-    margin:  0;
-    max-height: inherit;
+    margin: auto;    
+    left: 0;
+    max-height: 100%; //calc(100% - 10px);
     max-width: 100vw;
     position: absolute;
     filter: brightness(0%) invert(100%) opacity(12%);

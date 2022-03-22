@@ -13,7 +13,7 @@
     font-size: 18px;
 }
 
-.position {
+.position {    
     font-weight: bold;
     margin-bottom: 5px;
     grid-column: 1 / 3;
@@ -24,6 +24,7 @@ p {
 }
 
 .bet {
+    position: relative;
     grid-column-start: 1;
 }
 
@@ -39,4 +40,16 @@ p {
 mat-spinner {
     margin-left: 50%;
     transform: translate(-50%);
+}
+
+.marker {
+    height: 5px;
+    width: 5px;
+    transform: translate(-10px);
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    filter: invert(13%) sepia(71%) saturate(4478%) hue-rotate(324deg) brightness(103%) contrast(92%);
 }

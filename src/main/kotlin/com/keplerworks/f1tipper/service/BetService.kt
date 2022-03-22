@@ -184,8 +184,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
             betItemPositions
                 .zip(resultPositions)
                 .map { BetItemResultPositionDTO(
-                        PositionDTO(0, it.first.position, betSubjectService.getBetSubject(it.first.betSubjectId), it.first.fastestLap),
-                        PositionDTO(0, it.second.position, betSubjectService.getBetSubject(it.second.betSubjectId), it.second.fastestLap)
+                        PositionDTO(0, it.first.position, betSubjectService.getBetSubject(it.first.betSubjectId), it.first.fastestLap, it.first.points),
+                        PositionDTO(0, it.second.position, betSubjectService.getBetSubject(it.second.betSubjectId), it.second.fastestLap, it.second.points)
                 )})
     }
 

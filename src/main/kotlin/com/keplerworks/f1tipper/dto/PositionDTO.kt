@@ -6,5 +6,6 @@ data class PositionDTO(
     val id: Long = 0,
     val position: Int,
     val betSubject: BetSubject,
-    val fastestLap: Boolean = false
+    val fastestLap: Boolean = false,
+    val points: Boolean = false
 )
