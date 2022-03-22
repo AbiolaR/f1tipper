@@ -30,7 +30,7 @@ mat-dialog-content {
 }
 
 button {
-    border-radius: 0;
+    border-radius: var(--buttonBorderRadius);
     margin: 5px;
     min-width: 15em;
 }

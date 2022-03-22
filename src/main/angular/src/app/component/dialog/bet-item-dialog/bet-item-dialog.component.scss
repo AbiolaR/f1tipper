@@ -9,7 +9,7 @@ mat-spinner {
 
 button {
     touch-action: pan-y !important;
-    border-radius: 0;
+    border-radius: var(--buttonBorderRadius);
     margin: 10px;
     min-width: 15em;
 }

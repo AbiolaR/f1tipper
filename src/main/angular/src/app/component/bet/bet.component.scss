@@ -24,7 +24,7 @@
 button {
     font-size: x-large;
     margin: 15px;
-    border-radius: 0;
+    border-radius: var(--buttonBorderRadius);
     width: 80%;
     height: 2.5em;
 }
@@ -56,23 +56,32 @@ img {
     max-height: 3em;
     height: auto;
 
-    border-radius: 5px;
+    border-radius: var(--buttonBorderRadius);
 
     vertical-align: middle;
 }
 
 .admin-control{
-    justify-content: center;
-    margin-top: 40px;
+    justify-content: space-between;
+    margin-top: 5em;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
+    height: 2.5e;
+    width: 80%;
     
     button {
-        width: calc(40% - 30px);
-        min-width: fit-content;
-        padding: 5;
-        margin: 10px;
-        background-color: #806b33;
+        width: calc(50% - 5px);
+        border-radius: 5px;
+        margin: 0;
+        padding: 2px;
+        background-color: #875367;//144057;
         color: #303030;
+        font-weight: bold;        
+    }
+
+    button.championship {
+        width: 100%;
     }
 }
 

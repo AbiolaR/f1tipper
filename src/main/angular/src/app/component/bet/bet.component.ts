@@ -113,6 +113,7 @@ export class BetComponent implements OnInit {
     let message = 'no results to sync'
     if (result) {
       message = 'sync was successful'
+      window.location.reload();
     }
     this.snackBar.open(message, '', {duration: 2500, verticalPosition: 'bottom'})
   }
