@@ -1,7 +1,7 @@
 <section>
-    <mat-card class="leaderboard">
+    <mat-card>
         <mat-card-title>Leaderboard</mat-card-title>
-        <mat-card-content>
+        <mat-card-content class="leaderboard-content">
             <mat-spinner  *ngIf="!leagueOverview" color="primary"></mat-spinner>
             <p *ngFor="let user of leagueOverview?.users | keyvalue: valueDescOrder">
                 {{user.key}} - {{user.value}} Points
