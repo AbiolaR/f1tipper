@@ -40,44 +40,30 @@ export class BetComponent implements OnInit {
   }
 
   openQualifyingDialog() {
-    const dialogRef = this.dialog.open(BetItemDialogComponent, {
-      data: new BetItemData(this.bet?.id, BetDataType.QUALIFYING),
-      width: '100%',
-    })
-
-    this.handleDialogClose(dialogRef);
+    this.openBetItemDialog(BetDataType.QUALIFYING);
   }
 
   openRaceDialog() {
-    const dialogRef = this.dialog.open(BetItemDialogComponent, {    
-      data: new BetItemData(this.bet?.id, BetDataType.RACE),
-      width: '100%',
-    })
-
-    this.handleDialogClose(dialogRef);
+    this.openBetItemDialog(BetDataType.RACE);
   }
 
   openDNFDialog() {
-    const dialogRef = this.dialog.open(BetItemDialogComponent, {    
-      data: new BetItemData(this.bet?.id, BetDataType.DNF),
-      width: '100%',
-    })
-
-    this.handleDialogClose(dialogRef);
+    this.openBetItemDialog(BetDataType.DNF);
   }
 
   openDriverDialog() {
-    const dialogRef = this.dialog.open(BetItemDialogComponent, {
-      data: new BetItemData(this.bet?.id, BetDataType.DRIVER),
-      width: '100%',
-    })
-    this.handleDialogClose(dialogRef);
+    this.openBetItemDialog(BetDataType.DRIVER);
   }
 
   openConstructorDialog() {
+    this.openBetItemDialog(BetDataType.CONSTRUCTOR);
+  }
+
+  openBetItemDialog(type: BetDataType) {
     const dialogRef = this.dialog.open(BetItemDialogComponent, {
-      data: new BetItemData(this.bet?.id, BetDataType.CONSTRUCTOR),
+      data: new BetItemData(this.bet?.id, type),
       width: '100%',
+      disableClose: true
     })
     this.handleDialogClose(dialogRef);
   }

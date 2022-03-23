@@ -34,7 +34,9 @@ class LeagueService(@Autowired
 
             var totalPoints = 0
             bets.forEach { bet -> bet.betItems.forEach { betItem ->
-                totalPoints += betItem.points
+                if (!BetItemType.enumOf(betItem.type).isChampionshipType()) {
+                    totalPoints += betItem.points
+                }
             } }
             leagueStandingsDTO.users[it.username] = totalPoints
         }
@@ -71,7 +73,6 @@ class LeagueService(@Autowired
             bets.forEach { bet ->
                 bet.betItems.forEach { betItem ->
                     when (betItem.type) {
-
                         BetItemType.RACE.value -> {
                             racePoints += betItem.points
                             betItemMap[betItem.type]!![formulaUser.username] = racePoints
