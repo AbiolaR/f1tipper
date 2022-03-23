@@ -52,14 +52,22 @@ class Calculator @Autowired constructor(private val resultService: ResultService
                     betItemType.positionPoints
                 }
                 betItemPosition.points = true
-            } else if (betItemType != BetItemType.CONSTRUCTOR
-                && resultPosition.position.toPositionGroup().contains(betItemPosition.position)) {
+            } else if (calculateGroup(betItemType)
+                        && resultPosition.position.toPositionGroup().contains(betItemPosition.position)) {
                 points += betItemType.positionGroupPoints
                 betItemPosition.points = true
             }
         }
 
         return points
+    }
+
+    private fun calculateGroup(type: BetItemType): Boolean {
+        return when(type) {
+            BetItemType.CONSTRUCTOR -> false
+            BetItemType.QUALIFYING -> false
+            else -> true
+        }
     }
 
     private fun calcPerGeneralDriver(): Int {
