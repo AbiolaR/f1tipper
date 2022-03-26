@@ -34,3 +34,9 @@ button {
     margin: 5px;
     min-width: 15em;
 }
+
+mat-spinner {
+    margin-left: 50%;
+    margin-top: 24px;
+    transform: translate(-50%);
+}

@@ -2,6 +2,7 @@
     <button mat-flat-button color='accent' (click)="removeBetSubject()">
         Remove
     </button>
+    <mat-spinner *ngIf="!betSubjects.length" color="primary"></mat-spinner>
     <button mat-flat-button color='primary' *ngFor="let betSubject of betSubjects" (click)="returnBetSubject(betSubject)">
         {{betSubject.name}}
     </button>        

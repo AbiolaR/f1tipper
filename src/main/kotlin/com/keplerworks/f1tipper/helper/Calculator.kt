@@ -57,6 +57,8 @@ class Calculator @Autowired constructor(private val resultService: ResultService
                 points += betItemType.positionGroupPoints
                 betItemPosition.points = true
             }
+
+            betItemPosition.points = false
         }
 
         return points
