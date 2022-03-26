@@ -54,7 +54,9 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
     override fun syncQualifyingResult(raceId: Long): Boolean {
         try {
             val rapidQualifyingResult = getRapidSessionResult(raceId, RapidSessionType.QUALIFYING)
-            rapidQualifyingResult.results.drivers.take(BetItemType.QUALIFYING.repeatNumber)
+            rapidQualifyingResult.results.drivers =
+                rapidQualifyingResult.results.drivers.take(BetItemType.QUALIFYING.repeatNumber)
+                        as ArrayList<RapidSessionResult.Results.Driver>
             val qualifyingResult = resultService.getResultOrEmpty(raceId, BetItemType.QUALIFYING)
             syncResult(qualifyingResult, rapidQualifyingResult.generalize())
         } catch (exc: Exception) {

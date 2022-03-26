@@ -9,38 +9,38 @@
         <hr/>
     </header>
     <section id="bet-content">
-    <section [ngSwitch]=bet.type>
-        <section *ngSwitchCase="'championship'">
-            <button mat-flat-button color="primary" (click)="openDriverDialog()">
-                <span>Driver</span>
-                <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
-            </button>
-            <button mat-flat-button color="primary" (click)="openConstructorDialog()">
-                <span>Constructor</span>
-                <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
-            </button>
+        <section [ngSwitch]=bet.type>
+            <section *ngSwitchCase="'championship'">
+                <button mat-flat-button color="primary" (click)="openDriverDialog()">
+                    <span>Driver</span>
+                    <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+                </button>
+                <button mat-flat-button color="primary" (click)="openConstructorDialog()">
+                    <span>Constructor</span>
+                    <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+                </button>
+            </section>
+            <section *ngSwitchCase="'race'">            
+                <button mat-flat-button color="primary" (click)="openQualifyingDialog()">
+                    <span>Qualifying</span>
+                    <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+                </button>
+                <button mat-flat-button color="primary" (click)="openRaceDialog()">
+                    <span>Race</span>
+                    <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+                </button>
+                <button mat-flat-button color="primary" (click)="openDNFDialog()">
+                    <span>DNF</span>
+                    <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
+                </button>
+            </section>
         </section>
-        <section *ngSwitchCase="'race'">            
-            <button mat-flat-button color="primary" (click)="openQualifyingDialog()">
-                <span>Qualifying</span>
-                <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
-            </button>
-            <button mat-flat-button color="primary" (click)="openRaceDialog()">
-                <span>Race</span>
-                <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
-            </button>
-            <button mat-flat-button color="primary" (click)="openDNFDialog()">
-                <span>DNF</span>
-                <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
-            </button>
+        <button mat-flat-button disabled class="disabled">{{bet.points}} Points</button>
+        <section class="admin-control" *ngIf="isAdmin" [ngSwitch]="bet.type">
+            <button class="championship" mat-flat-button *ngSwitchCase="'championship'" (press)="updateChampionshipResult()">Championship</button>
+            <button mat-flat-button *ngSwitchDefault="" (press)="updateQualifyingResult()">Qualifying</button>
+            <button mat-flat-button *ngSwitchDefault="" (press)="updateRaceResult()">Race</button>
         </section>
+        <img class="background" *ngIf="bet.trackSvg" src="/assets/track-svgs/{{bet.trackSvg}}">
     </section>
-    <button mat-flat-button disabled class="disabled">{{bet.points}} Points</button>
-    <section class="admin-control" *ngIf="isAdmin" [ngSwitch]="bet.type">
-        <button class="championship" mat-flat-button *ngSwitchCase="'championship'" (click)="updateChampionshipResult()">Championship</button>
-        <button mat-flat-button *ngSwitchDefault="" (click)="updateQualifyingResult()">Qualifying</button>
-        <button mat-flat-button *ngSwitchDefault="" (click)="updateRaceResult()">Race</button>
-    </section>
-    <img class="background" *ngIf="bet.trackSvg" src="/assets/track-svgs/{{bet.trackSvg}}">
-</section>
 </section>

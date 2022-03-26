@@ -63,14 +63,18 @@ img {
 
 .admin-control{
     justify-content: space-between;
-    margin-top: 5em;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
+    margin-bottom: 1em;
     display: flex;
     height: 2.5e;
     width: 80%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     
     button {
+        position: relative;
         width: calc(50% - 5px);
         border-radius: 5px;
         margin: 0;
@@ -112,3 +116,19 @@ mat-spinner {
     left: 50vw;
     transform: translate(-50%, -50%);
 }
+
+button mat-spinner {
+    position: absolute;
+    transform: initial;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    zoom: 0.4;
+    margin: auto;
+
+    ::ng-deep circle {
+        stroke: #303030 !important;
+    }
+}
+

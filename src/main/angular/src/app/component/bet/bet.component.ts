@@ -11,6 +11,7 @@ import { ResultService } from 'src/app/service/result.service';
 import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
 import { UserService } from 'src/app/service/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-bet',
@@ -93,6 +94,11 @@ export class BetComponent implements OnInit {
     this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.CONSTRUCTOR).subscribe(result => {
       this.handleSyncResult(result);
     });
+  }
+
+  testloading(element: any) {
+    console.log(element.textContent)
+    element.textContent = "test"
   }
 
   handleSyncResult(result: boolean) {
