@@ -96,7 +96,7 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
         val resultPositions: MutableList<Position> = mutableListOf()
         rapidResult.betSubjects.forEach{ rapidBetSubject ->
             val betType = BetItemType.enumOf(result.type)
-            if (betType == BetItemType.DNF && rapidBetSubject.retired != 1) return@forEach
+            if (betType == BetItemType.DNF && rapidBetSubject.retired != 1 && rapidBetSubject.gap == "DNS") return@forEach
             val betSubject = betSubjectService.getBetSubject(rapidBetSubject.name)
             if (betType == BetItemType.DRIVER && betSubject.flag == "R") return@forEach
             resultPositions.add(

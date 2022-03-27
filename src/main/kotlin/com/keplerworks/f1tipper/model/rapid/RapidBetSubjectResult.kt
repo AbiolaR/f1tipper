@@ -5,7 +5,7 @@ interface RapidBetSubjectResult {
     fun generalize(): RapidResult {
         return when (this) {
             is RapidSessionResult -> {
-                RapidResult(this.results.drivers.map { RapidResult.BetSubject(it.name, it.position, it.retired) })
+                RapidResult(this.results.drivers.map { RapidResult.BetSubject(it.name, it.position, it.retired, it.gap) })
             }
             is RapidConstructorStandingsResult -> {
                 RapidResult(this.constructors.map { RapidResult.BetSubject(it.name, it.position) })

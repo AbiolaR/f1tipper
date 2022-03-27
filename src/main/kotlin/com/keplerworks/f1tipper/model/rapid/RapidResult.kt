@@ -6,6 +6,7 @@ data class RapidResult(
      data class BetSubject (
         val name: String,
         val position: Int,
-        val retired: Int = 0
+        val retired: Int = 0,
+        val gap: String = ""
      )
 }
