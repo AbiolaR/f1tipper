@@ -13,6 +13,7 @@ import com.keplerworks.f1tipper.service.PositionService
 import com.keplerworks.f1tipper.service.RaceService
 import com.keplerworks.f1tipper.service.ResultService
 import com.keplerworks.f1tipper.type.BetItemType
+import com.keplerworks.f1tipper.type.BetItemTypeGroup
 import com.keplerworks.f1tipper.type.RapidSessionType
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
@@ -31,6 +32,14 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
     lateinit var apiKey: String
 
     private val client = RapidClient.create()
+
+    fun syncResults(raceId: Long, typeGroup: BetItemTypeGroup): Boolean {
+        return when(typeGroup) {
+            BetItemTypeGroup.RACE -> syncRaceResults(raceId)
+            BetItemTypeGroup.QUALIFYING -> { syncQualifyingResult(raceId) }
+            BetItemTypeGroup.CHAMPIONSHIP -> { syncChampionshipResult(raceId) }
+        }
+    }
 
     override fun syncRaceResults(raceId: Long): Boolean {
         try {
@@ -96,7 +105,7 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
         val resultPositions: MutableList<Position> = mutableListOf()
         rapidResult.betSubjects.forEach{ rapidBetSubject ->
             val betType = BetItemType.enumOf(result.type)
-            if (betType == BetItemType.DNF && rapidBetSubject.retired != 1 || rapidBetSubject.gap == "DNS") return@forEach
+            if (betType == BetItemType.DNF && rapidBetSubject.retired != 1) return@forEach
             val betSubject = betSubjectService.getBetSubject(rapidBetSubject.name)
             if (betType == BetItemType.DRIVER && betSubject.flag == "R") return@forEach
             resultPositions.add(

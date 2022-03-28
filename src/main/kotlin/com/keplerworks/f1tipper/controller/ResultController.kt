@@ -1,8 +1,10 @@
 package com.keplerworks.f1tipper.controller
 
+import com.keplerworks.f1tipper.helper.Calculator
 import com.keplerworks.f1tipper.result.resolver.RapidResultResolver
 import com.keplerworks.f1tipper.service.BetService
 import com.keplerworks.f1tipper.type.BetItemType
+import com.keplerworks.f1tipper.type.BetItemTypeGroup
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -11,14 +13,13 @@ import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/api/result")
-class ResultController (private val betService: BetService,
+class ResultController (private val calculator: Calculator,
                         private val rapidResultResolver: RapidResultResolver) {
 
     @GetMapping("{raceId}/{type}/update")
-    fun triggerResultSync(@PathVariable raceId: Long, @PathVariable type: String, request: HttpServletRequest): Boolean {
-        val betItemType = BetItemType.enumOf(type)
-        if(syncResults(raceId, betItemType)) {
-            betService.calculatePoints(raceId, betItemType)
+    fun triggerResultSync(@PathVariable raceId: Long, @PathVariable type: BetItemTypeGroup, request: HttpServletRequest): Boolean {
+        if(rapidResultResolver.syncResults(raceId, type)) {
+            calculator.calculatePoints(raceId, type)
             return true
         }
         return false
@@ -29,13 +30,5 @@ class ResultController (private val betService: BetService,
         rapidResultResolver.initData()
     }
 
-    private fun syncResults(raceId: Long, type: BetItemType): Boolean {
-        return when(type) {
-            BetItemType.RACE -> rapidResultResolver.syncRaceResults(raceId)
-            BetItemType.QUALIFYING -> { rapidResultResolver.syncQualifyingResult(raceId) }
-            BetItemType.CONSTRUCTOR -> { rapidResultResolver.syncChampionshipResult(raceId) }
-            else -> { false }
-        }
-    }
 
 }

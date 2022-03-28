@@ -23,7 +23,6 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
                                         private val raceService: RaceService,
                                         private val positionService: PositionService,
                                         private val betSubjectService: BetSubjectService,
-                                        private val calculator: Calculator,
                                         private val userService: FormulaUserService,
                                         private val resultService: ResultService) {
 
@@ -250,14 +249,7 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
         return getBetItemDTO(betItemDTO.betId, BetItemType.enumOf(betItemDTO.type))
     }
 
-
-    fun calculatePoints(raceId: Long, type: BetItemType) {
-        val betItems = getBetItemsByRace(raceId, type)
-
-        betItems.forEach { betItem ->
-            betItem.points =  calculator.calculatePoints(raceId, betItem)
-        }
-
+    fun saveAllBetItems(betItems: List<BetItem>) {
         betItemRepo.saveAll(betItems)
     }
 }

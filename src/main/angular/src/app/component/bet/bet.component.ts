@@ -12,6 +12,7 @@ import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
 import { UserService } from 'src/app/service/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSpinner } from '@angular/material/progress-spinner';
+import { BetItemTypeGroup } from 'src/app/model/enum/bet-item-type-group';
 
 @Component({
   selector: 'app-bet',
@@ -79,19 +80,19 @@ export class BetComponent implements OnInit {
   }
 
   updateQualifyingResult() {
-    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.QUALIFYING).subscribe(result => {
+    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetItemTypeGroup.QUALIFYING).subscribe(result => {
       this.handleSyncResult(result);
     });
   }
 
   updateRaceResult() {
-    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.RACE).subscribe(result => {
+    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetItemTypeGroup.RACE).subscribe(result => {
       this.handleSyncResult(result);
     });
   }
 
   updateChampionshipResult() {
-    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetDataType.CONSTRUCTOR).subscribe(result => {
+    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetItemTypeGroup.CHAMPIONSHIP).subscribe(result => {
       this.handleSyncResult(result);
     });
   }
