@@ -11,25 +11,25 @@
     <section id="bet-content">
         <section [ngSwitch]=bet.type>
             <section *ngSwitchCase="'championship'">
-                <button mat-flat-button color="primary" (click)="openDriverDialog()">
+                <button mat-flat-button color="primary" (click)="openBetItemDialog(BetDataType.DRIVER)">
                     <span>Driver</span>
                     <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
                 </button>
-                <button mat-flat-button color="primary" (click)="openConstructorDialog()">
+                <button mat-flat-button color="primary" (click)="openBetItemDialog(BetDataType.CONSTRUCTOR)">
                     <span>Constructor</span>
                     <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
                 </button>
             </section>
             <section *ngSwitchCase="'race'">            
-                <button mat-flat-button color="primary" (click)="openQualifyingDialog()">
+                <button mat-flat-button color="primary" (click)="openBetItemDialog(BetDataType.QUALIFYING)">
                     <span>Qualifying</span>
                     <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
                 </button>
-                <button mat-flat-button color="primary" (click)="openRaceDialog()">
+                <button mat-flat-button color="primary" (click)="openBetItemDialog(BetDataType.RACE)">
                     <span>Race</span>
                     <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
                 </button>
-                <button mat-flat-button color="primary" (click)="openDNFDialog()">
+                <button mat-flat-button color="primary" (click)="openBetItemDialog(BetDataType.DNF)">
                     <span>DNF</span>
                     <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
                 </button>
@@ -37,24 +37,6 @@
         </section>
         <button mat-flat-button disabled class="disabled">{{bet.points}} Points</button>
         <section class="admin-control" *ngIf="isAdmin" [ngSwitch]="bet.type">
-            <!--<button class="championship" mat-flat-button *ngSwitchCase="'championship'" 
-            (click)="calculatePoints(BetItemTypeGroup.CHAMPIONSHIP)" 
-            (press)="updateResult(BetItemTypeGroup.CHAMPIONSHIP, $event.target)">
-                <span>Championship</span>
-                <mat-spinner></mat-spinner>
-            </button>
-            <button mat-flat-button *ngSwitchDefault="" 
-            (click)="calculatePoints(BetItemTypeGroup.QUALIFYING)"
-            (press)="updateResult(BetItemTypeGroup.QUALIFYING, $event.target)">
-                <span>Qualifying</span>
-                <mat-spinner></mat-spinner>
-            </button>
-            <button mat-flat-button *ngSwitchDefault="" 
-            (click)="calculatePoints(BetItemTypeGroup.RACE)"
-            (press)="updateResult(BetItemTypeGroup.RACE, $event.target)">
-                <span>Race</span>
-                <mat-spinner></mat-spinner>
-            </button>-->
             <app-admin-control-button [typeGroup] = "BetItemTypeGroup.CHAMPIONSHIP" 
             [raceId] = "bet.raceId" class="championship" *ngSwitchCase="'championship'">
             </app-admin-control-button>
