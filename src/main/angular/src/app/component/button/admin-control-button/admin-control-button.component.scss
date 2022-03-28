@@ -1,0 +1,47 @@
+button {
+    font-size: x-large;
+    height: 2.5em;
+    width: 100%;
+    border-radius: 5px;
+    margin: 0;
+    padding: 2px;
+    background-color: #875367;//144057;
+    color: #303030;
+    font-weight: bold;        
+
+    mat-spinner {
+        position: absolute;
+        transform: initial;
+        inset: 0;
+        zoom: 0.4;
+        margin: auto;
+        display: none;
+    
+        ::ng-deep circle {
+            stroke: #303030 !important;
+        }
+    }
+
+    ::ng-deep span {
+        pointer-events: none;
+    }
+}
+
+button.loading {
+    mat-spinner {
+        display: inline;
+    }
+    span {
+        display: none;
+    }
+}
+
+::ng-deep app-admin-control-button {
+    position: relative;
+    width: calc(50% - 5px);
+}
+
+::ng-deep app-admin-control-button.championship {
+    position: relative;
+    width: 100%;
+}

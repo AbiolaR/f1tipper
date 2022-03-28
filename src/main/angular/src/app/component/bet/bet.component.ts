@@ -21,6 +21,7 @@ import { BetItemTypeGroup } from 'src/app/model/enum/bet-item-type-group';
 })
 export class BetComponent implements OnInit {
 
+  BetItemTypeGroup = BetItemTypeGroup
   isAdmin = false
   private betId: string | null | undefined;
   bet: Bet | undefined;
@@ -79,36 +80,31 @@ export class BetComponent implements OnInit {
     });
   }
 
-  updateQualifyingResult() {
-    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetItemTypeGroup.QUALIFYING).subscribe(result => {
-      this.handleSyncResult(result);
+  /*updateResult(typeGroup: BetItemTypeGroup, button: any) {
+    button.classList.add('loading');
+    this.resultService.triggerResultUpdate(this.bet!!.raceId, typeGroup).subscribe(result => {
+      button.classList.remove('loading');
+      this.handleResult(result);
     });
   }
 
-  updateRaceResult() {
-    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetItemTypeGroup.RACE).subscribe(result => {
-      this.handleSyncResult(result);
-    });
-  }
-
-  updateChampionshipResult() {
-    this.resultService.triggerResultUpdate(this.bet!!.raceId, BetItemTypeGroup.CHAMPIONSHIP).subscribe(result => {
-      this.handleSyncResult(result);
-    });
-  }
-
-  testloading(element: any) {
-    console.log(element.textContent)
-    element.textContent = "test"
-  }
-
-  handleSyncResult(result: boolean) {
-    let message = 'no results to sync'
+  handleResult(result: boolean) {
+    let message = 'oh oh, something went wrong';
+    let action = '';
     if (result) {
-      message = 'sync was successful'
-      window.location.reload();
+      message = 'successful';
+      action = 'reload'
     }
-    this.snackBar.open(message, '', {duration: 2500, verticalPosition: 'bottom'})
+    let snackBarRef = this.snackBar.open(message, action, {duration: 2500, verticalPosition: 'bottom'});
+    snackBarRef.onAction().subscribe(() => {
+      window.location.reload();
+    });
   }
+
+  calculatePoints(typeGroup: BetItemTypeGroup) {
+    this.resultService.calculatePoints(this.bet!!.raceId, typeGroup).subscribe(result => {
+      this.handleResult(result);
+    });
+  }*/
 
 }

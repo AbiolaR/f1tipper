@@ -32,6 +32,7 @@ import { LeagueDialogComponent } from './component/dialog/league-dialog/league-d
 import { BetResultsComponent } from './component/bet-results/bet-results.component';
 import { LeagueOverviewComponent } from './component/league-overview/league-overview.component';
 import { BetSubjectComponent } from './component/bet-subject/bet-subject.component';
+import { AdminControlButtonComponent } from './component/button/admin-control-button/admin-control-button.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { BetSubjectComponent } from './component/bet-subject/bet-subject.compone
     AccessDeniedDialogComponent,
     LeagueDialogComponent,
     BetResultsComponent,
-    LeagueOverviewComponent,    
+    LeagueOverviewComponent,
+    AdminControlButtonComponent,    
   ],
   imports: [
     BrowserModule,

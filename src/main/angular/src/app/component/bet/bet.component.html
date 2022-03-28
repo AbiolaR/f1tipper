@@ -37,9 +37,31 @@
         </section>
         <button mat-flat-button disabled class="disabled">{{bet.points}} Points</button>
         <section class="admin-control" *ngIf="isAdmin" [ngSwitch]="bet.type">
-            <button class="championship" mat-flat-button *ngSwitchCase="'championship'" (press)="updateChampionshipResult()">Championship</button>
-            <button mat-flat-button *ngSwitchDefault="" (press)="updateQualifyingResult()">Qualifying</button>
-            <button mat-flat-button *ngSwitchDefault="" (press)="updateRaceResult()">Race</button>
+            <!--<button class="championship" mat-flat-button *ngSwitchCase="'championship'" 
+            (click)="calculatePoints(BetItemTypeGroup.CHAMPIONSHIP)" 
+            (press)="updateResult(BetItemTypeGroup.CHAMPIONSHIP, $event.target)">
+                <span>Championship</span>
+                <mat-spinner></mat-spinner>
+            </button>
+            <button mat-flat-button *ngSwitchDefault="" 
+            (click)="calculatePoints(BetItemTypeGroup.QUALIFYING)"
+            (press)="updateResult(BetItemTypeGroup.QUALIFYING, $event.target)">
+                <span>Qualifying</span>
+                <mat-spinner></mat-spinner>
+            </button>
+            <button mat-flat-button *ngSwitchDefault="" 
+            (click)="calculatePoints(BetItemTypeGroup.RACE)"
+            (press)="updateResult(BetItemTypeGroup.RACE, $event.target)">
+                <span>Race</span>
+                <mat-spinner></mat-spinner>
+            </button>-->
+            <app-admin-control-button [typeGroup] = "BetItemTypeGroup.CHAMPIONSHIP" 
+            [raceId] = "bet.raceId" class="championship" *ngSwitchCase="'championship'">
+            </app-admin-control-button>
+            <app-admin-control-button [typeGroup] = "BetItemTypeGroup.QUALIFYING" 
+            [raceId] = "bet.raceId" *ngSwitchDefault=""></app-admin-control-button>
+            <app-admin-control-button [typeGroup] = "BetItemTypeGroup.RACE" 
+            [raceId] = "bet.raceId" *ngSwitchDefault=""></app-admin-control-button>
         </section>
         <img class="background" *ngIf="bet.trackSvg" src="/assets/track-svgs/{{bet.trackSvg}}">
     </section>

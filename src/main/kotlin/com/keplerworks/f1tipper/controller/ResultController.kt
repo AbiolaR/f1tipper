@@ -2,8 +2,6 @@ package com.keplerworks.f1tipper.controller
 
 import com.keplerworks.f1tipper.helper.Calculator
 import com.keplerworks.f1tipper.result.resolver.RapidResultResolver
-import com.keplerworks.f1tipper.service.BetService
-import com.keplerworks.f1tipper.type.BetItemType
 import com.keplerworks.f1tipper.type.BetItemTypeGroup
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -23,6 +21,16 @@ class ResultController (private val calculator: Calculator,
             return true
         }
         return false
+    }
+
+    @GetMapping("{raceId}/{type}/calculate")
+    fun calculatePoints(@PathVariable raceId: Long, @PathVariable type: BetItemTypeGroup, request: HttpServletRequest): Boolean {
+        return try {
+            calculator.calculatePoints(raceId, type)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     @GetMapping("/rapid/init")
