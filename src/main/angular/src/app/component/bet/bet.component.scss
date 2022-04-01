@@ -19,16 +19,10 @@ h3 {
     background-color: #303030;
 }
 
-img {
-    /*max-width:80px;
-    max-height:120px;
-    width: auto;
-    height: auto;*/
-    margin-top: 15px;
-    margin-right: 10px;
-    position: fixed;
-    top: 0;
-    right: 0;
+.flag {
+    position: absolute;
+    top: 15px;
+    right: 10px;
     max-width: 100%;
     max-height: 3em;
     height: auto;
@@ -49,50 +43,10 @@ img {
     bottom: 0;
     left: 0;
     right: 0;
-    
-    /*button {
-        position: relative;
-        width: calc(50% - 5px);
-        border-radius: 5px;
-        margin: 0;
-        padding: 2px;
-        background-color: #875367;//144057;
-        color: #303030;
-        font-weight: bold;        
-
-        mat-spinner {
-            position: absolute;
-            transform: initial;
-            inset: 0;
-            zoom: 0.4;
-            margin: auto;
-            display: none;
-        
-            ::ng-deep circle {
-                stroke: #303030 !important;
-            }
-        }
-
-        ::ng-deep span {
-            pointer-events: none;
-        }
-    }
-
-    button.loading {
-        mat-spinner {
-            display: inline;
-        }
-        span {
-            display: none;
-        }
-    }
-
-    button.championship {
-        width: 100%;
-    }*/
 }
 
 .background {
+    top: 0;
     z-index: -500;
     margin: auto;    
     left: 0;
@@ -106,6 +60,10 @@ img {
     display: flex;
     flex-direction: column;
     height: calc(100vh - var(--navBarHeight));
+}
+
+#bet-header {
+    position: relative;
 }
 
 #bet-content {

@@ -103,7 +103,14 @@ class LeagueService(@Autowired
             statistics[betItemType.value] = if (stat?.value == 0) {
                 ""
             } else {
-                stat?.key ?: ""
+                val equalValues = betItemMap[betItemType.value]!!.filter { it.value == stat?.value  }
+                if (equalValues.size > 1) {
+                    var names = ""
+                    equalValues.forEach { names += "${it.key}, "  }
+                    names.dropLast(2)
+                } else {
+                    stat?.key ?: ""
+                }
             }
         }
 
