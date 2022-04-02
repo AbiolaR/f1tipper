@@ -73,6 +73,7 @@ class WebConfig : WebMvcConfigurer {
 
     override fun addViewControllers(registry: ViewControllerRegistry) {
         registry.addViewController("/").setViewName("index.html")
+        registry.addViewController("/home").setViewName("index.html")
     }
 
     @Bean
