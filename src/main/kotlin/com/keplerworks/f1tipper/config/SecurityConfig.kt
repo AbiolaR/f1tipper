@@ -2,7 +2,6 @@ package com.keplerworks.f1tipper.config
 
 import com.keplerworks.f1tipper.filter.CustomAuthenticationFilter
 import com.keplerworks.f1tipper.filter.CustomAuthorizationFilter
-import com.keplerworks.f1tipper.filter.FilterHelper
 import com.keplerworks.f1tipper.service.FormulaUserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -39,6 +38,7 @@ class SecurityConfig(@Autowired private val userService: FormulaUserService) : W
 
         //http.formLogin().loginPage("/login").permitAll()
         http.cors()
+        http.headers().frameOptions().sameOrigin().httpStrictTransportSecurity().disable()
 
         http.addFilterBefore(CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter::class.java)
         //http.httpBasic().disable()

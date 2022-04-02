@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'bet/:id', component: BetComponent},
   { path: 'championship', component: ChampionshipBetComponent},
   { path: 'login', component: LoginComponent},
-  { path: '**', component: HomeComponent}
+  { path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 
 @NgModule({
