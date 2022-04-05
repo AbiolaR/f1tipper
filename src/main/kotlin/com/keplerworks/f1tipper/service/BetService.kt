@@ -4,7 +4,6 @@ import com.keplerworks.f1tipper.dto.*
 import com.keplerworks.f1tipper.exception.AccessForbiddenException
 import com.keplerworks.f1tipper.exception.BetItemStillOpenException
 import com.keplerworks.f1tipper.exception.BetNotFoundException
-import com.keplerworks.f1tipper.helper.Calculator
 import com.keplerworks.f1tipper.model.*
 import com.keplerworks.f1tipper.repository.BetItemRepository
 import com.keplerworks.f1tipper.repository.BetRepository
@@ -14,8 +13,6 @@ import com.keplerworks.f1tipper.type.BetItemType
 import com.keplerworks.f1tipper.type.BetType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Service
 class BetService @Autowired constructor(private val betRepo: BetRepository,
@@ -35,7 +32,8 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
         val races: List<Race> = raceService.getAllRaces()
 
         if (bets.none { it.type == BetType.CHAMPIONSHIP.value }) {
-            bets.add(Bet(race = races.first(), userId = userId, type = BetType.CHAMPIONSHIP.value, leagueId = leagueId))
+            bets.add(Bet(race = races.firstOrNull { race -> race.round == 0 }!!, userId = userId,
+                            type = BetType.CHAMPIONSHIP.value, leagueId = leagueId))
         }
 
         races.forEach {
@@ -49,42 +47,10 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
         val racesMap = races.associateBy { it.id }
         bets.sortWith(compareBy({ it.type }, { it.race.round }))
 
-        bets.forEach {
-            val race = racesMap[it.race.id]
+        bets.forEach { bet ->
+            val race = racesMap[bet.race.id]
             if (race != null) {
-                when (BetType.enumOf(it.type)) {
-                    BetType.RACE -> betDTOs.add(
-                        BetDTO(
-                            it.id,
-                            it.type,
-                            race.title,
-                            race.name,
-                            evaluateStatus(BetType.enumOf(it.type), race).value,
-                            race.country,
-                            race.flagImgUrl,
-                            race.trackSvg,
-                            summarizeBetPoints(it.betItems),
-                            getDateRange(race),
-                            race.id
-                        )
-                    )
-                    BetType.CHAMPIONSHIP -> betDTOs.add(
-                        BetDTO(
-                            it.id,
-                            it.type,
-                            "Championship",
-                            "",
-                            evaluateStatus(BetType.enumOf(it.type), race).value,
-                            "",
-                            "",
-                            "",
-                            summarizeBetPoints(it.betItems),
-                            "",
-                            race.id
-                        )
-                    )
-                }
-
+                betDTOs.add(bet.toBetDTO())
             }
         }
         return betDTOs
@@ -99,46 +65,29 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
         return bets.flatMap { bet -> bet.betItems.filter { betItem -> betItem.type == type.value } }
     }
 
+    fun getBetByRace(raceId: Long, leagueId: Long, username: String): BetDTO {
+        val userId: Long = userService.getUser(username).id
+        val bet = betRepo.findBetByRaceIdAndLeagueIdAndUserId(raceId, leagueId, userId)
+            .orElseThrow{ BetNotFoundException("") }
+        return getBet(bet, userId)
+    }
+
     fun getBet(betId: Long, username: String): BetDTO {
         val bet = betRepo.findBetById(betId).orElseThrow{ BetNotFoundException("") }
-        val race = raceService.getRace(bet.race.id)
         val userId: Long = userService.getUser(username).id
+        return getBet(bet, userId)
+    }
+
+    fun getBet(bet: Bet, userId: Long): BetDTO {
         if (bet.userId != userId) {
             throw AccessForbiddenException()
         }
-
-        return when (BetType.enumOf(bet.type)) {
-            BetType.RACE -> BetDTO(
-                betId,
-                bet.type,
-                race.title,
-                race.name,
-                evaluateStatus(BetType.enumOf(bet.type), race).value,
-                race.country,
-                race.flagImgUrl,
-                race.trackSvg,
-                summarizeBetPoints(bet.betItems),
-                getDateRange(race),
-                race.id)
-            BetType.CHAMPIONSHIP -> BetDTO(
-                betId,
-                bet.type,
-                "",
-                "Formula 1 Championship Standings",
-                evaluateStatus(BetType.enumOf(bet.type), race).value,
-                "Championship",
-                "",
-                "",
-                summarizeBetPoints(bet.betItems),
-                "2022",
-                race.id)
-        }
-
+        return bet.toBetDTO()
     }
 
     fun getBetItemDTO(betId: Long, betItemType: BetItemType): BetItemDTO {
         val betItem = getBetItem(betId, betItemType)
-        val status = evaluateStatus(betItemType, betItem.bet.race)
+        val status = betItem.bet.race.status(betItemType)
         val betItemPositions = mutableListOf<PositionDTO>()
         repeat(betItemType.repeatNumber) {
             val positionNum = it + 1
@@ -158,7 +107,7 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
 
     fun getBetItemResults(betId: Long, betItemType: BetItemType): BetItemResultDTO {
         val betItem = getBetItem(betId, betItemType)
-        val status = evaluateStatus(betItemType, betItem.bet.race)
+        val status = betItem.bet.race.status(betItemType)
         if (status == BetItemStatus.OPEN) {
             throw BetItemStillOpenException()
         }
@@ -197,49 +146,9 @@ class BetService @Autowired constructor(private val betRepo: BetRepository,
             )
     }
 
-    private fun evaluateStatus(betType: BetType, race: Race) : BetItemStatus {
-        return when (betType) {
-            BetType.RACE -> evaluateStatus(BetItemType.RACE, race)
-            BetType.CHAMPIONSHIP -> evaluateStatus(BetItemType.DRIVER, race)
-        }
-    }
-
-    private fun evaluateStatus(betItemType: BetItemType, race: Race): BetItemStatus {
-        var date = betItemType.dateTime.get(race)
-        /*if(betItemType.isChampionshipType()) {
-            val calendar = Calendar.getInstance()
-            calendar.time = date
-            calendar.add(Calendar.HOUR, -3)
-            date = calendar.time
-        }*/
-        if (date.after(Date())) {
-            return BetItemStatus.OPEN
-        }
-        return BetItemStatus.LOCKED
-    }
-
-    private fun summarizeBetPoints(betItems: List<BetItem>): Int {
-        var points = 0
-        betItems.forEach { betItem ->
-            points += betItem.points
-        }
-        return points
-    }
-
-    private fun getDateRange(race: Race): String {
-        val dateRange = StringBuilder()
-        val calendar = Calendar.getInstance()
-        calendar.time = race.qualiStartDatetime
-        dateRange.append(calendar.get(Calendar.DAY_OF_MONTH)).append(" - ")
-        calendar.time = race.raceStartDatetime
-        dateRange.append(calendar.get(Calendar.DAY_OF_MONTH)).append(" ")
-            .append(SimpleDateFormat("MMM", Locale.ENGLISH).format(calendar.time))
-        return dateRange.toString()
-    }
-
     fun saveBetItem(betItemDTO: BetItemDTO): BetItemDTO {
         val bet = betRepo.findBetById(betItemDTO.betId).orElseThrow { BetNotFoundException("") }
-        if (evaluateStatus(BetItemType.enumOf(betItemDTO.type), bet.race) != BetItemStatus.OPEN) {
+        if (bet.race.status(BetItemType.enumOf(betItemDTO.type)) != BetItemStatus.OPEN) {
             return BetItemDTO(0, 0, "", mutableListOf(), 0, "", 0)
         }
         val betItem = BetItem(betItemDTO.id, betItemDTO.points, betItemDTO.type, bet)

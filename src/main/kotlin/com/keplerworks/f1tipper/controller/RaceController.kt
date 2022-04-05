@@ -1,16 +1,16 @@
 package com.keplerworks.f1tipper.controller
 
+import com.keplerworks.f1tipper.dto.BetDTO
 import com.keplerworks.f1tipper.model.BetSubject
+import com.keplerworks.f1tipper.service.BetService
 import com.keplerworks.f1tipper.service.BetSubjectService
 import com.keplerworks.f1tipper.type.BetSubjectType
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/api/race")
-class RaceController (private val betSubjectService: BetSubjectService) {
+class RaceController (private val betSubjectService: BetSubjectService, private val betService: BetService) {
 
     @GetMapping("{raceId}/{type}")
     fun getBetSubjectsOfTypeOfRace(@PathVariable raceId: Long, @PathVariable type: BetSubjectType): List<BetSubject> {
@@ -19,5 +19,10 @@ class RaceController (private val betSubjectService: BetSubjectService) {
         }
 
         return betSubjectService.getAllDriversOfRace(raceId)
+    }
+
+    @GetMapping("/bet")
+    fun getBetOfRaceAndLeague(@RequestParam raceId: Long, @RequestParam leagueId: Long, request: HttpServletRequest): BetDTO {
+        return betService.getBetByRace(raceId, leagueId, request.userPrincipal.name)
     }
 }

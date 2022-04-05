@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { Bet } from '../../model/bet';
 import { BetService } from '../../service/bet.service';
@@ -25,6 +25,8 @@ export class BetComponent implements OnInit {
   BetDataType = BetDataType
   isAdmin = false
   private betId: string | null | undefined;
+
+  @Input()
   bet: Bet | undefined;
 
   constructor(private activatedRoute: ActivatedRoute, 
@@ -36,10 +38,12 @@ export class BetComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAdmin = this.userService.isAdmin()
-    this.betId = this.activatedRoute.snapshot.paramMap.get("id");
-    this.betService.getBet(this.betId).subscribe({      
-      next: (data) => this.bet = data
-    })
+    if (!this.bet) {
+      this.betId = this.activatedRoute.snapshot.paramMap.get("id");
+      this.betService.getBet(this.betId).subscribe({      
+        next: (data) => this.bet = data
+      })
+    }
   }
 
   openBetItemDialog(type: BetDataType) {

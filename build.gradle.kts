@@ -32,6 +32,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("io.github.microutils:kotlin-logging-jvm:2.1.21")
 	implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4")
+	implementation("org.bouncycastle:bcprov-jdk15on:1.70")
+	implementation("nl.martijndwars:web-push:5.1.1")
 }
 
 tasks.register("removeStaticFolder") {

@@ -33,6 +33,7 @@ import { BetResultsComponent } from './component/bet-results/bet-results.compone
 import { LeagueOverviewComponent } from './component/league-overview/league-overview.component';
 import { BetSubjectComponent } from './component/bet-subject/bet-subject.component';
 import { AdminControlButtonComponent } from './component/button/admin-control-button/admin-control-button.component';
+import { RaceToBetRedirectComponent } from './component/race-to-bet-redirect/race-to-bet-redirect.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { AdminControlButtonComponent } from './component/button/admin-control-bu
     LeagueDialogComponent,
     BetResultsComponent,
     LeagueOverviewComponent,
-    AdminControlButtonComponent,    
+    AdminControlButtonComponent,
+    RaceToBetRedirectComponent,    
   ],
   imports: [
     BrowserModule,
@@ -69,7 +71,7 @@ import { AdminControlButtonComponent } from './component/button/admin-control-bu
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
+    ServiceWorkerModule.register('custom-service-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).

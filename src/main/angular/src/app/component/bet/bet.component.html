@@ -1,11 +1,11 @@
 <mat-spinner *ngIf="!bet" color="primary"></mat-spinner>
 <section *ngIf="bet" id="bet-page">
     <header id="bet-header">
-        <img class="flag" src={{bet.flagImageUrl}}/>
-        <h1>{{bet.country}}
+        <img class="flag" src={{bet.race.flagImageUrl}}/>
+        <h1>{{bet.race.country}}
         </h1>
-        <h4>{{bet.name}}</h4>
-        <h3>{{bet.dateRange}}</h3>
+        <h4>{{bet.race.name}}</h4>
+        <h3>{{bet.race.dateRange}}</h3>
         <hr/>
     </header>
     <section id="bet-content">
@@ -38,13 +38,13 @@
         <button mat-flat-button disabled class="disabled">{{bet.points}} Points</button>
         <section class="admin-control" *ngIf="isAdmin" [ngSwitch]="bet.type">
             <app-admin-control-button [typeGroup] = "BetItemTypeGroup.CHAMPIONSHIP" 
-            [raceId] = "bet.raceId" class="championship" *ngSwitchCase="'championship'">
+            [raceId] = "bet.race.id" class="championship" *ngSwitchCase="'championship'">
             </app-admin-control-button>
             <app-admin-control-button [typeGroup] = "BetItemTypeGroup.QUALIFYING" 
-            [raceId] = "bet.raceId" *ngSwitchDefault=""></app-admin-control-button>
+            [raceId] = "bet.race.id" *ngSwitchDefault=""></app-admin-control-button>
             <app-admin-control-button [typeGroup] = "BetItemTypeGroup.RACE" 
-            [raceId] = "bet.raceId" *ngSwitchDefault=""></app-admin-control-button>
+            [raceId] = "bet.race.id" *ngSwitchDefault=""></app-admin-control-button>
         </section>
-        <img class="background" *ngIf="bet.trackSvg" src="/assets/track-svgs/{{bet.trackSvg}}">
+        <img class="background" *ngIf="bet.race.trackSvg" src="/assets/track-svgs/{{bet.race.trackSvg}}">
     </section>
 </section>

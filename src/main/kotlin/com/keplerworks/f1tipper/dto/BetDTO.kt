@@ -1,15 +1,11 @@
 package com.keplerworks.f1tipper.dto
 
+import com.keplerworks.f1tipper.model.Race
+
 data class BetDTO(
     val id: Long,
     val type: String,
-    val title: String,
-    val name: String,
     val status: String,
-    val country: String,
-    val flagImageUrl: String = "",
-    val trackSvg: String,
     val points: Int,
-    val dateRange: String,
-    val raceId: Long
+    val race: Race
 )

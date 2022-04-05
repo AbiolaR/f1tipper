@@ -60,10 +60,12 @@ class WebConfig : WebMvcConfigurer {
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**").allowedOrigins(
             "http://localhost:4200",
+            "http://localhost:4000",
             "http://192.168.2.143:4200",
             "http://media-server.casacam.net:4200",
             "https://media-server.casacam.net:4200",
-            "http://tinympc:4200"
+            "http://tinympc:4200",
+            "http://tinympc:4000"
         )
     }
 

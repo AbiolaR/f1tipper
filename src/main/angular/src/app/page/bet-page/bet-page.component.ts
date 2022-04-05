@@ -67,6 +67,7 @@ export class BetPageComponent implements OnInit {
         }
       }
     }
+    this.onSelectedLeagueChange(leagues[0])
     return leagues[0]
   }
 

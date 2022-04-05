@@ -1,6 +1,7 @@
 package com.keplerworks.f1tipper
 
 import com.keplerworks.f1tipper.dto.PositionDTO
+import com.keplerworks.f1tipper.model.BetItem
 import com.keplerworks.f1tipper.model.Position
 
 fun List<PositionDTO>.toPositions(betItemId: Long): List<Position> {
@@ -12,6 +13,10 @@ fun List<PositionDTO>.toPositions(betItemId: Long): List<Position> {
     return positions
 }
 
-/*fun List<BetItem>.toBetItemDtoList(): List<BetItemDTO> {
-    return this.map { BetItemDTO(it.id, it.points, it.type, mutableListOf(), it.bet.id, "") }
-}*/
+val List<BetItem>.summarizedPoints: Int get() {
+    var points = 0
+    this.forEach { betItem ->
+        points += betItem.points
+    }
+    return points
+}

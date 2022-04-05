@@ -1,13 +1,17 @@
+import { Race } from "./race";
+
 export interface Bet {
     id: number;
-    title: string;
+    /*title: string;
     name: string;
     status: string;
     trackSvg: string;
-    flagImageUrl: string;
+    flagImageUrl: string;*/
     type: string;
     points: number;
-    dateRange: string;
+    status: string;
+    /*dateRange: string;
     raceId: number;
-    country: number;
+    country: number;*/
+    race: Race
 }

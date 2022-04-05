@@ -23,7 +23,17 @@ export class HomeComponent implements OnInit {
     this.getLeagues();
     const user: User = this.userService.getLocalUser();
     this.username = user.username;
-    console.log(user);
+    console.log('vibrate:')
+    navigator.permissions.query({name:'geolocation'}).then(function(result) {
+      if (result.state == 'granted') {
+        console.log('granted')
+      } else if (result.state == 'prompt') {
+        
+        console.log('need to ask')
+      } else {
+        console.log('denied')
+      }
+     });
   }
 
   private getLeagues() {
@@ -44,6 +54,7 @@ export class HomeComponent implements OnInit {
         }
       }
     }
+    this.onSelectedLeagueChange(leagues[0])
     return leagues[0]
   }
 
@@ -52,5 +63,6 @@ export class HomeComponent implements OnInit {
     this.selectedLeague = league
     console.log(this.selectedLeague)
   }
+
 
 }
