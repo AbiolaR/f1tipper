@@ -34,6 +34,7 @@ dependencies {
 	implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4")
 	implementation("org.bouncycastle:bcprov-jdk15on:1.70")
 	implementation("nl.martijndwars:web-push:5.1.1")
+	implementation("com.github.shyiko.skedule:skedule:0.4.0")
 }
 
 tasks.register("removeStaticFolder") {

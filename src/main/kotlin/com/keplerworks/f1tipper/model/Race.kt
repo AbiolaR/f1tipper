@@ -2,6 +2,7 @@ package com.keplerworks.f1tipper.model
 
 import com.keplerworks.f1tipper.type.BetItemStatus
 import com.keplerworks.f1tipper.type.BetItemType
+import com.keplerworks.f1tipper.type.BetItemTypeGroup
 import com.keplerworks.f1tipper.type.BetType
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,13 +39,17 @@ class Race(
 
     fun status(betType: BetType): BetItemStatus {
         return when (betType) {
-            BetType.RACE -> status(BetItemType.RACE)
-            BetType.CHAMPIONSHIP -> status(BetItemType.DRIVER)
+            BetType.RACE -> status(BetItemTypeGroup.RACE)
+            BetType.CHAMPIONSHIP -> status(BetItemTypeGroup.CHAMPIONSHIP)
         }
     }
 
-    fun status(betItemType: BetItemType, compareDate: Date = Date()): BetItemStatus {
-        val date = betItemType.dateTime.get(this)
+    fun status(betItemType: BetItemType): BetItemStatus {
+        return status(betItemType.toBetItemTypeGroup())
+    }
+
+    fun status(betItemTypeGroup: BetItemTypeGroup, compareDate: Date = Date()): BetItemStatus {
+        val date = betItemTypeGroup.dateTime.get(this)
 
         if (date.after(compareDate)) {
             return BetItemStatus.OPEN
