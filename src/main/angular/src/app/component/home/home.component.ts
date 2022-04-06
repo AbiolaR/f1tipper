@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
+import { TranslateService } from '@ngx-translate/core';
 import { League } from 'src/app/model/league';
 import { User } from 'src/app/model/user';
 import { LeagueService } from 'src/app/service/league.service';
@@ -17,23 +18,15 @@ export class HomeComponent implements OnInit {
   leagues: League[] = [];
   selectedLeague: League  | undefined
 
-  constructor(private userService: UserService, private leagueService: LeagueService) { }
+  constructor(private userService: UserService, private leagueService: LeagueService, private translate: TranslateService) {
+      translate.setDefaultLang('en');
+   }
 
   ngOnInit(): void {
+    
     this.getLeagues();
     const user: User = this.userService.getLocalUser();
-    this.username = user.username;
-    console.log('vibrate:')
-    navigator.permissions.query({name:'geolocation'}).then(function(result) {
-      if (result.state == 'granted') {
-        console.log('granted')
-      } else if (result.state == 'prompt') {
-        
-        console.log('need to ask')
-      } else {
-        console.log('denied')
-      }
-     });
+    this.username = user.username;    
   }
 
   private getLeagues() {
@@ -63,6 +56,8 @@ export class HomeComponent implements OnInit {
     this.selectedLeague = league
     console.log(this.selectedLeague)
   }
+
+
 
 
 }

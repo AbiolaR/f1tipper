@@ -7,7 +7,7 @@
             (click)="betItem.type == 'constructor' ? openConstructorDialog(index) : openDriverDialog(index)"
             [ngClass]="{'fastest-lap' : position.fastestLap}" (press)="setFastestLap(index)">
                 P{{position.position}}: {{position.betSubject.name 
-                    || (betItem.type == 'constructor' ? 'Select a constructor' : 'Select a driver')}}
+                    || (betItem.type == 'constructor' ?  ('select-a-constructor' | translate)  :  ('select-a-driver' | translate) )}}
             </button>
         </div>
     </div>
@@ -16,7 +16,7 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="betItem">
-    <button *ngIf="!betItemOpen" mat-button disabled class="points">{{betItem.points}} Points</button>
-    <button color="warn" mat-button mat-dialog-close>{{betItemOpen ? 'Cancel' : 'Close'}}</button>
-    <button color="accent" mat-button [mat-dialog-close]="betItem" *ngIf="betItemOpen">Save</button>
+    <button *ngIf="!betItemOpen" mat-button disabled class="points">{{betItem.points}} {{ 'points' | translate }}</button>
+    <button color="warn" mat-button mat-dialog-close>{{betItemOpen ? ('cancel' | translate) : ('close' | translate)}}</button>
+    <button color="accent" mat-button [mat-dialog-close]="betItem" *ngIf="betItemOpen">{{ 'save' | translate }}</button>
 </mat-dialog-actions>

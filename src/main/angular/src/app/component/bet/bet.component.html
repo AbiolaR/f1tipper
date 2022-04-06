@@ -12,30 +12,30 @@
         <section [ngSwitch]=bet.type>
             <section *ngSwitchCase="'championship'">
                 <button mat-flat-button color="primary" (click)="openBetItemDialog(BetDataType.DRIVER)">
-                    <span>Driver</span>
+                    <span>{{ 'driver' | translate }}</span>
                     <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
                 </button>
                 <button mat-flat-button color="primary" (click)="openBetItemDialog(BetDataType.CONSTRUCTOR)">
-                    <span>Constructor</span>
+                    <span>{{ 'constructor' | translate }}</span>
                     <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
                 </button>
             </section>
             <section *ngSwitchCase="'race'">            
                 <button mat-flat-button color="primary" (click)="openBetItemDialog(BetDataType.QUALIFYING)">
-                    <span>Qualifying</span>
+                    <span>{{ 'qualifying' | translate }}</span>
                     <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
                 </button>
                 <button mat-flat-button color="primary" (click)="openBetItemDialog(BetDataType.RACE)">
-                    <span>Race</span>
+                    <span>{{ 'race' | translate }}</span>
                     <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
                 </button>
                 <button mat-flat-button color="primary" (click)="openBetItemDialog(BetDataType.DNF)">
-                    <span>DNF</span>
+                    <span>{{ 'dnf' | translate }}</span>
                     <mat-icon class="right-arrow-icon">keyboard_arrow_right</mat-icon>
                 </button>
             </section>
         </section>
-        <button mat-flat-button disabled class="disabled">{{bet.points}} Points</button>
+        <button mat-flat-button disabled class="disabled">{{bet.points}} {{ 'points' | translate }}</button>
         <section class="admin-control" *ngIf="isAdmin" [ngSwitch]="bet.type">
             <app-admin-control-button [typeGroup] = "BetItemTypeGroup.CHAMPIONSHIP" 
             [raceId] = "bet.race.id" class="championship" *ngSwitchCase="'championship'">

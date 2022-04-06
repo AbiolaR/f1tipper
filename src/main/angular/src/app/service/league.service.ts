@@ -20,9 +20,9 @@ export class LeagueService {
     return this.http.get<LeagueOverview>(`${this.apiUrl}/${leagueId}/standings`, { headers })
   }
 
-  public getLeagueStatistics(leagueId: number): Observable<Map<String, String>> {
+  public getLeagueStatistics(leagueId: number): Observable<Map<string, string>> {
     const headers = this.userService.getAuthHeader();
-    return this.http.get<Map<String, String>>(`${this.apiUrl}/${leagueId}/statistics`, { headers })
+    return this.http.get<Map<string, string>>(`${this.apiUrl}/${leagueId}/statistics`, { headers })
   }
 
   public joinLeague(leagueName: string): Observable<boolean> {

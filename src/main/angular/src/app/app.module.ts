@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule } from '@angular/platform-browser';
 
@@ -15,7 +15,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BetPageComponent } from './page/bet-page/bet-page.component';
 import { BetComponent } from './component/bet/bet.component';
 import { BetButtonComponent } from './component/bet-button/bet-button.component';
-import { ChampionshipBetComponent } from './component/championship-bet/championship-bet.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar'
@@ -34,6 +33,12 @@ import { LeagueOverviewComponent } from './component/league-overview/league-over
 import { BetSubjectComponent } from './component/bet-subject/bet-subject.component';
 import { AdminControlButtonComponent } from './component/button/admin-control-button/admin-control-button.component';
 import { RaceToBetRedirectComponent } from './component/race-to-bet-redirect/race-to-bet-redirect.component';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader"
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -43,7 +48,6 @@ import { RaceToBetRedirectComponent } from './component/race-to-bet-redirect/rac
     BetPageComponent,
     BetComponent,
     BetButtonComponent,
-    ChampionshipBetComponent,
     BetItemDialogComponent,
     BetSubjectComponent,
     LoginComponent,
@@ -77,7 +81,15 @@ import { RaceToBetRedirectComponent } from './component/race-to-bet-redirect/rac
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'en',
+    })
   ],
   providers: [{
     provide: ErrorHandler,

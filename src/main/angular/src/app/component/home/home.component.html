@@ -5,8 +5,8 @@
         </mat-option>
     </mat-select>
     <div class="name-header">
-        <span *ngIf="username">logged in as: {{username}}</span>
-        <button id="logout" mat-stroked-button color="accent" routerLink="/login">logout</button>
+        <span *ngIf="username">{{ 'logged-in' | translate }}: {{ username}}</span>
+        <button id="logout" mat-stroked-button color="accent" routerLink="/login">{{ 'logout' | translate }}</button>
     </div>
     
     <app-league-overview [leagueId]="selectedLeague?.id"></app-league-overview>

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChampionshipBetComponent } from './component/championship-bet/championship-bet.component';
 import { HomeComponent } from './component/home/home.component';
 import { LoginComponent } from './component/login/login.component';
 import { BetComponent } from './component/bet/bet.component';
@@ -13,7 +12,6 @@ const routes: Routes = [
   { path: 'bets', component: BetPageComponent},
   { path: 'bet/:id', component: BetComponent},
   { path: 'race/:id', component: RaceToBetRedirectComponent },
-  { path: 'championship', component: ChampionshipBetComponent},
   { path: 'login', component: LoginComponent},
 ];
 

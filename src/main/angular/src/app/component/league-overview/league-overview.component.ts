@@ -13,7 +13,7 @@ export class LeagueOverviewComponent implements OnInit {
   @Input()
   leagueId: number | undefined
 
-  leagueStatistics: Map<String, String> = new Map()
+  leagueStatistics: Map<string, string> = new Map()
 
   leagueOverview: LeagueOverview | undefined
 

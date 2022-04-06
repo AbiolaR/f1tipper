@@ -1,12 +1,12 @@
 <mat-spinner *ngIf="!betResult" color="primary"></mat-spinner>
 <section *ngIf="betResult && betItemData" [ngSwitch]="betResult.betItemResultPositions.length">
     <p *ngSwitchCase="0">
-        Oops, looks like you forgot to place bets
+        {{ 'oops-message' | translate }}
     </p>
     <section *ngSwitchDefault="">
         <section class="betItemResult header">
-            <span class="bet">Your Bet</span>
-            <span class="result">Result</span>
+            <span class="bet">{{ 'your-bet' | translate }}</span>
+            <span class="result">{{ 'result' | translate }}</span>
         </section>
         <section *ngIf="betItemData.type == 'dnf'">
             <section *ngFor="let betItemResult of betResult.betItemResultPositions" class="betItemResult">
