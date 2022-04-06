@@ -34,7 +34,8 @@ import { BetSubjectComponent } from './component/bet-subject/bet-subject.compone
 import { AdminControlButtonComponent } from './component/button/admin-control-button/admin-control-button.component';
 import { RaceToBetRedirectComponent } from './component/race-to-bet-redirect/race-to-bet-redirect.component';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
-import {TranslateHttpLoader} from "@ngx-translate/http-loader"
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import { UserDialogComponent } from './component/dialog/user-dialog/user-dialog.component'
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -56,7 +57,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     BetResultsComponent,
     LeagueOverviewComponent,
     AdminControlButtonComponent,
-    RaceToBetRedirectComponent,    
+    RaceToBetRedirectComponent,
+    UserDialogComponent,    
   ],
   imports: [
     BrowserModule,

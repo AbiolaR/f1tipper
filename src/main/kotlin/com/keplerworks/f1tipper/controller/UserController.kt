@@ -17,10 +17,10 @@ class UserController @Autowired constructor(private val service: FormulaUserServ
         return service.getUser(userDTO.username).toUserDTO()
     }*/
 
-    @GetMapping("")
+    /*@GetMapping("")
     fun getSelf(request: HttpServletRequest): UserDTO {
         return service.getUser(request.userPrincipal.name).toUserDTO()
-    }
+    }*/
 
     /*@PostMapping("")
     fun saveUser(@RequestBody userDTO: UserDTO): UserDTO {

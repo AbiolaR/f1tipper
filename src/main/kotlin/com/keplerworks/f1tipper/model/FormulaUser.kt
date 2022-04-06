@@ -29,9 +29,9 @@ class FormulaUser(
 
 )
 {
-    fun toUserDTO(): UserDTO {
+    /*fun toUserDTO(): UserDTO {
         return UserDTO(username, leagues)
-    }
+    }*/
 
     fun toUser(): User {
         val authorities = mutableSetOf<SimpleGrantedAuthority>()

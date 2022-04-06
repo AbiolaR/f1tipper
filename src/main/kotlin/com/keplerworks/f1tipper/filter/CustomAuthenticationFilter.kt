@@ -2,7 +2,10 @@ package com.keplerworks.f1tipper.filter
 
 import com.auth0.jwt.JWT
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.keplerworks.f1tipper.dto.LoginDataDTO
+import com.keplerworks.f1tipper.dto.UserDTO
 import com.keplerworks.f1tipper.filter.FilterHelper.Companion.algorithm
+import com.keplerworks.f1tipper.service.FormulaUserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.security.authentication.AuthenticationManager
@@ -16,7 +19,9 @@ import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class CustomAuthenticationFilter @Autowired constructor(private val authManager: AuthenticationManager) : UsernamePasswordAuthenticationFilter() {
+class CustomAuthenticationFilter (
+    private val authManager: AuthenticationManager,
+    private val userService: FormulaUserService) : UsernamePasswordAuthenticationFilter() {
     private var expirationDuration = 1000 * 60 * 60 * 24 * 30L // 30 days
 
     override fun attemptAuthentication(request: HttpServletRequest?, response: HttpServletResponse?): Authentication {
@@ -47,8 +52,15 @@ class CustomAuthenticationFilter @Autowired constructor(private val authManager:
             .withIssuer(request?.requestURL.toString())
             .sign(algorithm)
 
-        val data: Map<String, Any> = mapOf(Pair("access_token", accessToken), Pair("refresh_token", refreshToken),
-            Pair("roles", roles))
+        //val data: Map<String, Any> = mapOf(Pair("access_token", accessToken), Pair("refresh_token", refreshToken), Pair("roles", roles))
+
+        val formulaUser = userService.getUser(user.username)
+
+        val data = UserDTO(
+            formulaUser.leagues.first(),
+            formulaUser.leagues,
+            LoginDataDTO(formulaUser.username, accessToken, refreshToken, roles)
+        )
 
         response?.contentType = APPLICATION_JSON_VALUE
         ObjectMapper().writeValue(response?.outputStream, data)

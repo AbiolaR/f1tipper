@@ -1,8 +1,10 @@
 {
   "logged-in": "eingeloggt als",
   "logout": "Ausloggen",
-  "access-denied-message": "Zugriff auf diese Seite wurde verweigert",
-  "access-denied-title": "Zugriff Verweigert!",
+  "access-denied": {
+    "title": "Zugriff Verweigert!",
+    "message": "Zugriff auf diese Seite wurde verweigert"
+  },
   "best": "Beste(r) bei",
   "cancel": "Abbrechen",
   "close": "Schließen",
@@ -26,5 +28,7 @@
   "select-a-driver": "Fahrer auswählen",
   "statistics": "Statistiken",
   "username": "Benutzername",
-  "your-bet": "Deine Wetten"
+  "your-bet": "Deine Wetten",
+  "empty": "leer",
+  "no-result": "noch kein Ergebnis"
 }

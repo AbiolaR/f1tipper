@@ -5,8 +5,9 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { League } from "../model/league";
-import { UserData } from "../model/user-data";
+import { LoginData } from "../model/login-data";
 import { User } from "../model/user";
+import { UserData } from "../model/user-data";
 
 @Injectable({
     providedIn: 'root'
@@ -25,10 +26,10 @@ export class UserService {
         )
     }
 
-    private getUserData(): UserData {
-        var currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+    private getLoginData(): LoginData {
+        var currentUser = JSON.parse(localStorage.getItem('userData')!);
         try {
-            return currentUser.userData;
+            return currentUser.loginData;
         } catch (error) {            
             this.router.navigateByUrl('/login');        
         }
@@ -36,23 +37,41 @@ export class UserService {
     }
 
     public isAdmin(): boolean {
-        let roles = this.getUserData().roles
+        let roles = this.getLoginData().roles
 
         return roles?.includes("FORMULA_ADMIN")
     }
 
     public getAuthHeader(): any {
-        return { 'Authorization': `Bearer ${this.getUserData().access_token}` }
+        return { 'Authorization': `Bearer ${this.getLoginData().access_token}` }
     }
 
-    public getLocalUser(): User {
+    /*public getLocalUser(): User {
         try {
             return { username: JSON.parse(localStorage.getItem('currentUser')!).username, leagues: []};
         } catch (error) {
             this.router.navigateByUrl('/login');
             throw new Error("not logged in");
         }
+    }*/
+
+    public getUserData(): UserData {
+        try {
+            let userData: UserData = JSON.parse(localStorage.getItem('userData')!);
+            if (!userData) {
+                throw new Error();
+            }
+            return userData;
+        } catch (error) {
+            this.router.navigateByUrl('/login');
+            throw new Error("not logged in");
+        }
     }
+
+    public setUserData(userData: UserData) {
+        localStorage.setItem('userData', JSON.stringify(userData));
+    }
+
 
     // HTTP GETTERS
     public getUser(): Observable<User> {

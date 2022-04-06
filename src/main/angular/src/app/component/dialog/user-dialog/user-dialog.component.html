@@ -1,0 +1,37 @@
+<mat-dialog-content>
+    <section class="user">
+        <button mat-flat-button>
+            <mat-icon svgIcon="user"></mat-icon>
+        </button>
+        <p>{{userData.loginData?.username}}</p>
+    </section>
+    <hr>
+    <section class="language">
+        <img [ngClass]="{'selected' : userData.selectedLanguage == 'en'}"
+            (click)="setLanguage('en')"
+            src="/assets/svg-flags/en.svg">
+        <img [ngClass]="{'selected' : userData.selectedLanguage == 'de'}"
+            (click)="setLanguage('de')"
+            src="/assets/svg-flags/de.svg">
+    </section>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button id="logout" mat-stroked-button color="accent" (click)="logout()">
+        {{ 'logout' | translate }}
+    </button>
+</mat-dialog-actions>
+
+<!--<section class="user">
+    <button mat-flat-button>
+        <mat-icon svgIcon="user"></mat-icon>
+    </button>
+    <p>Abiola</p>
+</section>
+<section class="language">
+    <img src="/assets/svg-flags/en.svg">
+    <img class="selected" src="/assets/svg-flags/de.svg">
+</section>
+<button id="logout" mat-stroked-button color="accent" routerLink="/login">
+    {{ 'logout' | translate }}
+</button>
+-->

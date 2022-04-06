@@ -9,16 +9,5 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class NavBarComponent {
 
-  constructor(private matIconRegistry: MatIconRegistry,
-              private domSanitizer: DomSanitizer
-              ) { 
-                this.matIconRegistry.addSvgIcon(
-                  "race",
-                  this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/svg-icons/racing-flag.svg")
-                );
-                this.matIconRegistry.addSvgIcon(
-                  "helmet",
-                  this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/svg-icons/helmet.svg")
-                );
-              }
+  
 }

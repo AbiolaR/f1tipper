@@ -18,7 +18,7 @@ export class RaceService {
 
   public getBet(raceId: string): Observable<Bet> {
     const headers = this.userService.getAuthHeader();
-    const leagueId = this.leagueService.getLocalSelectedLeague()?.id || 0
+    const leagueId = this.userService.getUserData().selectedLeague.id
     let params = new HttpParams();
     
     params.append('raceId', raceId)

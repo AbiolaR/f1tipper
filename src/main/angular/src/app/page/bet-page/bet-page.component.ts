@@ -8,6 +8,7 @@ import { LeagueDialogComponent } from '../../component/dialog/league-dialog/leag
 import { AppComponent } from 'src/app/app.component';
 import { Bet } from 'src/app/model/bet';
 import { LeagueService } from 'src/app/service/league.service';
+import { UserData } from 'src/app/model/user-data';
 
 @Component({
   selector: 'app-bet-page',
@@ -17,8 +18,8 @@ import { LeagueService } from 'src/app/service/league.service';
 export class BetPageComponent implements OnInit {
 
   bets: Bet[] = [];
-  leagues: League[] = [];
   selectedLeague: League  | undefined
+  userData: UserData | undefined;
 
   constructor(private betService: BetService, private _snackBar: MatSnackBar, 
     private userService: UserService, private dialog: MatDialog, 
@@ -26,14 +27,20 @@ export class BetPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.app.isLoading = true;
-    this.getLeagues();    
+    this.userData = this.userService.getUserData();
+    for (let league of this.userData.leagues) {
+      if (league.name == this.userData.selectedLeague.name ) {
+        this.selectedLeague = league
+      }
+    }
+    this.getBets();    
   }
 
   ngOnReload(): void {
 
   }
 
-  private getLeagues() {
+  /*private getLeagues() {
     this.userService.getUser().subscribe({
       next: (user) => { 
         this.leagues = user.leagues;
@@ -50,15 +57,24 @@ export class BetPageComponent implements OnInit {
         }        
       }
     })
-  }
+  }*/
 
   private getBets() {
-    this.betService.getBets(this.selectedLeague?.id).subscribe({
-      next: (data) => { this.bets = data; this.app.isLoading = false; }
-    })
+    if (this.selectedLeague) {
+      this.betService.getBets(this.selectedLeague?.id).subscribe({
+        next: (data) => { this.bets = data; this.app.isLoading = false; }
+      })
+    } else {
+      const dialogRef = this.dialog.open(LeagueDialogComponent)
+          dialogRef.afterClosed().subscribe(result => {
+            if(result) {
+              this.getBets()
+            }
+          });
+    }
   }
 
-  private getLeague(leagues: League[]): League {
+  /*private getLeague(leagues: League[]): League {
     const locallySelectedLeague = this.leagueService.getLocalSelectedLeague()
     if (locallySelectedLeague) {
       for(let league of leagues) {
@@ -69,12 +85,11 @@ export class BetPageComponent implements OnInit {
     }
     this.onSelectedLeagueChange(leagues[0])
     return leagues[0]
-  }
+  }*/
 
   onSelectedLeagueChange(league: League) {
-    this.leagueService.saveLocalSelectedLeague(league)
-    this.selectedLeague = league
-    console.log(this.selectedLeague)
+    this.userData!!.selectedLeague = league;
+    this.userService.setUserData(this.userData!!);
   }
 
 }

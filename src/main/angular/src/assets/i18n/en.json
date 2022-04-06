@@ -22,9 +22,13 @@
   "select-a-driver": "Select a driver",
   "cancel": "Cancel",
   "close": "Close",
-  "access-denied-title": "Access denied!",
-  "access-denied-message": "Access to this page was denied",
+  "access-denied": {
+    "title": "Access denied!",
+    "message": "Access to this page was denied"
+  },
   "login": "Login",
   "username": "Username",
-  "password": "Password"
+  "password": "Password",
+  "empty": "empty",
+  "no-result": "no result yet"
 }

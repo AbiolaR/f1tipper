@@ -1,6 +1,6 @@
-<section>
+<section *ngIf="userData">
     <mat-select [(ngModel)]="selectedLeague" (ngModelChange)="onSelectedLeagueChange($event)" *ngIf="selectedLeague">
-        <mat-option *ngFor="let league of leagues" [value]=league>
+        <mat-option *ngFor="let league of userData.leagues" [value]=league>
             {{league.name}}
         </mat-option>
     </mat-select>

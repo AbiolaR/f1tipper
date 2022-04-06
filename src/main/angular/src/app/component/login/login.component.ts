@@ -1,12 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserData } from 'src/app/model/user-data';
+import { LoginData } from 'src/app/model/login-data';
 import { UserService } from 'src/app/service/user.service';
 import { SwPush } from '@angular/service-worker';
 import { PushSubscriber } from 'src/app/model/push-subscriber';
 import { NotificationService } from 'src/app/service/notification.service';
 import { dashCaseToCamelCase } from '@angular/compiler/src/util';
+import { UserData } from 'src/app/model/user-data';
+import { AppService } from 'src/app/service/app.service';
 
 @Component({
   selector: 'app-login',
@@ -22,19 +24,23 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private notificationService: NotificationService,
     private router: Router, 
-    readonly swPush: SwPush) { }
+    readonly swPush: SwPush,
+    private appService: AppService) { }
 
   ngOnInit(): void {
-    localStorage.removeItem('currentUser');
+    
   }
 
   onSubmit() {
+    localStorage.removeItem('userData');
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('selectedLeague');
     this.userService.login(this.username, this.password).subscribe({
       next: (userData: UserData) => {
-        localStorage.setItem('currentUser', JSON.stringify({ username: this.username.toLowerCase(), userData: userData}));
-        if (userData.roles.find(role => role == "FORMULA_ADMIN")) {
-          this.subscribeToPush();
-        }
+        this.userService.setUserData(userData);
+        this.appService.setLanguage();
+        //localStorage.setItem('currentUser', JSON.stringify({ username: this.username.toLowerCase(), userData: userData}));
+        this.subscribeToPush();
         this.router.navigateByUrl('/')
       },
       error: (error: HttpErrorResponse) => {
@@ -61,10 +67,7 @@ export class LoginComponent implements OnInit {
           this.username.toLowerCase()
         )  
 
-      this.notificationService.savePushSubscriber(pushSubscriber).subscribe(result => {
-        //this.showNotificationOnPush();
-      });
-      
+      this.notificationService.savePushSubscriber(pushSubscriber).subscribe();      
       
     } catch (err) {
     }
@@ -72,17 +75,6 @@ export class LoginComponent implements OnInit {
 
   private toBase64(value: ArrayBufferLike) {
     return btoa(String.fromCharCode.apply(null, Array.from(new Uint8Array(value))))
-  }
-
-  private showNotificationOnPush() {
-    self.addEventListener('push', function(event: any) {
-      const payload = event.data ? event.data.text() : 'no payload';
-      console.log('push message received:')
-      console.log(event)
-      console.log(event.data.title)
-      console.log(payload)
-      new Notification(event.data.title, {body: payload})
-    });
   }
 
 }

@@ -25,7 +25,7 @@ class SecurityConfig(@Autowired private val userService: FormulaUserService) : W
     }
 
     override fun configure(http: HttpSecurity) {
-        val customAuthorizationFilter = authenticationManagerBean()?.let { CustomAuthenticationFilter(it) }
+        val customAuthorizationFilter = authenticationManagerBean()?.let { CustomAuthenticationFilter(it, userService) }
         customAuthorizationFilter?.setFilterProcessesUrl("/api/login")
         http.csrf().disable()
         http.sessionManagement().sessionCreationPolicy(STATELESS)
