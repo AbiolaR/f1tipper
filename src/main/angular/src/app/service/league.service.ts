@@ -31,17 +31,4 @@ export class LeagueService {
     return this.http.get<boolean>(`${this.apiUrl}/join/${leagueName}`, { headers });
   }
 
-  /*// LOCAL STORAGE
-  public getLocalSelectedLeague(): League | undefined {
-    try {
-      return JSON.parse(localStorage.getItem('selectedLeague')!);
-    } catch (error) {
-      return undefined
-    }
-  }
-
-  public saveLocalSelectedLeague(league: League) {  
-    localStorage.setItem('selectedLeague', JSON.stringify(league));
-  }*/
-
 }

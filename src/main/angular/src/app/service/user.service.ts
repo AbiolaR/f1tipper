@@ -46,15 +46,6 @@ export class UserService {
         return { 'Authorization': `Bearer ${this.getLoginData().access_token}` }
     }
 
-    /*public getLocalUser(): User {
-        try {
-            return { username: JSON.parse(localStorage.getItem('currentUser')!).username, leagues: []};
-        } catch (error) {
-            this.router.navigateByUrl('/login');
-            throw new Error("not logged in");
-        }
-    }*/
-
     public getUserData(): UserData {
         try {
             let userData: UserData = JSON.parse(localStorage.getItem('userData')!);

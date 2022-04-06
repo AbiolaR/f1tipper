@@ -5,21 +5,9 @@
         </mat-option>
     </mat-select>
 
-
-    <!--<button class="user" mat-raised-button color="primary">
-        <mat-icon svgIcon="user"></mat-icon>
-    </button>-->
-
     <button mat-fab color="primary" (click)="openUserDialog()">
         <mat-icon svgIcon="user"></mat-icon>
     </button>
-
-    <!--
-    <div class="name-header">
-        <span *ngIf="username">{{ 'logged-in' | translate }}: {{ username}}</span>
-        <button id="logout" mat-stroked-button color="accent" routerLink="/login">{{ 'logout' | translate }}</button>
-    </div>
-    -->
 
     <app-league-overview [leagueId]="userData.selectedLeague.id"></app-league-overview>
 

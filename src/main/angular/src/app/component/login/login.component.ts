@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
       next: (userData: UserData) => {
         this.userService.setUserData(userData);
         this.appService.setLanguage();
-        //localStorage.setItem('currentUser', JSON.stringify({ username: this.username.toLowerCase(), userData: userData}));
         this.subscribeToPush();
         this.router.navigateByUrl('/')
       },

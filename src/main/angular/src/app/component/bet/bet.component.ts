@@ -2,16 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { Bet } from '../../model/bet';
 import { BetService } from '../../service/bet.service';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { BetItemData } from 'src/app/model/bet-item-data';
 import { BetItemDialogComponent } from '../dialog/bet-item-dialog/bet-item-dialog.component';
 import { BetItem } from 'src/app/model/bet-item';
 import { BetDataType } from 'src/app/model/enum/bet-data-type';
-import { ResultService } from 'src/app/service/result.service';
-import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
 import { UserService } from 'src/app/service/user.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSpinner } from '@angular/material/progress-spinner';
 import { BetItemTypeGroup } from 'src/app/model/enum/bet-item-type-group';
 
 @Component({
@@ -32,9 +28,7 @@ export class BetComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, 
               private betService: BetService, 
               public dialog: MatDialog,
-              private resultService: ResultService,
-              private userService: UserService,
-              private snackBar: MatSnackBar ) { }
+              private userService: UserService) { }
 
   ngOnInit(): void {
     this.isAdmin = this.userService.isAdmin()

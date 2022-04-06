@@ -21,9 +21,11 @@ export class BetPageComponent implements OnInit {
   selectedLeague: League  | undefined
   userData: UserData | undefined;
 
-  constructor(private betService: BetService, private _snackBar: MatSnackBar, 
-    private userService: UserService, private dialog: MatDialog, 
-    public app: AppComponent, private leagueService: LeagueService) { }
+  constructor(
+    private betService: BetService,
+    private userService: UserService, 
+    private dialog: MatDialog, 
+    public app: AppComponent) { }
 
   ngOnInit(): void {
     this.app.isLoading = true;
@@ -40,25 +42,6 @@ export class BetPageComponent implements OnInit {
 
   }
 
-  /*private getLeagues() {
-    this.userService.getUser().subscribe({
-      next: (user) => { 
-        this.leagues = user.leagues;
-        this.selectedLeague = this.getLeague(this.leagues);
-        if (this.selectedLeague) {
-          this.getBets();      
-        } else {
-          const dialogRef = this.dialog.open(LeagueDialogComponent)
-          dialogRef.afterClosed().subscribe(result => {
-            if(result) {
-              this.getLeagues()
-            }
-          });
-        }        
-      }
-    })
-  }*/
-
   private getBets() {
     if (this.selectedLeague) {
       this.betService.getBets(this.selectedLeague?.id).subscribe({
@@ -73,19 +56,6 @@ export class BetPageComponent implements OnInit {
           });
     }
   }
-
-  /*private getLeague(leagues: League[]): League {
-    const locallySelectedLeague = this.leagueService.getLocalSelectedLeague()
-    if (locallySelectedLeague) {
-      for(let league of leagues) {
-        if (league.name == locallySelectedLeague.name ) {
-          return league
-        }
-      }
-    }
-    this.onSelectedLeagueChange(leagues[0])
-    return leagues[0]
-  }*/
 
   onSelectedLeagueChange(league: League) {
     this.userData!!.selectedLeague = league;
