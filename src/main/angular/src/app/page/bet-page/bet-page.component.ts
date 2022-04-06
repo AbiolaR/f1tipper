@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { BetService } from '../../service/bet.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import { UserService } from 'src/app/service/user.service';
 import { League } from 'src/app/model/league';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { LeagueDialogComponent } from '../../component/dialog/league-dialog/league-dialog.component';
 import { AppComponent } from 'src/app/app.component';
 import { Bet } from 'src/app/model/bet';
-import { LeagueService } from 'src/app/service/league.service';
 import { UserData } from 'src/app/model/user-data';
 
 @Component({
@@ -60,6 +58,9 @@ export class BetPageComponent implements OnInit {
   onSelectedLeagueChange(league: League) {
     this.userData!!.selectedLeague = league;
     this.userService.setUserData(this.userData!!);
+    this.bets = [];
+    this.app.isLoading = true;
+    this.getBets();
   }
 
 }
