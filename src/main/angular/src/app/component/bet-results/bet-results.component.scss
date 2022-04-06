@@ -34,7 +34,7 @@ p {
 
 .fastest-lap {
     font-weight: bold;
-    color: purple;
+    color: var(--fastestLapColor);
 }
 
 mat-spinner {
