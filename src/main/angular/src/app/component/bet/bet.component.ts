@@ -69,7 +69,7 @@ export class BetComponent implements OnInit {
 
   updateBetSubjects() {
     if (this.dialogRef) {
-      if (this.dialogRef.componentInstance.betItemData.betSubjects != []) {
+      if (!this.dialogRef.componentInstance.betItemData.betSubjects.length) {
         const type = this.dialogRef.componentInstance.betItemData.type;
         this.dialogRef.componentInstance.updateBetSubjects(this.getBetSubjectsByType(type));
       }
