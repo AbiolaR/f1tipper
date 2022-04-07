@@ -5,8 +5,6 @@ import com.keplerworks.f1tipper.exception.PushSubscriberNotFound
 import com.keplerworks.f1tipper.model.PushNotification
 import com.keplerworks.f1tipper.model.PushSubscriber
 import com.keplerworks.f1tipper.repository.SubscriberRepository
-import com.keplerworks.f1tipper.type.BetItemStatus
-import com.keplerworks.f1tipper.type.BetItemTypeGroup
 import nl.martijndwars.webpush.Notification
 import nl.martijndwars.webpush.PushService
 import nl.martijndwars.webpush.Subscription
@@ -14,7 +12,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.security.Security
-import java.util.*
 
 
 @Service
@@ -42,54 +39,24 @@ class NotificationService(
     fun sendNotifications(message: String, raceId: Long? = null) {
         val pushService = PushService(publicKey, privateKey, subject)
         val pushNotification = PushNotification(message, raceId)
-
         val subscribers = subscriberRepo.findAll()
 
         subscribers.forEach { subscriber ->
-            val subscription = Subscription(subscriber.endpoint, Subscription.Keys(subscriber.p256dh, subscriber.auth))
-            val notification = Notification(subscription, Gson().toJson(pushNotification))
-
-            pushService.send(notification)
+            sendNotification(pushService, subscriber, pushNotification)
         }
-
     }
 
     fun sendNotification(username: String, pushNotification: PushNotification) {
         val pushService = PushService(publicKey, privateKey, subject)
-
         val subscriber = subscriberRepo.findByUsername(username).orElseThrow{PushSubscriberNotFound()}
+        sendNotification(pushService, subscriber, pushNotification)
+    }
+
+    private fun sendNotification(pushService: PushService, subscriber: PushSubscriber, pushNotification: PushNotification) {
         val subscription = Subscription(subscriber.endpoint, Subscription.Keys(subscriber.p256dh, subscriber.auth))
         val notification = Notification(subscription, Gson().toJson(pushNotification))
 
         pushService.send(notification)
-    }
-
-    fun checkImpedingBetLock() {
-        val races = raceService.getAllRaces()
-        var raceId: Long? = null
-        var typeGroup: BetItemTypeGroup? = null
-
-        val cal = Calendar.getInstance()
-        cal.time = Date()
-        cal.add(Calendar.HOUR_OF_DAY, 1)
-        cal.add(Calendar.SECOND, 5)
-        val oneHourFromNow = cal.time
-
-        races.forEach raceLoop@ { race ->
-            enumValues<BetItemTypeGroup>().forEach { type ->
-                if (race.status(type) == BetItemStatus.OPEN
-                    && race.status(type, oneHourFromNow) == BetItemStatus.LOCKED) {
-                    typeGroup = type
-                    raceId = race.id
-                    return@raceLoop
-                }
-            }
-        }
-
-        if (raceId != null && typeGroup != null) {
-            sendNotifications(typeGroup!!.value, raceId!!)
-        }
-
     }
 
 }
