@@ -16,8 +16,7 @@ import java.security.Security
 
 @Service
 class NotificationService(
-    private val subscriberRepo: SubscriberRepository,
-    private val raceService: RaceService
+    private val subscriberRepo: SubscriberRepository
 ) {
     init {
         Security.addProvider(BouncyCastleProvider())
