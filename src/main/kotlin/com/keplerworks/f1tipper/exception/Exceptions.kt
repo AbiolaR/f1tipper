@@ -15,3 +15,6 @@ class BetSubjectNotFoundException() : RuntimeException()
 class ResultNotFoundException(message: String = "No Result matching the BetItem could be found") : RuntimeException(message)
 
 class RapidSessionNotFound(message: String = "No RapidSession could be found") : RuntimeException(message)
+
+class PushSubscriberNotFound(message: String = "No PushSubscriber could be found using the provided name")
+    : RuntimeException(message)

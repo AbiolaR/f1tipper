@@ -1,6 +1,5 @@
-package com.keplerworks.f1tipper.model
+package com.keplerworks.f1tipper.model.response
 
-import org.springframework.http.HttpInputMessage
 import org.springframework.http.HttpStatus
 
 data class AccessForbiddenResponse(

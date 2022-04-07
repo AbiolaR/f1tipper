@@ -1,6 +1,7 @@
 package com.keplerworks.f1tipper.service
 
 import com.google.gson.Gson
+import com.keplerworks.f1tipper.exception.PushSubscriberNotFound
 import com.keplerworks.f1tipper.model.PushNotification
 import com.keplerworks.f1tipper.model.PushSubscriber
 import com.keplerworks.f1tipper.repository.SubscriberRepository
@@ -34,11 +35,6 @@ class NotificationService(
     @Value("\${vapid.subject}")
     private val subject: String = ""
 
-
-    fun getPushSubscriber(username: String): PushSubscriber {
-        return subscriberRepo.findByUsername(username).orElseThrow()
-    }
-
     fun savePushSubscriber(pushSubscriber: PushSubscriber) {
         subscriberRepo.save(pushSubscriber)
     }
@@ -61,7 +57,7 @@ class NotificationService(
     fun sendNotification(username: String, pushNotification: PushNotification) {
         val pushService = PushService(publicKey, privateKey, subject)
 
-        val subscriber = subscriberRepo.findByUsername(username).orElseThrow()
+        val subscriber = subscriberRepo.findByUsername(username).orElseThrow{PushSubscriberNotFound()}
         val subscription = Subscription(subscriber.endpoint, Subscription.Keys(subscriber.p256dh, subscriber.auth))
         val notification = Notification(subscription, Gson().toJson(pushNotification))
 
