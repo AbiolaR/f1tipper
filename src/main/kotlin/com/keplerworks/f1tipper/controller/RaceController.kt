@@ -14,11 +14,7 @@ class RaceController (private val betSubjectService: BetSubjectService, private 
 
     @GetMapping("{raceId}/{type}")
     fun getBetSubjectsOfTypeOfRace(@PathVariable raceId: Long, @PathVariable type: BetSubjectType): List<BetSubject> {
-        if (raceId == 0L) {
-            return betSubjectService.getAllBetSubjectsByTypAndFlag(type)
-        }
-
-        return betSubjectService.getAllDriversOfRace(raceId)
+        return betSubjectService.getBetSubjectsOfTypeOfRace(raceId, type)
     }
 
     @GetMapping("/bet")

@@ -9,6 +9,9 @@ import { BetItem } from 'src/app/model/bet-item';
 import { BetDataType } from 'src/app/model/enum/bet-data-type';
 import { UserService } from 'src/app/service/user.service';
 import { BetItemTypeGroup } from 'src/app/model/enum/bet-item-type-group';
+import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
+import { BetSubject } from 'src/app/model/bet-subject';
+import { BetSubjectService } from 'src/app/service/bet-subject.service';
 
 @Component({
   selector: 'app-bet',
@@ -21,6 +24,7 @@ export class BetComponent implements OnInit {
   BetDataType = BetDataType
   isAdmin = false
   private betId: string | null | undefined;
+  private betSubjectMap = new Map<BetSubjectType, BetSubject[]>()
 
   @Input()
   bet: Bet | undefined;
@@ -28,21 +32,46 @@ export class BetComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, 
               private betService: BetService, 
               public dialog: MatDialog,
-              private userService: UserService) { }
+              private userService: UserService,
+              private betSubjectService: BetSubjectService) { }
 
   ngOnInit(): void {
     this.isAdmin = this.userService.isAdmin()
     if (!this.bet) {
       this.betId = this.activatedRoute.snapshot.paramMap.get("id");
       this.betService.getBet(this.betId).subscribe({      
-        next: (data) => this.bet = data
+        next: (data) => {
+          this.bet = data;
+          this.getBetSubjects();
+        }
       })
     }
   }
 
+  getBetSubjects() {
+    this.betSubjectService.getBetSubjects(BetSubjectType.DRIVER, this.bet!!.race.id)
+    .subscribe(betSubjects => {
+      this.betSubjectMap.set(BetSubjectType.DRIVER, betSubjects);
+    })
+
+    if (this.bet?.type.toUpperCase() == BetItemTypeGroup.CHAMPIONSHIP) {
+      this.betSubjectService.getBetSubjects(BetSubjectType.CONSTRUCTOR, this.bet!!.race.id)
+        .subscribe(betSubjects => {
+          this.betSubjectMap.set(BetSubjectType.CONSTRUCTOR, betSubjects);
+        })
+    }
+  }
+
   openBetItemDialog(type: BetDataType) {
+    let betSubjects: BetSubject[] | undefined;
+    if (type.toUpperCase() == BetSubjectType.CONSTRUCTOR.valueOf()) {    
+      betSubjects = this.betSubjectMap.get(BetSubjectType.CONSTRUCTOR)
+    } else {
+      betSubjects = this.betSubjectMap.get(BetSubjectType.DRIVER)
+    }
+
     const dialogRef = this.dialog.open(BetItemDialogComponent, {
-      data: new BetItemData(this.bet?.id, type),
+      data: new BetItemData(this.bet!!.id, type, betSubjects!!),
       width: '100%',
       disableClose: true
     })
@@ -52,8 +81,7 @@ export class BetComponent implements OnInit {
   handleDialogClose(dialogRef: any) {
     dialogRef.afterClosed().subscribe((betItem: BetItem) => {
       if (betItem) {
-        console.log(betItem)
-        this.betService.saveBetItem(betItem).subscribe(betItem => console.log(betItem));
+        this.betService.saveBetItem(betItem).subscribe();
       }
     });
   }

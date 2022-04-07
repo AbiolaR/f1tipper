@@ -1,8 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Inject, Input, OnInit } from '@angular/core';
-import { BetSubjectService } from '../../service/bet-subject.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BetSubject, EmptyBetSubject } from 'src/app/model/bet-subject';
 import { BetSubjectDialogData } from 'src/app/model/bet-subject-dialog-data';
 
@@ -11,29 +8,18 @@ import { BetSubjectDialogData } from 'src/app/model/bet-subject-dialog-data';
   templateUrl: './bet-subject.component.html',
   styleUrls: ['./bet-subject.component.scss']
 })
-export class BetSubjectComponent implements OnInit {
+export class BetSubjectComponent {
   betSubjects: BetSubject[] = [];
 
   constructor(
-    private betSubjectService: BetSubjectService, 
     public dialogRef: MatDialogRef<BetSubjectComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData: BetSubjectDialogData){}
+    @Inject(MAT_DIALOG_DATA) public dialogData: BetSubjectDialogData){
+      this.assignAndFilterBetSubjects();
+    }    
 
-  ngOnInit(): void {
-    this.getBetSubjects();
-  }
 
-  getBetSubjects(): void {
-    this.betSubjectService.getBetSubjects(this.dialogData.type, this.dialogData.raceId).subscribe(
-      (betSubjects) => {
-        this.betSubjects = betSubjects;
-        this.filterSubjects();
-      }
-    );
-  }
-
-  filterSubjects(): void {
-    this.betSubjects = this.betSubjects.filter(betSubject => {
+  assignAndFilterBetSubjects(): void {
+    this.betSubjects = this.dialogData.betSubjects.filter(betSubject => {
       return !this.dialogData.excludeBetSubjects.includes(betSubject.id);
     })
   }

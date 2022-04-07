@@ -33,7 +33,6 @@ export class BetItemDialogComponent implements OnInit {
     this.betService.getBetItem(this.betItemData.betId, this.betItemData.type).subscribe({
       next: (data) => {
         this.betItem = data;
-        console.log(this.betItem.status)
         this.betItemOpen = this.betItem.status == BetItemStatus.OPEN
       }
     })
@@ -58,7 +57,10 @@ export class BetItemDialogComponent implements OnInit {
     });
 
     const dialogRef = this.dialog?.open(BetSubjectComponent, {
-      data: {type: betSubjectType, raceId: this.betItem?.raceId, excludeBetSubjects: excludeBetSubjects}
+      data: {type: betSubjectType, 
+        raceId: this.betItem?.raceId,
+        betSubjects: this.betItemData.betSubjects,
+        excludeBetSubjects: excludeBetSubjects}
     });
 
     dialogRef?.afterClosed().subscribe((betSubject: BetSubject) => {
@@ -102,7 +104,6 @@ export class BetItemDialogComponent implements OnInit {
       let xDiff = Math.abs(this.lastPosX - posX)
       let yDiff = Math.abs(this.lastPosY - posY)
       if (yDiff < xDiff && xDiff >= 35) {
-        //console.warn(Math.abs(this.lastPosX - posX))
         this.betItem!!.positions[index].betSubject = new EmptyBetSubject();
         this.betItem!!.positions[index].fastestLap = false;
       }
