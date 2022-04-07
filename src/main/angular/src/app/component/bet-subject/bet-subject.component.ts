@@ -15,8 +15,12 @@ export class BetSubjectComponent {
     public dialogRef: MatDialogRef<BetSubjectComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: BetSubjectDialogData){
       this.assignAndFilterBetSubjects();
-    }    
+    }
 
+  updateBetSubjects(betSubjects: BetSubject[]) {
+    this.dialogData.betSubjects = betSubjects;
+    this.assignAndFilterBetSubjects();
+  }
 
   assignAndFilterBetSubjects(): void {
     this.betSubjects = this.dialogData.betSubjects.filter(betSubject => {

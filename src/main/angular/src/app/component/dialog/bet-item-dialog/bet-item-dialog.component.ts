@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { BetService } from '../../../service/bet.service';
-import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { BetItem as BetItem } from 'src/app/model/bet-item';
 import { BetItemData } from 'src/app/model/bet-item-data';
 import { BetSubjectComponent } from '../../bet-subject/bet-subject.component';
@@ -15,6 +15,7 @@ import { BetDataType } from 'src/app/model/enum/bet-data-type';
   styleUrls: ['./bet-item-dialog.component.scss'],
 })
 export class BetItemDialogComponent implements OnInit {
+  dialogRef: MatDialogRef<BetSubjectComponent, any> | undefined
   animationState: string = '';
   betItem: BetItem | undefined
   betItemOpen = false
@@ -38,6 +39,12 @@ export class BetItemDialogComponent implements OnInit {
     })
   }
 
+  updateBetSubjects(betSubjects: BetSubject[]) {
+    if (this.dialogRef) {
+      this.betItemData.betSubjects = betSubjects;
+      this.dialogRef.componentInstance.updateBetSubjects(betSubjects);
+    }
+  }
 
   openDriverDialog(index: number) {
     this.openBetSubjectDialog(index, BetSubjectType.DRIVER);
@@ -56,14 +63,14 @@ export class BetItemDialogComponent implements OnInit {
       }
     });
 
-    const dialogRef = this.dialog?.open(BetSubjectComponent, {
+    this.dialogRef = this.dialog.open(BetSubjectComponent, {
       data: {type: betSubjectType, 
         raceId: this.betItem?.raceId,
         betSubjects: this.betItemData.betSubjects,
         excludeBetSubjects: excludeBetSubjects}
     });
 
-    dialogRef?.afterClosed().subscribe((betSubject: BetSubject) => {
+    this.dialogRef.afterClosed().subscribe((betSubject: BetSubject) => {
       if (!betSubject) {
         return
       }

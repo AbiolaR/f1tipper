@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { Bet } from '../../model/bet';
 import { BetService } from '../../service/bet.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BetItemData } from 'src/app/model/bet-item-data';
 import { BetItemDialogComponent } from '../dialog/bet-item-dialog/bet-item-dialog.component';
 import { BetItem } from 'src/app/model/bet-item';
@@ -20,7 +20,7 @@ import { BetItemStatus } from 'src/app/model/enum/bet-item-status';
   styleUrls: ['./bet.component.scss']
 })
 export class BetComponent implements OnInit {
-
+  dialogRef: MatDialogRef<BetItemDialogComponent, any> | undefined
   BetItemTypeGroup = BetItemTypeGroup
   BetDataType = BetDataType
   isAdmin = false
@@ -55,30 +55,45 @@ export class BetComponent implements OnInit {
     this.betSubjectService.getBetSubjects(BetSubjectType.DRIVER, this.bet!!.race.id)
     .subscribe(betSubjects => {
       this.betSubjectMap.set(BetSubjectType.DRIVER, betSubjects);
+      this.updateBetSubjects();
     })
 
     if (this.bet?.type.toUpperCase() == BetItemTypeGroup.CHAMPIONSHIP) {
       this.betSubjectService.getBetSubjects(BetSubjectType.CONSTRUCTOR, this.bet!!.race.id)
         .subscribe(betSubjects => {
           this.betSubjectMap.set(BetSubjectType.CONSTRUCTOR, betSubjects);
+          this.updateBetSubjects();
         })
     }
   }
 
-  openBetItemDialog(type: BetDataType) {
-    let betSubjects: BetSubject[] | undefined;
-    if (type.toUpperCase() == BetSubjectType.CONSTRUCTOR.valueOf()) {    
-      betSubjects = this.betSubjectMap.get(BetSubjectType.CONSTRUCTOR)
-    } else {
-      betSubjects = this.betSubjectMap.get(BetSubjectType.DRIVER)
+  updateBetSubjects() {
+    if (this.dialogRef) {
+      if (this.dialogRef.componentInstance.betItemData.betSubjects != []) {
+        const type = this.dialogRef.componentInstance.betItemData.type;
+        this.dialogRef.componentInstance.updateBetSubjects(this.getBetSubjectsByType(type));
+      }
     }
+  }
 
-    const dialogRef = this.dialog.open(BetItemDialogComponent, {
-      data: new BetItemData(this.bet!!.id, type, betSubjects!!),
+  getBetSubjectsByType(type: BetDataType): BetSubject[] {
+    if (type.toUpperCase() == BetSubjectType.CONSTRUCTOR.valueOf()) {
+      return this.betSubjectMap.get(BetSubjectType.CONSTRUCTOR) || []
+    } else {
+      return this.betSubjectMap.get(BetSubjectType.DRIVER) || []
+    }
+  }
+
+  openBetItemDialog(type: BetDataType) {
+    const betSubjects = this.getBetSubjectsByType(type);
+
+    this.dialogRef = this.dialog.open(BetItemDialogComponent, {
+      data: new BetItemData(this.bet!!.id, type, betSubjects),
       width: '100%',
       disableClose: true
-    })
-    this.handleDialogClose(dialogRef);
+    })    
+    
+    this.handleDialogClose(this.dialogRef);    
   }
 
   handleDialogClose(dialogRef: any) {
