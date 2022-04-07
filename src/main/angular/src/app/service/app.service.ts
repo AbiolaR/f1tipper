@@ -16,8 +16,10 @@ export class AppService {
 
   public setLanguage(language: string = '') {
     this.userData = this.userService.getUserData()
+    let saveData = true;
     if (language == '') {
       language = this.userData.selectedLanguage
+      saveData = false;
     }
     if(this.translate.currentLang == language) {
       return
@@ -38,6 +40,8 @@ export class AppService {
         this.userData.selectedLanguage = 'en';
       }
     }
-    this.userService.setUserData(this.userData);
+    if (saveData) {
+      this.userService.setUserData(this.userData);
+    }
   }
 }
