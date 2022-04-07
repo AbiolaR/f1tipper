@@ -12,6 +12,7 @@ import { BetItemTypeGroup } from 'src/app/model/enum/bet-item-type-group';
 import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
 import { BetSubject } from 'src/app/model/bet-subject';
 import { BetSubjectService } from 'src/app/service/bet-subject.service';
+import { BetItemStatus } from 'src/app/model/enum/bet-item-status';
 
 @Component({
   selector: 'app-bet',
@@ -42,7 +43,9 @@ export class BetComponent implements OnInit {
       this.betService.getBet(this.betId).subscribe({      
         next: (data) => {
           this.bet = data;
-          this.getBetSubjects();
+          if (this.bet.status == BetItemStatus.OPEN) {
+            this.getBetSubjects();
+          }
         }
       })
     }
