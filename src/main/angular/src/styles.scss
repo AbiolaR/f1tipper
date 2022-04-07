@@ -81,7 +81,7 @@ app-bet-page {
 }
 
 #home-content {
-    height: calc(100vh - 2.8em);
+    height: calc(100vh - var(--navBarHeight));
     overflow: scroll;
 }
 
@@ -102,7 +102,7 @@ html, body { height: 100%; }
     bottom: 0;
     z-index: 1000;
     display: flex;
-    height: 2.8em;
+    height: var(--navBarHeight);
     width: 100%;
     justify-content: space-around;
     
