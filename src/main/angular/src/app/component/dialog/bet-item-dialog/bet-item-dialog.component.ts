@@ -6,18 +6,20 @@ import { BetItemData } from 'src/app/model/bet-item-data';
 import { BetSubjectComponent } from '../../bet-subject/bet-subject.component';
 import { BetItemStatus } from 'src/app/model/enum/bet-item-status';
 import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
-import { BetSubject } from 'src/app/model/bet-subject';
+import { BetSubject, EmptyBetSubject } from 'src/app/model/bet-subject';
 import { BetDataType } from 'src/app/model/enum/bet-data-type';
-
 
 @Component({
   selector: 'app-bet-item-dialog',
   templateUrl: './bet-item-dialog.component.html',
-  styleUrls: ['./bet-item-dialog.component.scss']
+  styleUrls: ['./bet-item-dialog.component.scss'],
 })
 export class BetItemDialogComponent implements OnInit {
+  animationState: string = '';
   betItem: BetItem | undefined
   betItemOpen = false
+  lastPosX = 0;
+  lastPosY = 0;
 
   constructor(private betService: BetService,
               @Inject(MAT_DIALOG_DATA) public betItemData: BetItemData,
@@ -66,7 +68,6 @@ export class BetItemDialogComponent implements OnInit {
       if (this.betItem) {
         if(!betSubject.name) this.betItem.positions[index].fastestLap = false
         this.betItem.positions[index].betSubject = betSubject;
-        console.log(this.betItem.positions)
       }
     });
   }
@@ -84,5 +85,31 @@ export class BetItemDialogComponent implements OnInit {
       this.betItem.positions[index].fastestLap = true;
     }      
   }
+
+  setToEmpty(event: any, index: number) {
+    if (this.betItem!!.positions[index].betSubject.type == BetSubjectType.UNKNOWN) {
+      return;
+    }
+    let element = event.target;
+
+    let posX = event.deltaX + this.lastPosX;
+    let posY = event.deltaY + this.lastPosY;
+    element.style.left = posX + "px";
+
+    if (event.isFinal) {      
+      element.style.left = this.lastPosX + "px";
+
+      let xDiff = Math.abs(this.lastPosX - posX)
+      let yDiff = Math.abs(this.lastPosY - posY)
+      if (yDiff < xDiff && xDiff >= 35) {
+        //console.warn(Math.abs(this.lastPosX - posX))
+        this.betItem!!.positions[index].betSubject = new EmptyBetSubject();
+        this.betItem!!.positions[index].fastestLap = false;
+      }
+      this.lastPosX = 0;
+      this.lastPosY = 0;
+    }
+  }
+
   
 }

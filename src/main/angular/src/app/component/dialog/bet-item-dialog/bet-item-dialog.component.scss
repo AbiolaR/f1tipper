@@ -12,6 +12,10 @@ button {
     border-radius: var(--buttonBorderRadius);
     margin: 10px;
     min-width: 15em;
+
+    ::ng-deep span {
+        pointer-events: none;
+    }
 }
 
 .mat-button-disabled {

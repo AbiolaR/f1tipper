@@ -4,8 +4,9 @@
         <div class="positions" *ngIf="betItem">
             <button mat-flat-button *ngFor="let position of betItem.positions; let index = index" 
             [color]="(position.betSubject.name) ? 'accent' : 'primary'" 
+            [ngClass]="{'fastest-lap' : position.fastestLap}"
             (click)="betItem.type == 'constructor' ? openConstructorDialog(index) : openDriverDialog(index)"
-            [ngClass]="{'fastest-lap' : position.fastestLap}" (press)="setFastestLap(index)">
+            (press)="setFastestLap(index)" (pan)="setToEmpty($event, index)">
                 P{{position.position}}: {{position.betSubject.name 
                     || (betItem.type == 'constructor' ?  ('select-a-constructor' | translate)  :  ('select-a-driver' | translate) )}}
             </button>
