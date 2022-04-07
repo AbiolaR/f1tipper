@@ -16,8 +16,6 @@ class ResultService (private val resultRepo: ResultRepository) {
             .orElse(Result(raceId = raceId, type = betItemType.value))
     }
 
-
-
     fun saveResult(result: Result) {
         resultRepo.save(result)
     }

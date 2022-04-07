@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
-data class BetItem(
+class BetItem(
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     val id: Long = 0,

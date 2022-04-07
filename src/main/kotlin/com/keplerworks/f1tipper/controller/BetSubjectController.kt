@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/betsubject")
 class BetSubjectController(private val service: BetSubjectService) {
 
-    /*@GetMapping("{type}")
-    fun getAllBetSubjectsOfType(@PathVariable type: BetSubjectType): List<BetSubject> {
-        return service.getAllBetSubjectsByType(type)
-    }*/
-
     @GetMapping("id/{id}")
     fun getBetSubjectById(@PathVariable id: Long): BetSubject {
         return service.getBetSubject(id)

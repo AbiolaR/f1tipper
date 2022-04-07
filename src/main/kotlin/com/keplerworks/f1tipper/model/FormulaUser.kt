@@ -1,6 +1,5 @@
 package com.keplerworks.f1tipper.model
 
-import com.keplerworks.f1tipper.dto.UserDTO
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import javax.persistence.*

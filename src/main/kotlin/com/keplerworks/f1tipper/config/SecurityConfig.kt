@@ -4,9 +4,7 @@ import com.keplerworks.f1tipper.filter.CustomAuthenticationFilter
 import com.keplerworks.f1tipper.filter.CustomAuthorizationFilter
 import com.keplerworks.f1tipper.service.FormulaUserService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -35,24 +33,10 @@ class SecurityConfig(@Autowired private val userService: FormulaUserService) : W
                 auth.antMatchers("/api/**").hasAuthority("FORMULA_USER")
             }
             .httpBasic { }
-
-        //http.formLogin().loginPage("/login").permitAll()
         http.cors()
         http.headers().frameOptions().sameOrigin().httpStrictTransportSecurity().disable()
 
         http.addFilterBefore(CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter::class.java)
-        //http.httpBasic().disable()
-
     }
 
-    @Bean
-    @Throws(Exception::class)
-    override fun authenticationManagerBean(): AuthenticationManager? {
-        return super.authenticationManagerBean()
-    }
-
-    /*@Bean
-    override fun authenticationManagerBean(): AuthenticationManager {
-        return super.authenticationManagerBean()
-    }*/
 }

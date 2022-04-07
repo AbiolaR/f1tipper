@@ -13,11 +13,6 @@ enum class BetItemType(
     DRIVER("driver", 20,400, 200,500),
     CONSTRUCTOR("constructor", 10, 600, 200, 800);
 
-    val resultAmount: Int get() = when (this) {
-        DNF -> 20
-        else -> repeatNumber
-    }
-
     fun isChampionshipType(): Boolean {
         return when(this) {
             DRIVER -> true

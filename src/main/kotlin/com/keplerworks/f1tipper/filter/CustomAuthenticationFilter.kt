@@ -6,7 +6,6 @@ import com.keplerworks.f1tipper.dto.LoginDataDTO
 import com.keplerworks.f1tipper.dto.UserDTO
 import com.keplerworks.f1tipper.filter.FilterHelper.Companion.algorithm
 import com.keplerworks.f1tipper.service.FormulaUserService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

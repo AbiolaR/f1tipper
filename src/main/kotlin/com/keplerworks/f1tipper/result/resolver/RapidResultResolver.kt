@@ -135,9 +135,9 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
                     try {
                         RapidSessionType.enumOf(session.sessionName)
                     } catch (exc: Exception) {
-                        RapidSessionType.NOTNEEDED
+                        RapidSessionType.NOT_NEEDED
                     }
-                }.filter { it.key != RapidSessionType.NOTNEEDED }
+                }.filter { it.key != RapidSessionType.NOT_NEEDED }
 
                 sessionMap.forEach{ session ->
                     sessions.add(RapidSession(session.value.id.toLong(), session.key, race.id))

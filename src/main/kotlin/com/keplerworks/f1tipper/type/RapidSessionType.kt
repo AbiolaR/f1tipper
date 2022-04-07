@@ -4,7 +4,7 @@ enum class RapidSessionType(val sessionIdentifier: String) {
     QUALIFYING("Qualifying 3"),
     RACE("Race"),
     FASTESTLAP("FastestLap"),
-    NOTNEEDED("");
+    NOT_NEEDED("");
 
     companion object {
         fun enumOf(identifier: String): RapidSessionType {
