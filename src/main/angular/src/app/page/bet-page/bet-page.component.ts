@@ -7,6 +7,7 @@ import { LeagueDialogComponent } from '../../component/dialog/league-dialog/leag
 import { AppComponent } from 'src/app/app.component';
 import { Bet } from 'src/app/model/bet';
 import { UserData } from 'src/app/model/user-data';
+import { BetData } from 'src/app/model/bet-data';
 
 @Component({
   selector: 'app-bet-page',
@@ -30,7 +31,8 @@ export class BetPageComponent implements OnInit {
     this.userData = this.userService.getUserData();
     for (let league of this.userData.leagues) {
       if (league.name == this.userData.selectedLeague.name ) {
-        this.selectedLeague = league
+        this.selectedLeague = league;
+        break;
       }
     }
     this.getBets();    
@@ -42,17 +44,33 @@ export class BetPageComponent implements OnInit {
 
   private getBets() {
     if (this.selectedLeague) {
-      this.betService.getBets(this.selectedLeague?.id).subscribe({
-        next: (data) => { this.bets = data; this.app.isLoading = false; }
-      })
+      const betData = this.userData!!.betData;
+      const dataAgeInMinutes = (new Date().valueOf() - betData.lastUpdate.valueOf()) / 60000
+      if (!betData.bets.length ||  dataAgeInMinutes > 30) {
+        this.updateBets();
+      } else {
+        this.bets = betData.bets;
+        this.app.isLoading = false;
+      }
     } else {
       const dialogRef = this.dialog.open(LeagueDialogComponent)
           dialogRef.afterClosed().subscribe(result => {
             if(result) {
-              this.getBets()
+              this.getBets();
             }
           });
     }
+  }
+
+  private updateBets() {
+    this.betService.getBets(this.selectedLeague?.id).subscribe({
+      next: (data) => { 
+        this.bets = data;
+        this.app.isLoading = false;
+        this.userData!!.betData = new BetData(data);
+        this.userService.setUserData(this.userData!!);
+      }
+    })
   }
 
   onSelectedLeagueChange(league: League) {

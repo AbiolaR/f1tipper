@@ -36,7 +36,11 @@ export class LoginComponent implements OnInit {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('selectedLeague');
     this.userService.login(this.username, this.password).subscribe({
-      next: (userData: UserData) => {
+      next: (data: UserData) => {
+        let userData = new UserData();
+        for (const [key, value] of Object.entries(data)) {
+          userData[key] = value
+        }
         this.userService.setUserData(userData);
         this.appService.setLanguage();
         this.subscribeToPush();
