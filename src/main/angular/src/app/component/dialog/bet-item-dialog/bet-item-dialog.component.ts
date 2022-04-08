@@ -104,8 +104,8 @@ export class BetItemDialogComponent implements OnInit {
   }
 
   updateBetSubjects(betSubjects: BetSubject[]) {
+    this.betItemData.betSubjects = betSubjects;
     if (this.dialogRef) {
-      this.betItemData.betSubjects = betSubjects;
       this.dialogRef.componentInstance.updateBetSubjects(betSubjects);
     }
   }
