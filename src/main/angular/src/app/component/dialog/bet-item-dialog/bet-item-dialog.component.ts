@@ -25,7 +25,7 @@ export class BetItemDialogComponent implements OnInit {
   doubleTap = new Hammer.Tap({event: 'doubleTap', taps: 2});
   betSubjectToSwitch = { index: -1, element: undefined as any };
 
-  @ViewChildren('betItems') betItems: QueryList<any> | undefined;
+  @ViewChildren('betSubjects') betSubjects: QueryList<any> | undefined;
   
 
   constructor(private betService: BetService,
@@ -37,7 +37,7 @@ export class BetItemDialogComponent implements OnInit {
   }
 
   ngAfterViewInit() {    
-    this.betItems?.changes.subscribe(() => {
+    this.betSubjects?.changes.subscribe(() => {
       const betItemButtons = document.getElementById("positions")?.querySelectorAll("button");
       var event = new CustomEvent("buttonReady");
       betItemButtons?.forEach (element => { 
