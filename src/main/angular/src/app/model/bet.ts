@@ -5,5 +5,5 @@ export interface Bet {
     type: string;
     points: number;
     status: string;
-    race: Race
+    race: Race;
 }

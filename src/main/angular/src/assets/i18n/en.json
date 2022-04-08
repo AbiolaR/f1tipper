@@ -30,5 +30,6 @@
   "username": "Username",
   "password": "Password",
   "empty": "empty",
-  "no-result": "no result yet"
+  "no-result": "no result yet",
+  "begins": "begins"
 }

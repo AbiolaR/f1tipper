@@ -17,6 +17,7 @@ h1 {
 
 h3 {
     background-color: #303030;
+    margin-bottom: 10px;
 }
 
 .flag {
@@ -64,6 +65,12 @@ h3 {
 
 #bet-header {
     position: relative;
+
+    p {
+        margin: 5px;
+        font-size: smaller;
+        color: var(--primaryColor);
+    }
 }
 
 #bet-content {

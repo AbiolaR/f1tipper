@@ -13,6 +13,8 @@ import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
 import { BetSubject } from 'src/app/model/bet-subject';
 import { BetSubjectService } from 'src/app/service/bet-subject.service';
 import { BetItemStatus } from 'src/app/model/enum/bet-item-status';
+import { DateTime, Duration } from 'luxon';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-bet',
@@ -23,6 +25,7 @@ export class BetComponent implements OnInit {
   dialogRef: MatDialogRef<BetItemDialogComponent, any> | undefined
   BetItemTypeGroup = BetItemTypeGroup
   BetDataType = BetDataType
+  dateMessage = ''
   isAdmin = false
   private betId: string | null | undefined;
   private betSubjectMap = new Map<BetSubjectType, BetSubject[]>()
@@ -34,7 +37,8 @@ export class BetComponent implements OnInit {
               private betService: BetService, 
               public dialog: MatDialog,
               private userService: UserService,
-              private betSubjectService: BetSubjectService) { }
+              private betSubjectService: BetSubjectService,
+              private translate: TranslateService) { }
 
   ngOnInit(): void {
     this.isAdmin = this.userService.isAdmin()
@@ -44,11 +48,43 @@ export class BetComponent implements OnInit {
         next: (data) => {
           this.bet = data;
           if (this.bet.status == BetItemStatus.OPEN) {
+            this.setDateMessage();
             this.getBetSubjects();
           }
         }
       })
     }
+  }
+
+  setDateMessage() {
+    if (!this.bet) { 
+      return;
+    }
+    const qualiStartDate = DateTime.fromMillis(this.bet.race.qualiStartDatetime)
+    const raceStartDate = DateTime.fromMillis(this.bet.race.raceStartDatetime)
+    let upcomingEvent = '';
+    let date = '';
+    
+    if (this.isWithinThreeDays(qualiStartDate.diffNow())) {
+      date = qualiStartDate.setLocale(this.translate.currentLang)
+              .toLocaleString(DateTime.DATETIME_MED);
+      upcomingEvent = BetDataType.QUALIFYING;
+    } else if (this.isWithinThreeDays(raceStartDate.diffNow())) {
+      date = qualiStartDate.setLocale(this.translate.currentLang)
+              .toLocaleString(DateTime.DATETIME_MED);        
+      upcomingEvent = BetDataType.RACE;
+    }    
+    if (upcomingEvent) {
+      this.dateMessage = `${this.translate.instant(upcomingEvent)} ${this.translate.instant('begins')}: ${date}`;
+    }
+    
+  }
+
+  private isWithinThreeDays(duration: Duration): Boolean {
+    if (duration.as('milliseconds') > 0 && duration.as('days') < 3) {
+      return true;
+    }
+    return false;
   }
 
   getBetSubjects() {

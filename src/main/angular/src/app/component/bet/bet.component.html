@@ -5,7 +5,8 @@
         <h1>{{bet.race.country}}
         </h1>
         <h4>{{bet.race.name}}</h4>
-        <h3>{{bet.race.dateRange}}</h3>
+        <h3 *ngIf="!dateMessage">{{bet.race.dateRange}}</h3>
+        <p>{{dateMessage}}</p>
         <hr/>
     </header>
     <section id="bet-content">

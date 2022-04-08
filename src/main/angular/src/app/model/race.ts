@@ -5,5 +5,7 @@ export interface Race {
     country: string,
     flagImageUrl: string,
     trackSvg: string,
-    dateRange: string
+    dateRange: string,
+    qualiStartDatetime: number,
+    raceStartDatetime: number,
 }
