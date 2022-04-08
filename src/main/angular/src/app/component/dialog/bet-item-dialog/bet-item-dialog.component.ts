@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChildren, QueryList } from '@angular/core';
 import { BetService } from '../../../service/bet.service';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BetItem as BetItem } from 'src/app/model/bet-item';
 import { BetItemData } from 'src/app/model/bet-item-data';
 import { BetSubjectComponent } from '../../bet-subject/bet-subject.component';
@@ -21,20 +21,84 @@ export class BetItemDialogComponent implements OnInit {
   betItemOpen = false
   lastPosX = 0;
   lastPosY = 0;
+  tap = new Hammer.Tap({event: 'singletap'});
+  doubleTap = new Hammer.Tap({event: 'doubleTap', taps: 2});
+  betSubjectToSwitch = { index: -1, element: undefined as any };
+
+  @ViewChildren('betItems') betItems: QueryList<any> | undefined;
+  
 
   constructor(private betService: BetService,
               @Inject(MAT_DIALOG_DATA) public betItemData: BetItemData,
               private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getData();
+    this.getData();    
+  }
+
+  ngAfterViewInit() {    
+    this.betItems?.changes.subscribe(() => {
+      const betItemButtons = document.getElementById("positions")?.querySelectorAll("button");
+      var event = new CustomEvent("buttonReady");
+      betItemButtons?.forEach (element => { 
+        element.dispatchEvent(event)
+      });
+    })
+  }
+
+  addTapListener(element: any, index: number) {
+    let manager = new Hammer.Manager(element);
+    element.setAttribute('index', index)
+
+    manager.add([this.doubleTap, this.tap]);
+  
+    this.doubleTap.recognizeWith(this.tap);
+    this.tap.requireFailure(this.doubleTap);
+    var event = new CustomEvent('singleTap');
+
+    manager.on('singletap', (e) => {
+      e.target.dispatchEvent(event)
+    });
+    manager.on('doubleTap', (e) => {
+      let i = e.target.getAttribute('index') || ''
+      this.switchBetSubject(e.target, parseInt(i));
+    });
+  }
+
+  switchBetSubject(element: HTMLElement, index: number) {
+    if (!this.betItem?.positions[index].betSubject.name) {
+      return;
+    }
+    if (this.betSubjectToSwitch.index == -1) {
+      element.classList.add('to-be-switched');
+      this.betSubjectToSwitch.index = index;
+      this.betSubjectToSwitch.element = element;
+    } else {
+      let betSubjectA = this.betItem?.positions[index].betSubject;
+      let fastestLapA = this.betItem?.positions[index].fastestLap;
+      let betSubjectB = this.betItem?.positions[this.betSubjectToSwitch.index].betSubject;
+      let fastestLapB = this.betItem?.positions[this.betSubjectToSwitch.index].fastestLap;
+
+      this.betItem!!.positions[this.betSubjectToSwitch.index].betSubject = betSubjectA;
+      this.betItem!!.positions[this.betSubjectToSwitch.index].fastestLap = fastestLapA;
+      this.betItem!!.positions[index].betSubject = betSubjectB;
+      this.betItem!!.positions[index].fastestLap = fastestLapB;
+      
+      this.setSwitchBetSubjectEmpty();
+    }
+  }
+
+  private setSwitchBetSubjectEmpty() {
+    this.betSubjectToSwitch.element?.classList.remove('to-be-switched');
+    this.betSubjectToSwitch.index = -1;
+    this.betSubjectToSwitch.element = undefined;
   }
 
   getData() {
     this.betService.getBetItem(this.betItemData.betId, this.betItemData.type).subscribe({
       next: (data) => {
+        this.betItemOpen = data.status == BetItemStatus.OPEN
         this.betItem = data;
-        this.betItemOpen = this.betItem.status == BetItemStatus.OPEN
       }
     })
   }
@@ -63,6 +127,8 @@ export class BetItemDialogComponent implements OnInit {
       }
     });
 
+    this.setSwitchBetSubjectEmpty();
+
     this.dialogRef = this.dialog.open(BetSubjectComponent, {
       data: {type: betSubjectType, 
         raceId: this.betItem?.raceId,
@@ -75,7 +141,7 @@ export class BetItemDialogComponent implements OnInit {
         return
       }
       if (this.betItem) {
-        if(!betSubject.name) this.betItem.positions[index].fastestLap = false
+        this.betItem.positions[index].fastestLap = false;
         this.betItem.positions[index].betSubject = betSubject;
       }
     });

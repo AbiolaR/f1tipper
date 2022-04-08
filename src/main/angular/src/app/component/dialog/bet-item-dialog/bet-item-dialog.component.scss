@@ -1,4 +1,4 @@
-.positions {
+#positions {
     text-align: center;
 }
 
@@ -53,3 +53,29 @@ mat-dialog-actions {
 .fastest-lap {
     background-color: var(--fastestLapColor);
 }
+
+.to-be-switched {
+    animation-name: shakeX;
+    animation-duration:  1.8s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes shakeX {
+    0% { transform: translate3d(10px, 0, 0); }
+  
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translate3d(-10px, 0, 0);
+    }
+  
+    20%,
+    40%,
+    60%,
+    80%,
+    100% {
+      transform: translate3d(10px, 0, 0);
+    }
+  }

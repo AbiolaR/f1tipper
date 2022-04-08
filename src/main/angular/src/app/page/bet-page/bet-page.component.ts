@@ -45,6 +45,10 @@ export class BetPageComponent implements OnInit {
   private getBets() {
     if (this.selectedLeague) {
       const betData = this.userData!!.betData;
+      if (!betData) {
+        this.updateBets();
+        return;
+      }
       const dataAgeInMinutes = (new Date().valueOf() - betData.lastUpdate.valueOf()) / 60000
       if (!betData.bets.length ||  dataAgeInMinutes > 30) {
         this.updateBets();
