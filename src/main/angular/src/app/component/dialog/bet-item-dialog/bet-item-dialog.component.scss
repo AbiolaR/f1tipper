@@ -25,7 +25,7 @@ mat-spinner {
     position: absolute;
     top: 0;
     bottom: 0;
-    right: -14px;
+    right: -10px;
     margin: auto;
 }
 
@@ -77,20 +77,6 @@ mat-dialog-actions {
     opacity: 0;
 }
 
-.fastest-lap-btn {
-    min-width: initial;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    transform: translate(23px);
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .position-wrapper {
     position: relative;
 
@@ -104,7 +90,7 @@ mat-dialog-actions {
         align-items: center;
         justify-content: center;
         left: 0;
-        transform: translate(-23px);
+        transform: translate(-20px);
         font-size: 16px;
     }
 }
