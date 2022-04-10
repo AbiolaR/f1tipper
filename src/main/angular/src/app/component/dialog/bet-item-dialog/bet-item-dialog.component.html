@@ -2,15 +2,20 @@
     <mat-spinner *ngIf="!betItem" color="primary"></mat-spinner>
     <div *ngIf="betItemOpen" #betSubjects>
         <div id="positions" *ngIf="betItem">
-            <button mat-flat-button *ngFor="let position of betItem.positions; let index = index" 
-            [color]="(position.betSubject.name) ? 'accent' : 'primary'" 
-            [ngClass]="{'fastest-lap' : position.fastestLap}"
-            (singleTap)="betItem.type == 'constructor' ? openConstructorDialog(index) : openDriverDialog(index)"
-            (press)="setFastestLap(index)" (pan)="setToEmpty($event, index)"
-            (buttonReady)="addTapListener($event.target, index)">
-                P{{position.position}}: {{position.betSubject.name 
-                    || (betItem.type == 'constructor' ?  ('select-a-constructor' | translate)  :  ('select-a-driver' | translate) )}}
-            </button>
+            <div class="position-wrapper" *ngFor="let position of betItem.positions; let index = index">
+                <div class="position-num-wrapper">
+                    <span>P{{position.position}}</span>
+                </div>
+                <button mat-flat-button
+                [color]="(position.betSubject.name) ? 'accent' : 'primary'"
+                [ngClass]="{'fastest-lap' : position.fastestLap}"
+                (click)="betItem.type == 'constructor' ? openConstructorDialog(index) : openDriverDialog(index)"
+                (press)="setFastestLap(index)" (pan)="setToEmpty($event, index)">
+                    {{position.betSubject.name
+                        || (betItem.type == 'constructor' ?  ('select-a-constructor' | translate)  :  ('select-a-driver' | translate) )}}
+                </button>
+                <button mat-flat-button class="fastest-lap-btn"><mat-icon class="timer">timer</mat-icon></button>
+            </div>
         </div>
     </div>
     <div *ngIf="!betItemOpen && betItem">

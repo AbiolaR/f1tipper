@@ -60,6 +60,42 @@ mat-dialog-actions {
     animation-iteration-count: infinite;
 }
 
+.fastest-lap-btn {
+    min-width: initial;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    
+.position-wrapper {
+    position: relative;
+
+    div {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+    
+.position-num-wrapper {
+    left: 0;
+    transform: translate(-23px);
+
+    span {
+        font-size: 16px;
+    }
+}
+
 @keyframes shakeX {
     0% { transform: translate3d(10px, 0, 0); }
   
