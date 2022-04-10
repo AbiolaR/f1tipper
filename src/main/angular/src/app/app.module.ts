@@ -35,7 +35,8 @@ import { AdminControlButtonComponent } from './component/button/admin-control-bu
 import { RaceToBetRedirectComponent } from './component/race-to-bet-redirect/race-to-bet-redirect.component';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
-import { UserDialogComponent } from './component/dialog/user-dialog/user-dialog.component'
+import { UserDialogComponent } from './component/dialog/user-dialog/user-dialog.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -58,7 +59,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LeagueOverviewComponent,
     AdminControlButtonComponent,
     RaceToBetRedirectComponent,
-    UserDialogComponent,    
+    UserDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +78,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    DragDropModule,
     ServiceWorkerModule.register('custom-service-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

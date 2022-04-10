@@ -7,7 +7,8 @@ mat-spinner {
     transform: translate(-50%);
 }
 
-button {
+.bet-subject-btn {
+    z-index: 10;
     touch-action: pan-y !important;
     border-radius: var(--buttonBorderRadius);
     margin: 10px;
@@ -15,7 +16,17 @@ button {
 
     ::ng-deep span {
         pointer-events: none;
-    }
+    }    
+}
+
+.reorder {
+    pointer-events: initial;
+    color: white;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -14px;
+    margin: auto;
 }
 
 .mat-button-disabled {
@@ -54,64 +65,46 @@ mat-dialog-actions {
     background-color: var(--fastestLapColor);
 }
 
-.to-be-switched {
-    animation-name: shakeX;
-    animation-duration:  1.8s;
-    animation-iteration-count: infinite;
+.cdk-drop-list-dragging .cdk-drag {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-animating {
+    transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
 }
 
 .fastest-lap-btn {
     min-width: initial;
     position: absolute;
     top: 0;
+    right: 0;
     bottom: 0;
     margin: auto;
+    transform: translate(23px);
     width: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-    
+
 .position-wrapper {
     position: relative;
 
-    div {
+    .position-num {
         position: absolute;
         top: 0;
-        bottom: 0;
+        bottom: 0;        
         margin: auto;
         width: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
-    }
-}
-    
-.position-num-wrapper {
-    left: 0;
-    transform: translate(-23px);
-
-    span {
+        left: 0;
+        transform: translate(-23px);
         font-size: 16px;
     }
 }
-
-@keyframes shakeX {
-    0% { transform: translate3d(10px, 0, 0); }
-  
-    10%,
-    30%,
-    50%,
-    70%,
-    90% {
-      transform: translate3d(-10px, 0, 0);
-    }
-  
-    20%,
-    40%,
-    60%,
-    80%,
-    100% {
-      transform: translate3d(10px, 0, 0);
-    }
-  }

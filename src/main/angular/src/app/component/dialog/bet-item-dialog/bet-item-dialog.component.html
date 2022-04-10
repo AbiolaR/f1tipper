@@ -1,20 +1,25 @@
-<mat-dialog-content>
+<mat-dialog-content cdkScrollable>
     <mat-spinner *ngIf="!betItem" color="primary"></mat-spinner>
     <div *ngIf="betItemOpen" #betSubjects>
-        <div id="positions" *ngIf="betItem">
+        <div cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListAutoScrollStep]="5"
+         id="positions" *ngIf="betItem">
             <div class="position-wrapper" *ngFor="let position of betItem.positions; let index = index">
-                <div class="position-num-wrapper">
-                    <span>P{{position.position}}</span>
+                <span class="position-num">P{{position.position}}</span>
+                <div cdkDrag cdkDragBoundary="mat-dialog-content" cdkDragLockAxis="y" 
+                [cdkDragDisabled]="!position.betSubject.name">
+                    <button mat-flat-button class="bet-subject-btn"                
+                    [color]="(position.betSubject.name) ? 'accent' : 'primary'"
+                    [ngClass]="{'fastest-lap' : position.fastestLap}"
+                    (tap)="betItem.type == 'constructor' ? openConstructorDialog(index) 
+                                                            : openDriverDialog(index)"
+                    (press)="setFastestLap(index)" (pan)="setToEmpty($event, index)">
+                        {{position.betSubject.name
+                            || (betItem.type == 'constructor' ?  ('select-a-constructor' | translate)  :  ('select-a-driver' | translate) )}}
+                    </button>
+                    <mat-icon cdkDragHandle *ngIf="position.betSubject.name" class="reorder">
+                        reorder
+                    </mat-icon>
                 </div>
-                <button mat-flat-button
-                [color]="(position.betSubject.name) ? 'accent' : 'primary'"
-                [ngClass]="{'fastest-lap' : position.fastestLap}"
-                (click)="betItem.type == 'constructor' ? openConstructorDialog(index) : openDriverDialog(index)"
-                (press)="setFastestLap(index)" (pan)="setToEmpty($event, index)">
-                    {{position.betSubject.name
-                        || (betItem.type == 'constructor' ?  ('select-a-constructor' | translate)  :  ('select-a-driver' | translate) )}}
-                </button>
-                <button mat-flat-button class="fastest-lap-btn"><mat-icon class="timer">timer</mat-icon></button>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { BetService } from '../../../service/bet.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BetItem as BetItem } from 'src/app/model/bet-item';
@@ -8,6 +8,8 @@ import { BetItemStatus } from 'src/app/model/enum/bet-item-status';
 import { BetSubjectType } from 'src/app/model/enum/bet-subject-type';
 import { BetSubject, EmptyBetSubject } from 'src/app/model/bet-subject';
 import { BetDataType } from 'src/app/model/enum/bet-data-type';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Position } from 'src/app/model/position';
 
 @Component({
   selector: 'app-bet-item-dialog',
@@ -20,78 +22,14 @@ export class BetItemDialogComponent implements OnInit {
   betItem: BetItem | undefined
   betItemOpen = false
   lastPosX = 0;
-  lastPosY = 0;
-  tap = new Hammer.Tap({event: 'singletap'});
-  doubleTap = new Hammer.Tap({event: 'doubleTap', taps: 2});
-  betSubjectToSwitch = { index: -1, element: undefined as any };
-
-  @ViewChildren('betSubjects') betSubjects: QueryList<any> | undefined;
-  
+  lastPosY = 0;  
 
   constructor(private betService: BetService,
               @Inject(MAT_DIALOG_DATA) public betItemData: BetItemData,
               private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getData();    
-  }
-
-  ngAfterViewInit() {    
-    this.betSubjects?.changes.subscribe(() => {
-      const betItemButtons = document.getElementById("positions")?.querySelectorAll("button");
-      var event = new CustomEvent("buttonReady");
-      betItemButtons?.forEach (element => { 
-        element.dispatchEvent(event)
-      });
-    })
-  }
-
-  addTapListener(element: any, index: number) {
-    let manager = new Hammer.Manager(element);
-    element.setAttribute('index', index)
-
-    manager.add([this.doubleTap, this.tap]);
-  
-    this.doubleTap.recognizeWith(this.tap);
-    this.tap.requireFailure(this.doubleTap);
-    var event = new CustomEvent('singleTap');
-
-    manager.on('singletap', (e) => {
-      e.target.dispatchEvent(event)
-    });
-    manager.on('doubleTap', (e) => {
-      let i = e.target.getAttribute('index') || ''
-      this.switchBetSubject(e.target, parseInt(i));
-    });
-  }
-
-  switchBetSubject(element: HTMLElement, index: number) {
-    if (!this.betItem?.positions[index].betSubject.name) {
-      return;
-    }
-    if (this.betSubjectToSwitch.index == -1) {
-      element.classList.add('to-be-switched');
-      this.betSubjectToSwitch.index = index;
-      this.betSubjectToSwitch.element = element;
-    } else {
-      let betSubjectA = this.betItem?.positions[index].betSubject;
-      let fastestLapA = this.betItem?.positions[index].fastestLap;
-      let betSubjectB = this.betItem?.positions[this.betSubjectToSwitch.index].betSubject;
-      let fastestLapB = this.betItem?.positions[this.betSubjectToSwitch.index].fastestLap;
-
-      this.betItem!!.positions[this.betSubjectToSwitch.index].betSubject = betSubjectA;
-      this.betItem!!.positions[this.betSubjectToSwitch.index].fastestLap = fastestLapA;
-      this.betItem!!.positions[index].betSubject = betSubjectB;
-      this.betItem!!.positions[index].fastestLap = fastestLapB;
-      
-      this.setSwitchBetSubjectEmpty();
-    }
-  }
-
-  private setSwitchBetSubjectEmpty() {
-    this.betSubjectToSwitch.element?.classList.remove('to-be-switched');
-    this.betSubjectToSwitch.index = -1;
-    this.betSubjectToSwitch.element = undefined;
+    this.getData();
   }
 
   getData() {
@@ -127,7 +65,6 @@ export class BetItemDialogComponent implements OnInit {
       }
     });
 
-    this.setSwitchBetSubjectEmpty();
 
     this.dialogRef = this.dialog.open(BetSubjectComponent, {
       data: {type: betSubjectType, 
@@ -176,7 +113,7 @@ export class BetItemDialogComponent implements OnInit {
 
       let xDiff = Math.abs(this.lastPosX - posX)
       let yDiff = Math.abs(this.lastPosY - posY)
-      if (yDiff < xDiff && xDiff >= 35) {
+      if (yDiff < 50 && yDiff < xDiff && xDiff >= 35) {
         this.betItem!!.positions[index].betSubject = new EmptyBetSubject();
         this.betItem!!.positions[index].fastestLap = false;
       }
@@ -184,6 +121,37 @@ export class BetItemDialogComponent implements OnInit {
       this.lastPosY = 0;
     }
   }
+
+  drop(event: CdkDragDrop<string[]>) {
+    this.moveBetSubject(this.betItem!!.positions, event.previousIndex, event.currentIndex)
+  }
+
+  private moveBetSubject(positions: Position[], fromIndex: number, toIndex: number): void {
+    const from =  this.clamp(fromIndex, positions.length - 1);
+    const to = this.clamp(toIndex, positions.length - 1);
+  
+    if (from === to) {
+      return;
+    }
+  
+    const betSubject = positions[from].betSubject;
+    const fastestLap = positions[from].fastestLap;
+
+    const delta = to < from ? -1 : 1;
+  
+    for (let i = from; i !== to; i += delta) {
+      positions[i].betSubject = positions[i + delta].betSubject;
+      positions[i].fastestLap = positions[i + delta].fastestLap;
+    }
+  
+    positions[to].betSubject = betSubject;
+    positions[to].fastestLap = fastestLap;
+  }
+
+  private clamp(value: number, max: number): number {
+    return Math.max(0, Math.min(max, value));
+  }
+
 
   
 }
