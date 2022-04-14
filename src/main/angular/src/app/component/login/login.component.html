@@ -11,5 +11,8 @@
         </mat-card-content>
         <button mat-flat-button color="primary" class="btn-block">{{ 'login' | translate }}</button>
       </form>
+      <button mat-button class="forgot-password" color="accent" (click)="changePassword()">
+        {{ 'forgot-password' | translate }}
+      </button>
     </mat-card>
   </div>

@@ -31,5 +31,8 @@
   "password": "Password",
   "empty": "empty",
   "no-result": "no result yet",
-  "begins": "begins"
+  "begins": "begins",
+  "forgot-password": "Forgot your password?",
+  "request-change": "Request Change",
+  "new-password": "New Password"
 }

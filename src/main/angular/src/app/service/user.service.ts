@@ -26,6 +26,15 @@ export class UserService {
         )
     }
 
+    public requestPasswordChange(username: string, password: string): Observable<Boolean> {
+        const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+        return this.http.post<Boolean>(
+            `${environment.apiServerUrl}/user/password/new`, 
+            `username=${username}&password=${password}`,
+            { headers }
+        )
+    }
+
     private getLoginData(): LoginData {
         var currentUser = JSON.parse(localStorage.getItem('userData')!);
         try {

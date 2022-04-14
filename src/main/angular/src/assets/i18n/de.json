@@ -31,5 +31,8 @@
   "your-bet": "Deine Wetten",
   "empty": "leer",
   "no-result": "noch kein Ergebnis",
-  "begins": "beginnt"
+  "begins": "beginnt",
+  "forgot-password": "Passwort vergessen?",
+  "request-change": "Änderung anfordern",
+  "new-password": "Neues Passwort"
 }

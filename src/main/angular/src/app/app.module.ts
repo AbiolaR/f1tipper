@@ -37,6 +37,7 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import { UserDialogComponent } from './component/dialog/user-dialog/user-dialog.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ForgotPasswordDialogComponent } from './component/dialog/forgot-password-dialog/forgot-password-dialog.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -60,6 +61,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AdminControlButtonComponent,
     RaceToBetRedirectComponent,
     UserDialogComponent,
+    ForgotPasswordDialogComponent,
   ],
   imports: [
     BrowserModule,

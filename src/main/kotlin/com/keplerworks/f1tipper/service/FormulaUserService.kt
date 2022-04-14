@@ -8,7 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class FormulaUserService (@Autowired private val userRepo: FormulaUserRepository) : UserDetailsService {
+class FormulaUserService (private val userRepo: FormulaUserRepository,
+                          private val mailService: EmailService) : UserDetailsService {
     private val passwordEncoder = BCryptPasswordEncoder()
 
     fun getUser(username: String): FormulaUser {
@@ -20,11 +21,10 @@ class FormulaUserService (@Autowired private val userRepo: FormulaUserRepository
         return userRepo.save(user)
     }
 
+    fun changeUserPassword(username: String, password: String) {
+        getUser(username)
+        mailService.sendChangePasswordMail(username, passwordEncoder.encode(password))
+    }
+
     override fun loadUserByUsername(username: String) = getUser(username).toUser()
 }
-
-/*@Bean
-@Override
-public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-}*/

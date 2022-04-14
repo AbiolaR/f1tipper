@@ -30,6 +30,7 @@ class SecurityConfig(@Autowired private val userService: FormulaUserService) : W
         http.addFilter(customAuthorizationFilter)
         http.authorizeRequests { auth ->
                 auth.antMatchers("/api/login").permitAll()
+                auth.antMatchers("/api/user/password/new").permitAll()
                 auth.antMatchers("/api/**").hasAuthority("FORMULA_USER")
             }
             .httpBasic { }

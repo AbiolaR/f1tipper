@@ -35,6 +35,7 @@ dependencies {
 	implementation("org.bouncycastle:bcprov-jdk15on:1.70")
 	implementation("nl.martijndwars:web-push:5.1.1")
 	implementation("com.github.shyiko.skedule:skedule:0.4.0")
+	implementation("org.springframework.boot:spring-boot-starter-mail:2.6.6")
 }
 
 tasks.register("removeStaticFolder") {

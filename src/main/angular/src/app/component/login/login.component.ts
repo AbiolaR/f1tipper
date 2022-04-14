@@ -9,6 +9,8 @@ import { NotificationService } from 'src/app/service/notification.service';
 import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 import { UserData } from 'src/app/model/user-data';
 import { AppService } from 'src/app/service/app.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ForgotPasswordDialogComponent } from '../dialog/forgot-password-dialog/forgot-password-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +27,8 @@ export class LoginComponent implements OnInit {
     private notificationService: NotificationService,
     private router: Router, 
     readonly swPush: SwPush,
-    private appService: AppService) { }
+    private appService: AppService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     
@@ -54,6 +57,12 @@ export class LoginComponent implements OnInit {
         }
       }
     })    
+  }
+
+  changePassword() {
+    this.dialog.open(ForgotPasswordDialogComponent, {
+      data: this.username
+    })
   }
 
   private async subscribeToPush() {
