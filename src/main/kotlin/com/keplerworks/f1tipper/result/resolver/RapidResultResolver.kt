@@ -128,7 +128,7 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
         val rapidRacesResult = response.get()
         val sessions: MutableList<RapidSession> = mutableListOf()
         rapidRacesResult.races.forEach { rapidRace ->
-            if (rapidRace.status == CONFIRMED && rapidRace.name.contains(GRAND_PRIX)) {
+            if (rapidRace.name.contains(GRAND_PRIX) && (rapidRace.status == CONFIRMED || rapidRace.status == COMPLETE)) {
                 val race = raceService.getRace(rapidRace.name)
 
                 val sessionMap = rapidRace.sessions.associateBy { session ->
@@ -145,12 +145,13 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
 
             }
         }
-
+        rapidSessionRepo.deleteAll()
         rapidSessionRepo.saveAll(sessions)
     }
 
     companion object {
         private const val CONFIRMED = "Confirmed"
+        private const val COMPLETE = "Complete"
         private const val GRAND_PRIX = "Grand Prix"
     }
 
