@@ -11,6 +11,7 @@ class BetSubject (
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long = 0,
     val name: String = "",
+    @JsonIgnore
     val alias: String = "",
     val imgUrl: String? = "",
     val flag: String = "",

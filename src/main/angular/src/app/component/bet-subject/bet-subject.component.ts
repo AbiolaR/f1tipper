@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, HostListener, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BetSubject, EmptyBetSubject } from 'src/app/model/bet-subject';
 import { BetSubjectDialogData } from 'src/app/model/bet-subject-dialog-data';
@@ -15,7 +15,16 @@ export class BetSubjectComponent {
     public dialogRef: MatDialogRef<BetSubjectComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: BetSubjectDialogData){
       this.assignAndFilterBetSubjects();
+      
+      window.addEventListener('touchstart', element => {
+        const target = element.target as HTMLTextAreaElement;
+        if (!target.classList.contains('mat-dialog-content')) {
+          dialogRef.close();    
+        }
+      });
     }
+
+  
 
   updateBetSubjects(betSubjects: BetSubject[]) {
     this.dialogData.betSubjects = betSubjects;
@@ -35,5 +44,7 @@ export class BetSubjectComponent {
   removeBetSubject() {
     this.returnBetSubject(new EmptyBetSubject())
   }
+
+  
 
 }

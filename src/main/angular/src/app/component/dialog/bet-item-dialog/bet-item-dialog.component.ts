@@ -48,15 +48,15 @@ export class BetItemDialogComponent implements OnInit {
     }
   }
 
-  openDriverDialog(index: number) {
-    this.openBetSubjectDialog(index, BetSubjectType.DRIVER);
+  openDriverDialog(event: any, index: number) {
+    this.openBetSubjectDialog(event, index, BetSubjectType.DRIVER);
   }
 
-  openConstructorDialog(index: number) {
-    this.openBetSubjectDialog(index, BetSubjectType.CONSTRUCTOR);
+  openConstructorDialog(event: any, index: number) {
+    this.openBetSubjectDialog(event, index, BetSubjectType.CONSTRUCTOR);
   }
 
-  openBetSubjectDialog(index: number, betSubjectType: BetSubjectType) {
+  openBetSubjectDialog(event: any, index: number, betSubjectType: BetSubjectType) {
     let excludeBetSubjects: number[] = [];
 
     this.betItem?.positions.forEach(position => {
@@ -67,13 +67,15 @@ export class BetItemDialogComponent implements OnInit {
 
 
     this.dialogRef = this.dialog.open(BetSubjectComponent, {
-      data: {type: betSubjectType, 
+      disableClose: true,
+      data: {type: betSubjectType,
         raceId: this.betItem?.raceId,
         betSubjects: this.betItemData.betSubjects,
         excludeBetSubjects: excludeBetSubjects}
     });
 
     this.dialogRef.afterClosed().subscribe((betSubject: BetSubject) => {
+      event.target.focus();
       if (!betSubject) {
         return
       }

@@ -10,8 +10,8 @@
                     <button mat-flat-button class="bet-subject-btn"                
                     [color]="(position.betSubject.name) ? 'accent' : 'primary'"
                     [ngClass]="{'fastest-lap' : position.fastestLap}"
-                    (tap)="betItem.type == 'constructor' ? openConstructorDialog(index) 
-                                                            : openDriverDialog(index)"
+                    (tap)="betItem.type == 'constructor' ? openConstructorDialog($event, index) 
+                                                            : openDriverDialog($event, index)"
                     (press)="setFastestLap(index)" (pan)="setToEmpty($event, index)">
                         {{position.betSubject.name
                             || (betItem.type == 'constructor' ?  ('select-a-constructor' | translate)  :  ('select-a-driver' | translate) )}}
