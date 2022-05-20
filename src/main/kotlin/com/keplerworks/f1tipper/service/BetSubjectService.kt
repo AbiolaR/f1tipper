@@ -27,6 +27,13 @@ class BetSubjectService (private val betSubjectRepo: BetSubjectRepository, priva
         }
     }
 
+    fun getBetSubjectByAlias(name: String): BetSubject {
+        return betSubjectRepo.findBetSubjectByAlias(name).orElseThrow {
+            logger.error { "Could not find betsubject: $name" }
+            throw BetSubjectNotFoundException()
+        }
+    }
+
     fun getAllBetSubjectsByType(type: BetSubjectType): List<BetSubject> {
         return betSubjectRepo.findAllBetSubjectByType(type)
     }

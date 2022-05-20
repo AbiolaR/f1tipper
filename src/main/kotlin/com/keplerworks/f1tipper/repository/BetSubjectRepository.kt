@@ -12,5 +12,7 @@ interface BetSubjectRepository : JpaRepository<BetSubject, Long> {
 
     fun findBetSubjectByName(name: String): Optional<BetSubject>
 
+    fun findBetSubjectByAlias(name: String): Optional<BetSubject>
+
     fun findAllBetSubjectByType(type: BetSubjectType): List<BetSubject>
 }

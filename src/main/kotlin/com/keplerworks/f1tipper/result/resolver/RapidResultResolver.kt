@@ -13,7 +13,6 @@ import com.keplerworks.f1tipper.service.PositionService
 import com.keplerworks.f1tipper.service.RaceService
 import com.keplerworks.f1tipper.service.ResultService
 import com.keplerworks.f1tipper.type.BetItemType
-import com.keplerworks.f1tipper.type.BetItemTypeGroup
 import com.keplerworks.f1tipper.type.RapidSessionType
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
@@ -33,14 +32,6 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
 
     private val client = RapidClient.create()
 
-    fun syncResults(raceId: Long, typeGroup: BetItemTypeGroup): Boolean {
-        return when(typeGroup) {
-            BetItemTypeGroup.RACE -> syncRaceResults(raceId)
-            BetItemTypeGroup.QUALIFYING -> { syncQualifyingResult(raceId) }
-            BetItemTypeGroup.CHAMPIONSHIP -> { syncChampionshipResult(raceId) }
-        }
-    }
-
     override fun syncRaceResults(raceId: Long): Boolean {
         try {
             val rapidRaceResult = getRapidSessionResult(raceId, RapidSessionType.RACE)
@@ -58,7 +49,6 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
         }
         return true
     }
-
 
     override fun syncQualifyingResult(raceId: Long): Boolean {
         try {
