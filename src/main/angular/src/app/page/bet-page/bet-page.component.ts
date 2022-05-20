@@ -49,7 +49,7 @@ export class BetPageComponent implements OnInit {
         this.updateBets();
         return;
       }
-      const dataAgeInMinutes = (new Date().valueOf() - betData.lastUpdate.valueOf()) / 60000
+      const dataAgeInMinutes = (new Date().valueOf() - betData.lastUpdate) / 60000
       if (!betData.bets.length ||  dataAgeInMinutes > 30) {
         this.updateBets();
       } else {
