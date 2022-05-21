@@ -15,10 +15,11 @@ export class BetSubjectComponent {
     public dialogRef: MatDialogRef<BetSubjectComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: BetSubjectDialogData){
       this.assignAndFilterBetSubjects();
-      
+
       window.addEventListener('touchstart', element => {
         const target = element.target as HTMLTextAreaElement;
-        if (!target.classList.contains('mat-dialog-content')) {
+        console.warn(target)
+        if (target.classList.contains('cdk-overlay-backdrop')) {
           dialogRef.close();    
         }
       });
