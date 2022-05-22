@@ -70,7 +70,7 @@ export class BetComponent implements OnInit {
               .toLocaleString(DateTime.DATETIME_MED);
       upcomingEvent = BetDataType.QUALIFYING;
     } else if (this.isWithinThreeDays(raceStartDate.diffNow())) {
-      date = qualiStartDate.setLocale(this.translate.currentLang)
+      date = raceStartDate.setLocale(this.translate.currentLang)
               .toLocaleString(DateTime.DATETIME_MED);        
       upcomingEvent = BetDataType.RACE;
     }    
