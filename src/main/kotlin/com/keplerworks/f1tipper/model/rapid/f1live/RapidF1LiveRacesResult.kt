@@ -1,9 +1,9 @@
-package com.keplerworks.f1tipper.model.rapid
+package com.keplerworks.f1tipper.model.rapid.f1live
 
 import com.google.gson.annotations.SerializedName
 
 
-data class RapidRacesResult (
+data class RapidF1LiveRacesResult (
   @SerializedName("results" ) var races : ArrayList<Race> = arrayListOf()
 ) {
   data class Race (

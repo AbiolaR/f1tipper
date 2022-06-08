@@ -1,12 +1,12 @@
-package com.keplerworks.f1tipper.model.rapid
+package com.keplerworks.f1tipper.model.rapid.f1live
 
 import com.google.gson.annotations.SerializedName
 
-data class RapidSessionResult (
+data class RapidF1LiveSessionResult (
 
     @SerializedName("results" ) var results : Results = Results()
 
-) : RapidBetSubjectResult {
+) : RapidF1LiveBetSubjectResult {
     data class Results (
         @SerializedName("drivers" ) var drivers : ArrayList<Driver> = arrayListOf(),
     ) {

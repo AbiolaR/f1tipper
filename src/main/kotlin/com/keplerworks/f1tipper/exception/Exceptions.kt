@@ -10,7 +10,7 @@ class BetItemStillOpenException(message: String = "BetItem is still open") : Run
 
 class BetSubjectNotFoundException : RuntimeException()
 
-class RapidSessionNotFound(message: String = "No RapidSession could be found") : RuntimeException(message)
+class RapidF1LiveSessionNotFound(message: String = "No RapidF1LiveSession could be found") : RuntimeException(message)
 
 class PushSubscriberNotFound(message: String = "No PushSubscriber could be found using the provided name")
     : RuntimeException(message)

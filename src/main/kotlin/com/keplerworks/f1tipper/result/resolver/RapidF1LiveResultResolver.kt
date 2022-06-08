@@ -1,41 +1,41 @@
 package com.keplerworks.f1tipper.result.resolver
 
-import com.keplerworks.f1tipper.client.RapidClient
-import com.keplerworks.f1tipper.exception.RapidSessionNotFound
+import com.keplerworks.f1tipper.client.RapidF1LiveClient
+import com.keplerworks.f1tipper.exception.RapidF1LiveSessionNotFound
 import com.keplerworks.f1tipper.model.Position
 import com.keplerworks.f1tipper.model.Result
-import com.keplerworks.f1tipper.model.entity.RapidSession
-import com.keplerworks.f1tipper.model.rapid.RapidResult
-import com.keplerworks.f1tipper.model.rapid.RapidSessionResult
-import com.keplerworks.f1tipper.repository.RapidSessionRepository
+import com.keplerworks.f1tipper.model.entity.RapidF1LiveSession
+import com.keplerworks.f1tipper.model.rapid.f1live.RapidF1LiveResult
+import com.keplerworks.f1tipper.model.rapid.f1live.RapidF1LiveSessionResult
+import com.keplerworks.f1tipper.repository.RapidF1LiveSessionRepository
 import com.keplerworks.f1tipper.service.BetSubjectService
 import com.keplerworks.f1tipper.service.PositionService
 import com.keplerworks.f1tipper.service.RaceService
 import com.keplerworks.f1tipper.service.ResultService
 import com.keplerworks.f1tipper.type.BetItemType
-import com.keplerworks.f1tipper.type.RapidSessionType
+import com.keplerworks.f1tipper.type.RapidF1LiveSessionType
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
-                          private val raceService: RaceService,
-                          private val resultService: ResultService,
-                          private val betSubjectService: BetSubjectService,
-                          private val positionService: PositionService) : ResultResolver {
+class RapidF1LiveResultResolver(private val rapidSessionRepo: RapidF1LiveSessionRepository,
+                                private val raceService: RaceService,
+                                private val resultService: ResultService,
+                                private val betSubjectService: BetSubjectService,
+                                private val positionService: PositionService) : ResultResolver {
 
     private val logger = KotlinLogging.logger {  }
 
-    @Value("\${rapidapi.app.key}")
+    @Value("\${rapidapi.app.f1live.key}")
     lateinit var apiKey: String
 
-    private val client = RapidClient.create()
+    private val client = RapidF1LiveClient.create()
 
     override fun syncRaceResults(raceId: Long): Boolean {
         try {
-            val rapidRaceResult = getRapidSessionResult(raceId, RapidSessionType.RACE)
-            val rapidFastestLapResult = getRapidSessionResult(raceId, RapidSessionType.FASTESTLAP)
+            val rapidRaceResult = getRapidSessionResult(raceId, RapidF1LiveSessionType.RACE)
+            val rapidFastestLapResult = getRapidSessionResult(raceId, RapidF1LiveSessionType.FASTESTLAP)
             val fastestDriver = rapidFastestLapResult.results.drivers.getOrNull(0)?.name ?: ""
 
             val raceResult = resultService.getResultOrEmpty(raceId, BetItemType.RACE)
@@ -52,10 +52,10 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
 
     override fun syncQualifyingResult(raceId: Long): Boolean {
         try {
-            val rapidQualifyingResult = getRapidSessionResult(raceId, RapidSessionType.QUALIFYING)
+            val rapidQualifyingResult = getRapidSessionResult(raceId, RapidF1LiveSessionType.QUALIFYING)
             rapidQualifyingResult.results.drivers =
                 rapidQualifyingResult.results.drivers.take(BetItemType.QUALIFYING.repeatNumber)
-                        as ArrayList<RapidSessionResult.Results.Driver>
+                        as ArrayList<RapidF1LiveSessionResult.Results.Driver>
             val qualifyingResult = resultService.getResultOrEmpty(raceId, BetItemType.QUALIFYING)
             syncResult(qualifyingResult, rapidQualifyingResult.generalize())
         } catch (exc: Exception) {
@@ -81,16 +81,16 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
         return true
     }
 
-    private fun getRapidSessionResult(raceId: Long, type: RapidSessionType): RapidSessionResult {
+    private fun getRapidSessionResult(raceId: Long, type: RapidF1LiveSessionType): RapidF1LiveSessionResult {
         val rapidSession = rapidSessionRepo.findByRaceIdAndType(raceId, type)
             .orElseThrow {
                 logger.error { "No RapidSession found using race id: $raceId" }
-                RapidSessionNotFound()
+                RapidF1LiveSessionNotFound()
             }
         return client.getSession(rapidSession.id, apiKey).get()
     }
 
-    private fun syncResult(result: Result, rapidResult: RapidResult, fastestDriver: String = "") {
+    private fun syncResult(result: Result, rapidResult: RapidF1LiveResult, fastestDriver: String = "") {
         val positions = positionService.getResultPositions(result.id)
         val resultPositions: MutableList<Position> = mutableListOf()
         rapidResult.betSubjects.forEach{ rapidBetSubject ->
@@ -116,21 +116,21 @@ class RapidResultResolver(private val rapidSessionRepo: RapidSessionRepository,
     fun initData() {
         val response = client.getAllRaces(apiKey)
         val rapidRacesResult = response.get()
-        val sessions: MutableList<RapidSession> = mutableListOf()
+        val sessions: MutableList<RapidF1LiveSession> = mutableListOf()
         rapidRacesResult.races.forEach { rapidRace ->
             if (rapidRace.name.contains(GRAND_PRIX) && (rapidRace.status == CONFIRMED || rapidRace.status == COMPLETE)) {
                 val race = raceService.getRace(rapidRace.name)
 
                 val sessionMap = rapidRace.sessions.associateBy { session ->
                     try {
-                        RapidSessionType.enumOf(session.sessionName)
+                        RapidF1LiveSessionType.enumOf(session.sessionName)
                     } catch (exc: Exception) {
-                        RapidSessionType.NOT_NEEDED
+                        RapidF1LiveSessionType.NOT_NEEDED
                     }
-                }.filter { it.key != RapidSessionType.NOT_NEEDED }
+                }.filter { it.key != RapidF1LiveSessionType.NOT_NEEDED }
 
                 sessionMap.forEach{ session ->
-                    sessions.add(RapidSession(session.value.id.toLong(), session.key, race.id))
+                    sessions.add(RapidF1LiveSession(session.value.id.toLong(), session.key, race.id))
                 }
 
             }

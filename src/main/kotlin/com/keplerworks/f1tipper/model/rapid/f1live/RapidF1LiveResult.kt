@@ -1,8 +1,8 @@
-package com.keplerworks.f1tipper.model.rapid
+package com.keplerworks.f1tipper.model.rapid.f1live
 
-data class RapidResult(
+data class RapidF1LiveResult(
     val betSubjects: List<BetSubject>
-) : RapidBetSubjectResult {
+) : RapidF1LiveBetSubjectResult {
      data class BetSubject (
         val name: String,
         val position: Int,
