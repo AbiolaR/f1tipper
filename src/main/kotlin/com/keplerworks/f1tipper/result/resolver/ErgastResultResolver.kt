@@ -92,7 +92,7 @@ class ErgastResultResolver (private val betSubjectService: BetSubjectService,
             val betType = BetItemType.enumOf(result.type)
             val betSubject = findBetSubjectByNameOrAlias(ergastResult.driver ?: ergastResult.constructor!!)
 
-            if (betType == BetItemType.DNF && ergastResult.positionText != "R") return@forEach
+            if (betType == BetItemType.DNF && isNotDNF(ergastResult)) return@forEach
             if (betType == BetItemType.DRIVER && betSubject.flag == "R") return@forEach
 
             resultPositions.add(
@@ -107,6 +107,15 @@ class ErgastResultResolver (private val betSubjectService: BetSubjectService,
         }
         resultService.saveResult(result)
         positionService.savePositions(resultPositions)
+    }
+
+    private fun isNotDNF(ergastResult: ErgastResult): Boolean {
+        if (ergastResult.positionText == "R") {
+            return false
+        } else if (ergastResult.status == "Finished" || ergastResult.status == "+1 Lap") {
+            return true
+        }
+        return false
     }
 
     private fun findBetSubjectByNameOrAlias(ergastBetSubject: ErgastBetSubject): BetSubject {

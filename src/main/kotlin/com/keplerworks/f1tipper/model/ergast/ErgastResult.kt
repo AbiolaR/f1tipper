@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ErgastResult(
     @SerializedName("position") var position: String = "",
+    @SerializedName("status") var status: String = "",
     @SerializedName("positionText") var positionText: String = "",
     @SerializedName("Driver") var driver: ErgastBetSubject? = null,
     @SerializedName("Constructor") var constructor: ErgastBetSubject? = null,
