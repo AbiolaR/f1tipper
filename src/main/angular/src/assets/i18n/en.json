@@ -34,5 +34,6 @@
   "begins": "begins",
   "forgot-password": "Forgot your password?",
   "request-change": "Request Change",
-  "new-password": "New Password"
+  "new-password": "New Password",
+  "fastest-lap-hint": "Don't forget to pick the fastest lap"
 }

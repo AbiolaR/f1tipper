@@ -65,6 +65,14 @@ mat-dialog-actions {
     background-color: var(--fastestLapColor);
 }
 
+.fastest-lap-hint {
+    color: var(--fastestLapColor);
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 0 14px 0;
+}
+
 .cdk-drop-list-dragging .cdk-drag {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

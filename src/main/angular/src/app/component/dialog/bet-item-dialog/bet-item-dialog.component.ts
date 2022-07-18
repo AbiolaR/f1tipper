@@ -10,6 +10,7 @@ import { BetSubject, EmptyBetSubject } from 'src/app/model/bet-subject';
 import { BetDataType } from 'src/app/model/enum/bet-data-type';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Position } from 'src/app/model/position';
+import { BetItemTypeGroup } from 'src/app/model/enum/bet-item-type-group';
 
 @Component({
   selector: 'app-bet-item-dialog',
@@ -154,6 +155,17 @@ export class BetItemDialogComponent implements OnInit {
     return Math.max(0, Math.min(max, value));
   }
 
+  public showFastestLapHint() {
+    if (this.betItem?.type != BetDataType.RACE) {
+      return false;
+    }
 
+    if (!this.betItem.positions.some(position => position.betSubject.id == 0) 
+        && !this.betItem.positions.some(position => position.fastestLap)) {
+      return true;
+    }
+
+    return false;
+  }
   
 }

@@ -1,3 +1,4 @@
+<p class="fastest-lap-hint" *ngIf="showFastestLapHint()">{{ 'fastest-lap-hint' | translate }}</p>
 <mat-dialog-content cdkScrollable>
     <mat-spinner *ngIf="!betItem" color="primary"></mat-spinner>
     <div *ngIf="betItemOpen" #betSubjects>
