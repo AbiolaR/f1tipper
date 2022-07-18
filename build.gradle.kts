@@ -59,4 +59,4 @@ tasks.withType<Test> {
 jib.from.image = "openjdk:17.0.2"
 jib.to.image = "kworks/f1tipper"
 jib.to.credHelper = "wincred"
-jib.container.ports = listOf("80", "443", "3306")
+jib.container.ports = listOf("4000", "3306")

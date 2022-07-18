@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiServerUrl: "https://media-server.casacam.net/api"
+  apiServerUrl: "https://app.f1tipper.de/api"
 };
