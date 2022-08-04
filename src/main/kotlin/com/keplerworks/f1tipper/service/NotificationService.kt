@@ -8,6 +8,7 @@ import com.keplerworks.f1tipper.repository.SubscriberRepository
 import nl.martijndwars.webpush.Notification
 import nl.martijndwars.webpush.PushService
 import nl.martijndwars.webpush.Subscription
+import nl.martijndwars.webpush.Urgency
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -53,7 +54,7 @@ class NotificationService(
 
     private fun sendNotification(pushService: PushService, subscriber: PushSubscriber, pushNotification: PushNotification) {
         val subscription = Subscription(subscriber.endpoint, Subscription.Keys(subscriber.p256dh, subscriber.auth))
-        val notification = Notification(subscription, Gson().toJson(pushNotification))
+        val notification = Notification(subscription, Gson().toJson(pushNotification), Urgency.HIGH)
 
         pushService.send(notification)
     }
