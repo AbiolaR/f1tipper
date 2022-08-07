@@ -8,6 +8,7 @@ import { AppComponent } from 'src/app/app.component';
 import { Bet } from 'src/app/model/bet';
 import { UserData } from 'src/app/model/user-data';
 import { BetData } from 'src/app/model/bet-data';
+import { BetItemStatus } from 'src/app/model/enum/bet-item-status';
 
 @Component({
   selector: 'app-bet-page',
@@ -38,8 +39,14 @@ export class BetPageComponent implements OnInit {
     this.getBets();    
   }
 
-  ngOnReload(): void {
 
+
+  ngAfterViewInit(): void {
+    if (this.bets.length != 0) {
+      let firstRace = this.bets.find(bet => bet.status == BetItemStatus.OPEN);
+      const firstRaceElement = document.querySelectorAll(`[ng-reflect-router-link="/bet/${firstRace?.id}"]`).item(0);
+      firstRaceElement.scrollIntoView({behavior:"smooth"});
+    }   
   }
 
   private getBets() {
