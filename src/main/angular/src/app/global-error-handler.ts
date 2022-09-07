@@ -11,15 +11,22 @@ export class GlobalErrorHandler implements ErrorHandler {
 
     handleError(error: any): void {
         if(error instanceof HttpErrorResponse) {
-            if(error.error.message == 'Access to this object is forbidden.') {
-                this.zone.run(() => {
-                    const dialogRef = this.dialog.open(AccessDeniedDialogComponent);
-                    dialogRef?.afterClosed().subscribe(() => {this.router.navigateByUrl("/");});
-                });
-            } else {
-                this.zone.run(() => {
-                    this._snackBar.open('Unable to connect to server', '', {duration: 2500, verticalPosition: 'bottom'});
-                });
+            switch (error.error.message) {
+                case 'Token is invalid':
+                    this.router.navigate(['/login'])
+                    //this.router.navigateByUrl("/login")
+                    break;
+                case 'Access to this object is forbidden.':
+                    this.zone.run(() => {
+                        const dialogRef = this.dialog.open(AccessDeniedDialogComponent);
+                        dialogRef?.afterClosed().subscribe(() => {this.router.navigateByUrl("/");});
+                    });
+                    break;
+                default:
+                    this.zone.run(() => {
+                        this._snackBar.open('Unable to connect to server', '', {duration: 2500, verticalPosition: 'bottom'});
+                    });
+                    break;
             }
         }        
         console.error(error);

@@ -41,7 +41,7 @@ class CustomAuthorizationFilter : OncePerRequestFilter() {
                 } catch (exception: Exception) {
                     response.setHeader("error", exception.message)
                     response.status = FORBIDDEN.value()
-                    val error: Map<String, String> = mapOf(Pair("error_message", exception.message ?: ""))
+                    val error: Map<String, String> = mapOf(Pair("message", "Token is invalid"))
                     response.contentType = APPLICATION_JSON_VALUE
                     ObjectMapper().writeValue(response.outputStream, error)
                 }
